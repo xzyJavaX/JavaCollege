@@ -1,0 +1,289 @@
+<div th:fragment="html">
+    <script>
+        $(function(){
+            var data4Vue1 = {
+                uri:'users1',
+                user:{ id: 0, tel: '',password:'',username:'',position:"",repeatpassword:''},
+                householder:{vx:'',qq:'',name:''},
+                unread:''
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea1',
+                data: data4Vue1,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    var url = "unreadnum";
+                    axios.get(url).then(function (response) {
+                        vue.unread=response.data
+                    })
+                },
+                methods: {
+                    register:function () {
+                        swal({
+                                title: "请选择您的身份",
+                                text: "注册完成后，普通用户也可以选择升级成户主",
+                                type: "info",
+                                showCancelButton: true,
+                                confirmButtonText: "普通用户",
+                                cancelButtonText: "房源户主",
+                                confirmButtonColor: "#FF00FF",
+                                closeOnConfirm: false,
+                                closeOnCancel: false
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    self.location='register';
+                                } else {
+                                    self.location='hregister';
+                                }
+                            });
+                    },
+                    get:function () {
+                        var url = this.uri;
+                        axios.get(url).then(function(response) {
+                            vue.user = response.data;
+                            vue.user.repeatpassword=vue.user.password;
+                        });
+                    },
+                    update:function () {
+                        if(this.user.username.length==0){
+                            swal("用户名不能为空", "请输入用户名哦","error");
+                            return;
+                        }
+                        if(this.user.password.length==0){
+                            swal("密码不能为空", "请输入密码哦","error");
+                            return;
+                        }
+                        if(this.user.repeatpassword.length==0){
+                            swal("重复密码不能为空", "请再次输入密码哦","error");
+                            return;
+                        }
+                        if(this.user.password !=this.user.repeatpassword){
+                            swal("密码不一致！", "请确保两次密码是一致的","error")
+                            return;
+                        }
+                        var url ="fusers";
+                        axios.put(url,vue.user).then(function(response){
+                            swal({
+                                    title: "修改成功！",
+                                    text: "您的信息成功被修改",
+                                    type: "success",
+                                    confirmButtonText: "确定！",
+                                },
+                                function(isConfirm){
+                                    if (isConfirm) {
+                                        $('#myModal2').modal('hide');
+                                        location.reload();
+                                        vue.bean ={ id: 0, tel: '',password:'',username:'',position:""}
+                                    }
+                                });
+                        });
+                    },
+                    up:function () {
+                        swal({
+                                title: "请仔细阅读！",
+                                text: "填入的信息只是为了方便用户联系您，升级完成后，即可进入户主后台管理模块，您可以添加您的房源和" +
+                                "房源照片，等待后台管理员审核后就可以在前台首页显示了，谢谢配合",
+                                type: "info",
+                                showCancelButton: true,
+                                confirmButtonText: "前往升级！",
+                                cancelButtonText: "取消升级",
+                                confirmButtonColor: "#FF00FF",
+                                closeOnConfirm: false,
+                                closeOnCancel: false
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    swal.close();
+                                    $('#myModala').modal('show');
+                                } else {
+                                    swal.close();
+                                }
+                            });
+
+                    },
+                    upgrade:function () {
+                        var url = "toHouseholder";
+                        axios.put(url,vue.householder).then(function () {
+                            swal({
+                                    title: "升级成功！",
+                                    text: "",
+                                    type: "success",
+                                    confirmButtonText: "确定！",
+                                },
+                                function(isConfirm){
+                                    if (isConfirm) {
+                                        sessionStorage.jwt = 2;
+                                        location.href="hadmin_house";
+                                    }
+                                });
+                        })
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Main Navbar-->
+    <div id="workingArea1">
+    <header >
+
+        <nav class="navbar">
+
+            <!-- Search Box-->
+            <div class="container-fluid">
+                <div class="navbar-holder d-flex align-items-center justify-content-between">
+                    <!-- Navbar Header-->
+                    <div >
+                        <span><a href="home">USC-校园租房网首页</a></span>
+                        <!--只是为了让别人看到这个东西。。。。-->
+                        <span><a href="chatroom" style="padding-left: 50px">在线聊天室，快点这里</a></span>
+                    </div>
+                    <!-- Navbar Menu -->
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                        <!--<span th:if="${null!=session.user}" style="height:40px; ">-->
+                            <!--<div class="dropdown" >-->
+                                <!--<div class="btn" data-toggle="dropdown" >-->
+                                    <!--当前用户：<a href="#" th:text="${session.user.username}"></a> <img src="img/fore/select.jpg" alt="" height="20px">-->
+                                <!--</div>-->
+                                <!--<div class="dropdown-menu">-->
+                                    <!--<a class="dropdown-item" href="#">Link 2</a>-->
+                                    <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal2">修改信息 <img src="img/fore/edit.jpg" alt="" height="25px"></a>-->
+                                    <!--<a class="dropdown-item" href="forelogout">退出登录 <img src="img/fore/quit.jpg" alt="" height="25px"></a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</span>-->
+                        <!--未登录状态-->
+                        <span th:if="${session.user==null}"  style="height:40px; ">
+                            <div style="padding-top: 8px">
+                                <!--<a href="chatroom" style="margin-right: 10px">在线聊天室</a>-->
+                                <a href="login" style="margin-right: 10px">登录</a>
+                                <a href="#" @click="register">注册</a>
+                            </div>
+                        </span>
+
+                         <!--户主状态-->
+                        <span th:if="${'户主'==session.position}" style="height:40px; ">
+                            <div class="dropdown" >
+                                <div class="btn" data-toggle="dropdown" >
+                                    当前用户：<a href="#" th:text="${session.user.username}"></a> <img src="img/fore/select.jpg" alt="" height="20px">
+                                </div>
+                                <div class="dropdown-menu">
+                                    <!--<a class="dropdown-item" href="chatroom">交流平台</a>-->
+                                    <a class="dropdown-item" href="mymessage" >我发布的信息</a>
+                                    <a class="dropdown-item" href="myreceive" >待阅读的通知：{{unread}}条</a>
+                                    <a class="dropdown-item" href="myscan">最近浏览记录</a>
+                                    <a class="dropdown-item" href="mycollection">我的收藏</a>
+                                    <a class="dropdown-item" href="hadmin_house">返回后台</a>
+                                    <a class="dropdown-item" href="forelogout">退出登录 <img src="img/fore/quit.jpg" alt="" height="25px"></a>
+                                </div>
+                            </div>
+                        </span>
+                         <!--普通用户状态-->
+                        <span th:if="${'普通用户'==session.position}" style="height:40px; " >
+                            <div class="dropdown" >
+                                <div class="btn" data-toggle="dropdown" >
+                                    当前用户：<a href="#" th:text="${session.user.username}"></a> <img src="img/fore/select.jpg" alt="" height="20px">
+                                </div>
+                                <div class="dropdown-menu">
+                                    <!--<a class="dropdown-item" href="chatroom">交流平台</a>-->
+                                    <a class="dropdown-item" href="mymessage" >我发布的信息</a>
+                                    <a class="dropdown-item" href="myreceive" >待阅读的通知：{{unread}}条</a>
+                                    <a class="dropdown-item" href="myscan">最近浏览记录</a>
+                                    <a class="dropdown-item" href="mycollection">我的收藏</a>
+                                    <a class="dropdown-item" href="#"  @click="up">升级当户主</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal2" @click="get">修改信息 <img src="img/fore/edit.jpg" alt="" height="25px"></a>
+                                    <a class="dropdown-item" href="forelogout">退出登录 <img src="img/fore/quit.jpg" alt="" height="25px"></a>
+                                </div>
+                            </div>
+                        </span>
+                        <span th:if="${'管理员'==session.position}" style="height:40px; " >
+                            <div class="dropdown" >
+                                <div class="btn" data-toggle="dropdown" >
+                                    当前用户：<a href="#" th:text="${session.user.username}"></a> <img src="img/fore/select.jpg" alt="" height="20px">
+                                </div>
+                                <div class="dropdown-menu">
+                                    <!--<a class="dropdown-item" href="chatroom">交流平台</a>-->
+                                    <a class="dropdown-item" href="mymessage" >我发布的信息</a>
+                                    <a class="dropdown-item" href="myreceive" >待阅读的通知：{{unread}}条</a>
+                                    <a class="dropdown-item" href="myscan">最近浏览记录</a>
+                                    <a class="dropdown-item" href="mycollection">我的收藏</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal2" @click="get">修改信息 <img src="img/fore/edit.jpg" alt="" height="25px"></a>
+                                    <a class="dropdown-item" href="admin_householder">返回后台</a>
+                                    <a class="dropdown-item" href="forelogout">退出登录 <img src="img/fore/quit.jpg" alt="" height="25px"></a>
+                                </div>
+                            </div>
+                        </span>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--修改户主（含用户）信息-->
+    <div class="modal fade" id="myModal2"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                    <h4 class="modal-title">可以修改您的用户信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <table class="table table-hover" align="center">
+                            <tr>
+                                <td>用户名</td>
+                                <td><input v-model="user.username" maxlength="11" class="form-control" placeholder="请输入用户名，最多11个字"></td>
+                            </tr>
+                            <tr>
+                                <td>密码</td>
+                                <td><input  v-model="user.password"   type="password"  class="form-control" placeholder="请输入密码"></td>
+                            </tr>
+                            <tr>
+                                <td>确认密码</td>
+                                <td><input  v-model="user.repeatpassword" type="password"  class="form-control" placeholder="请输入重复密码"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                    <button  class="btn btn-default" type="button" @click="update">修改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+        <div class="modal fade" id="myModala"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                        <h4 class="modal-title">输入信息即可完成升级，只是为了方便别人联系您</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <table class="table table-hover" align="center">
+                                <tr>
+                                    <td>真实姓名</td>
+                                    <td><input v-model="householder.name"  class="form-control" placeholder="请输入您的真实姓名"></td>
+                                </tr>
+                                <tr>
+                                    <td>微信</td>
+                                    <td><input  v-model="householder.vx"   type="password"  class="form-control" placeholder="请输入您的微信号，可以不填"></td>
+                                </tr>
+                                <tr>
+                                    <td>QQ</td>
+                                    <td><input  v-model="householder.qq" type="password"  class="form-control" placeholder="请输入您的QQ，可以不填"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                        <button  class="btn btn-default" type="button" @click="upgrade">升级</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+</div>
+</div>

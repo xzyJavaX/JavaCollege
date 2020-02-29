@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+<div >
+    <!--<div class="workingArea">-->
+    <div th:replace="include/fore/top::html"></div>
+    <script>
+        if(sessionStorage.jwt ==null){
+            swal("请先登录哦","","error")
+            self.location="home"
+        }
+        $(function(){
+            var data4Vue = {
+                houses:[]
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    this.load();
+                },
+                methods: {
+                    load:function(){
+                        var url = "getmycollection";
+                        axios.get(url).then(function(response) {
+                            vue.houses = response.data;
+                            vue.$nextTick(function(){
+                                linkDefaultActions();
+                            })
+                        });
+                    },
+                    deletecol:function (id) {
+                        var url = "deletemycol/"+id;
+                        axios.put(url).then(function () {
+                            swal("取消成功","您还可以继续添加您中意的房源哦","success")
+                            vue.load()
+                        })
+                    }
+                },
+            });
+
+            Vue.filter('formatDateFilter', function (value, formatString) {
+                if(null==value)
+                    return "";
+                formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+                return moment(value).format(formatString);
+            });
+        })
+    </script>
+    <style>
+        #workingArea{
+            font-size: 12px;
+            font-family: Arial;
+        }
+    </style>
+
+    <div id="workingArea">
+        <div class="categoryPageDiv">
+            <div class="categoryProducts">
+                <div  class="productUnit" v-for="h in houses">
+                    <div class="productUnitFrame">
+                        <a :href="'house?hid='+h.id">
+                            <!--本地-->
+                            <!--<img class="productImage" :src="'img/houseSingle/'+h.firstHouseImage.id+'.jpg'">-->
+                            <!--服务器-->
+                            <img  class="productImage" :src="'http://116.62.79.166:8080/img/renting/houseSingle/'+h.firstHouseImage.id+'.jpg'">
+
+                        </a>
+                        <span class="productPrice">价格：{{h.price}}</span>
+                        <a :href="'house?hid='+h.id" class="productLink">
+                            位置：{{h.location}}
+                        </a>
+                        <a :href="'house?hid='+h.id" class="tmallLink">首次上架时间：{{h.createDate| formatDateFilter}}</a>
+                        <div class="show1 productInfo">
+                            <span class="monthDeal ">数量 <span class="productDealNumber">{{h.num}}间</span></span>
+                            <span class="productReview">评价<span class="productReviewNumber">{{h.reviewCount}}</span></span>
+                            <span class="wangwang">
+                                <a :href="'house?hid='+h.id" class="wangwanglink">
+                                    <img src="img/fore/house.jpg" width="20px">
+                                </a>
+                            </span>
+                        </div>
+                        <div align="center" style="margin-top: 5px" @click="deletecol(h.id)"><h3 class="text-primary">取消收藏</h3></div>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <div v-if="0 == houses.length" class="noMatch">
+                    您还没有收藏房源
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="wrapper">
+                <br>
+                <br>
+                <br>
+                <br>
+                <span class="line"></span>
+                <span class="content">我是有底线的</span>
+                <span class="line"></span>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+
+        <div style="clear:both"></div>
+    </div>
+</div>
+
+<div th:replace="include/fore/footer::html" ></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

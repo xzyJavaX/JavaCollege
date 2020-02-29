@@ -1,0 +1,13 @@
+<div class th:fragment="html">
+    <!--这个action="search"是提交的路径，默认方法是get-->
+    <form action="search" method="get" >
+        <div class="searchDiv">
+            <!--keyword是参数-->
+            <input name="keyword" type="text" placeholder="输入你想要的房源位置">
+            <!--默认submit提交-->
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </div>
+    </form>
+    <!--例如当输入框里面的是1时，点击搜索，-->
+    <!--相当于get方法访问http://127.0.0.1:8888/renting/search?keyword=1-->
+</div>

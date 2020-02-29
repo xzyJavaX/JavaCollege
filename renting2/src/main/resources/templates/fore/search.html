@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+<div >
+    <div th:replace="include/fore/top::html"></div>
+    <div th:replace="include/fore/search::html"></div>
+
+    <script>
+        $(function(){
+            var keyword = getUrlParms("keyword");
+            var data4Vue = {
+                uri:'foresearch',
+                houses:[]
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    this.load();
+                },
+                methods: {
+                    load:function(){
+                        var url =  this.uri+"?keyword="+keyword;
+                        axios.get(url).then(function(response) {
+                            vue.houses = response.data;
+//                            vue.$nextTick(function(){
+//                                linkDefaultActions();
+//                            })
+                        });
+                    },
+                    getOrderByCol:function () {
+                        var url ="foresearchCol?keyword="+keyword;
+                        axios.get(url).then(function(response) {
+                            vue.houses = response.data;
+                        });
+                    },
+                    getOrderByTime:function () {
+                        var url ="foresearchTime?keyword="+keyword;
+                        axios.get(url).then(function(response) {
+                            vue.houses = response.data;
+                        });
+                    },
+                    getOrderByScan:function () {
+                        var url = "foresearchScan?keyword="+keyword;
+                        axios.get(url).then(function(response) {
+                            vue.houses = response.data;
+                        });
+                    }
+
+//                    checklogin:function () {
+//                        var url = "forecheckLogin";
+//                        axios.get(url).then(function(response) {
+//                            if(0==response.data.code) {
+//                            }
+//                            else{
+//                                alert("请先登录,登录成功即可查看哦！");
+//                                location.href="login";
+//                            }
+//                        });
+//                        return false;
+//                    }
+                },
+            });
+        })
+    </script>
+
+    <style>
+        #workingArea{
+            font-size: 12px;
+            font-family: Arial;
+        }
+    </style>
+
+    <div id="workingArea">
+        <div style="position: absolute">
+            <div style="margin-top: 5px"> <button class="btn btn-primary" @click="load">随机排序</button></div>
+            <div style="margin-top: 5px"> <button class="btn btn-primary" @click="getOrderByTime">按时间排序</button></div>
+            <div style="margin-top: 5px"> <button class="btn btn-primary" @click="getOrderByCol">按收藏数排序</button></div>
+            <div style="margin-top: 5px"> <button class="btn btn-primary" @click="getOrderByScan">按浏览数排序</button></div>
+        </div>
+
+        <div class="categoryPageDiv">
+            <div class="categoryProducts">
+                <div  class="productUnit" v-for="h in houses">
+                    <div class="productUnitFrame">
+                        <a :href="'house?hid='+h.id">
+                            <!--本地-->
+                            <!--<img class="productImage" :src="'img/houseSingle/'+h.firstHouseImage.id+'.jpg'">-->
+                            <!--服务器-->
+                            <img  class="productImage" :src="'http://116.62.79.166:8080/img/renting/houseSingle/'+h.firstHouseImage.id+'.jpg'">
+                        </a>
+                        <span class="productPrice">价格：{{h.price}}</span>
+                        <a :href="'house?hid='+h.id" class="productLink">
+                            位置：{{h.location}}
+                        </a>
+                        <a :href="'house?hid='+h.id" class="tmallLink">首次上架时间：{{h.createDate| formatDateFilter}}</a>
+                        <div class="show1 productInfo">
+                            <span class="monthDeal ">
+                                <span class="productDealNumber">{{h.num}}间</span>
+                                览<span class="productDealNumber">{{h.scannum}}</span>
+                            </span>
+                            <span class="productReview">
+                            评<span class="productReviewNumber">{{h.reviewCount}}</span>
+                            藏<span class="productReviewNumber">{{h.colnum}}</span>
+                        </span>
+                            <span class="wangwang">
+                    <a :href="'house?hid='+h.id" class="wangwanglink">
+                        <img src="img/fore/house.jpg" width="20px">
+                    </a>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <div v-if="0 == houses.length" class="noMatch">
+                    没有满足条件的产品
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="wrapper">
+                <br>
+                <br>
+                <br>
+                <br>
+                <span class="line"></span>
+                <span class="content">我是有底线的</span>
+                <span class="line"></span>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+
+        <div style="clear:both"></div>
+    </div>
+
+    <div th:replace="include/fore/footer::html" ></div>
+</div>
+</body>
+</html>

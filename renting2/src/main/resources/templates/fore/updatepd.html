@@ -1,0 +1,151 @@
+<!--这个界面没有用上-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+    <script>
+        $(function(){
+            var data4Vue = {
+                uri:'update',
+                result: [],
+                user:{id:0,name:'', password:'', repeatpassword:''}
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){
+
+                },
+                methods: {
+                    update:function(){
+                        var url =  this.uri;
+                        if(0==this.user.name.length){
+                            $("span.errorMessage").html("请输入您的邮箱");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(0==this.user.password.length){
+                            $("span.errorMessage").html("请输入密码");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+                        if(0==this.user.repeatpassword.length){
+                            $("span.errorMessage").html("请输入重复密码");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        var reg=new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
+                        if(!reg.test(this.user.name)){
+                            $("span.errorMessage").html("电子邮箱格式错误");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(this.user.password !=this.user.repeatpassword){
+                            $("span.errorMessage").html("重复密码不一致");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        axios.put(url,this.user).then(function(response){
+
+                            var result = response.data;
+                            if(result.code==0){
+                                alert("修改成功,即将跳转到登录界面");
+                                location.href="login";
+                            }
+                            else{
+                                $("span.errorMessage").html(result.message);
+                                $("div.registerErrorMessageDiv").css("visibility","visible");
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+    <div class="page login-page" id="workingArea">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>USC</h1>
+                                </div>
+                                <p>欢迎来到南华大学校园租房网</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Panel    -->
+                    <div class="col-lg-6 bg-white">
+
+                        <div class="form d-flex align-items-center">
+
+                            <div class="content">
+
+                                <div class="registerErrorMessageDiv">
+                                    <div class="alert alert-info" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                                        <span class="errorMessage"></span>
+                                    </div>
+                                </div>
+                                <table class="loginTable">
+                                    <tr>
+
+                                        <td>
+                                            <div class="form-group">
+                                                邮箱
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.name" placeholder="输入您的邮箱" class="input-material">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                密码
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.password"  type="password"  placeholder="重置您的登陆密码" class="input-material">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                确认密码
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.repeatpassword"   type="password"  placeholder="请再次确认你的密码" class="input-material">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <div class="form-group" align="center">
+                                    <button  @click="update" type="submit" class="btn btn-primary">修改</button>
+                                </div>
+                                <small>知道密码? </small><a href="login.html" class="signup">登录</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,684 @@
+/*.carousel-inner img {*/
+    /*max-width: 100%;*/
+    /*height:auto;*/
+    /*!*width: 100%;*!*/
+    /*!*height: 100%;*!*/
+/*}*/
+
+
+/*消除左右滑轮*/
+body {
+    overflow-x: hidden;
+}
+
+/*页头  15-52行*/
+.container-fluid {
+    padding: 0 30px;
+}
+
+nav.navbar {
+    background: #2f333e;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: #fff;
+    position: relative;
+    border-radius: 0;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    /*padding-left: 0;*/
+    /*padding-right: 0;*/
+}
+
+/*nav.navbar .badge {*/
+    /*width: 22px;*/
+    /*height: 22px;*/
+    /*line-height: 22px;*/
+    /*text-align: center;*/
+    /*padding: 0;*/
+    /*border-radius: 50%;*/
+/*}*/
+
+nav.navbar .navbar-holder {
+    width: 100%;
+}
+
+nav.navbar a {
+    color: inherit;
+}
+
+nav.navbar .nav-menu {
+    margin-bottom: 0;
+}
+
+
+/* 字体 56-103行*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.1;
+    color: inherit;
+}
+
+h1,
+.h1 {
+    font-size: 1.5rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.3rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.2rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.1rem;
+}
+
+h5,
+.h5 {
+    font-size: 1rem;
+}
+
+h6,
+.h6 {
+    font-size: 0.95rem;
+}
+
+
+/*前台页脚*/
+footer.main-footer {
+    position: absolute;
+    /*bottom:0;*/
+    margin: 0;
+    width: 100%;
+    background: #2f333e;
+    color: #fff;
+    padding: 20px 10px;
+}
+
+/*首页瀑布效果*/
+div.homepageCategoryProducts{
+     background-color: #F5F5F5;
+     padding: 50px 10px 50px 10px;
+     margin: 10px auto;
+     max-width: 1013px;
+ }
+div.productItem{
+    width: 189px;
+    height: 285px;
+    border: 1px solid white;
+    background-color: white;
+    margin: 8px 4px;
+    float: left;
+    cursor: pointer;
+}
+div.productItem span.productItemDesc{
+    font-size: 12px;
+    color: #666666;
+    display: block;
+    padding: 16px;
+}
+div.productItem span.productPrice{
+    font-size: 16px;
+    color: #FF003A;
+    display: block;
+    padding-left: 16px;
+    margin-top: -10px;
+}
+div.productItem img{
+    width: 187px;
+    height: 190px;
+}
+div.productItem  img:hover{
+    opacity: 0.7;
+    filter: alpha(opacity = 70);
+}
+div.eachHomepageCategoryProducts{
+    margin: 0px 0px 40px 0px;
+}
+a.productItemDescLink{
+    display: inline-block;
+    height: 66px;
+    text-decoration:none;
+}
+span.categoryTitle{
+    font-size: 16px;
+    margin-left: 30px;
+    color: #646464;
+    font-weight: bold;
+}
+div.left-mark{
+    display: inline-block;
+    height: 20px;
+    vertical-align: top;
+    width: 5px;
+    background-color: #19C8A9;
+}
+
+
+/*前台底线*/
+.wrapper {
+    text-align: center;
+}
+.wrapper .line {
+    width: 40%;
+    display: inline-block;
+    border: 0.4px solid #ddd;
+    vertical-align: middle;
+}
+.wrapper .content {
+    color: #ccc;
+    font-size: 14px;
+}
+
+
+/*前台搜索框*/
+div.searchDiv {
+    /*background-color: blue;*/
+    width: 400px;
+    margin: 50px auto;
+    padding: 1px;
+    height: 40px;
+    display: block;
+}
+
+div.searchDiv input {
+    background-color: white;
+    width: 275px;
+    border: 1px solid blue ;
+    height: 36px;
+    margin: 1px;
+    outline:none;
+}
+
+
+
+/*房子详细界面,不包含底下的评论*/
+a {
+    color: #999;
+}
+a:hover {
+    text-decoration: none;
+    color: #C40000;
+}
+div.imgAndInfo {
+    margin: 40px 20px;
+}
+
+div.imgAndInfo img.bigImg {
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+    border: 1px solid #F2F2F2;
+}
+
+div.imgAndInfo div.smallImageDiv {
+    width: 80%;
+    margin: 20px auto;
+}
+
+div.imgAndInfo img.smallImage {
+    width: 60px;
+    height: 60px;
+    border: 2px solid white;
+}
+
+div.imgAndInfo img.smallImage:hover {
+    border: 2px solid black;
+}
+
+div.imgInimgAndInfo {
+    width: 400px;
+    float: left;
+}
+
+div.infoInimgAndInfo {
+    padding: 0px 20px;
+    overflow: hidden;
+}
+
+div.infoInimgAndInfo div.productTitle {
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0px 10px;
+}
+
+div.infoInimgAndInfo div.productSubTitle {
+    color: #DD2727;
+    font-size: 12px;
+
+    margin: 0px 10px;
+}
+
+div.infoInimgAndInfo div.juhuasuan {
+
+    background-color: #2DA77A;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    margin-top: 10px;
+}
+
+div.infoInimgAndInfo span.juhuasuanBig {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+div.infoInimgAndInfo span.juhuasuanTime {
+    color: #FFC057;
+    font-weight: bold;
+}
+
+div.infoInimgAndInfo div.gouwujuanDiv {
+    margin-top: 5px;
+}
+
+div.infoInimgAndInfo div.originalDiv {
+    margin-top: 5px;
+}
+
+div.infoInimgAndInfo div.promotionDiv {
+    margin-top: 0px;
+}
+
+div.infoInimgAndInfo div.productPriceDiv {
+    background-image: url(https://how2j.cn/tmall/img/site/priceBackground.png);
+    height: 102px;
+    padding: 10px;
+    color: #666666;
+}
+
+div.infoInimgAndInfo span.originalPriceDesc {
+    color: #999999;
+    display: inline-block;
+    width: 68px;
+}
+
+div.infoInimgAndInfo span.promotionPriceDesc {
+    color: #999999;
+    display: inline-block;
+    width: 68px;
+    position: relative;
+    left: 0px;
+    top: -10px;
+}
+
+div.infoInimgAndInfo span.originalPriceYuan {
+    font-family: Arial;
+    font-size: 12px;
+}
+
+div.infoInimgAndInfo span.originalPrice {
+    font-family: Arial;
+    font-size: 12px;
+    color: #333333;
+    text-decoration: line-through;
+}
+
+div.infoInimgAndInfo span.promotionPriceYuan {
+    font-family: Arial;
+    font-size: 18px;
+    color: #C40000;
+
+}
+
+div.infoInimgAndInfo span.promotionPrice {
+    color: #c40000;
+    font-family: Arial;
+    font-size: 30px;
+    font-weight: bold;
+
+}
+
+div.infoInimgAndInfo div.productSaleAndReviewNumber {
+    margin: 20px 0px;
+    border-top-style: dotted;
+    border-top-color: #C9C9C9;
+    border-top-width: 1px;
+    border-bottom-style: dotted;
+    border-bottom-color: #C9C9C9;
+    border-bottom-width: 1px;
+    padding: 10px;
+}
+
+div.infoInimgAndInfo div.productSaleAndReviewNumber div {
+    display: inline-block;
+    width: 49%;
+    text-align: center;
+    color: #999999;
+    font-size: 12px;
+}
+
+div.infoInimgAndInfo div.productSaleAndReviewNumber div:first-child {
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #E5DFDA;
+}
+
+div.infoInimgAndInfo div.productNumber {
+    color: #999999;
+}
+
+div.infoInimgAndInfo span.productNumberSettingSpan {
+    border: 1px solid #999;
+    display: inline-block;
+    width: 43px;
+    height: 32px;
+    padding: 7px 0;
+}
+
+div.infoInimgAndInfo input.productNumberSetting {
+    border: 0px;
+    height: 80%;
+    width: 80%;
+}
+
+div.productDetailDiv {
+    width: 790px;
+    margin: 40px auto;
+}
+
+a.selected {
+    border-left: 1px solid #cfbfb1;
+    border-right: 1px solid #cfbfb1;
+    color: #b10000;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 46px;
+    width: 90px;
+    text-align: center;
+    position: relative;
+}
+
+a.selected:before {
+    border-color: #b00000;
+    border-style: solid;
+    border-width: 1px;
+    content: "";
+    display: block;
+    width: 90px;
+    height: 0;
+    position: absolute;
+    top: -1px;
+    margin-left: -1px;
+}
+div.productDetailImagesPart img {
+    display: block;
+    /*margin: 20px 0px;*/
+    margin: 0 auto;
+
+    width: 790px;
+}
+div.buyDiv {
+    margin: 20px auto;
+    text-align: center;
+}
+button.addCartButton {
+    border: 1px solid #C40000;
+    background-color: #C40000;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+
+    color: white;
+    font-family: arial;
+}
+div.reviewDiv {
+    max-width: 1013px;
+    margin: 10px auto;
+}
+div.reviewProductInfoRightBelowDiv {
+    border: 1px solid #F6F5F3;
+    background-color: #FDFBFA;
+    height: 166px;
+    padding: 16px 81px;
+}
+div.makeReviewDiv {
+    border: 1px solid #D1CCC8;
+    margin: 20px 0px;
+    background-color: #EFEFEF;
+}
+
+div.makeReviewText {
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    margin: 20px 40px;
+}
+
+table.makeReviewTable {
+    margin: 20px 40px;
+}
+
+table.makeReviewTable td {
+    border: 1px solid #E7E7E7;
+    padding: 10px;
+    background-color: white;
+}
+
+table.makeReviewTable textarea {
+    border-width: 0px;
+    resize: none;
+    width: 420px;
+    height: 120px;
+}
+
+div.makeReviewButtonDiv {
+    background-color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+div.makeReviewButtonDiv button {
+    width: 72px;
+    height: 26px;
+    border-radius: 2px;
+    background-color: blue;
+    color: white;
+    border-width: 0px;
+    font-weight: bold;
+}
+div.productPageDiv {
+    max-width: 1013px;
+    margin: 10px auto;
+}
+
+
+
+/*商品详情页评论区*/
+div.productReviewDiv{
+    width: 790px;
+    margin: 40px auto;
+}
+div.productReviewTopPart{
+    border: 1px solid #DFDFDF;
+}
+a.productReviewTopPartSelectedLink{
+    padding: 0px 20px;
+    color: #333333;
+}
+a.selected{
+    border-left: 1px solid #cfbfb1;
+    border-right: 1px solid #cfbfb1;
+    color: #b10000;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 46px;
+    width: 90px;
+    text-align: center;
+    position: relative;
+}
+a.selected:before{
+    content: "";
+    display: block;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #b00000;
+    width: 90px;
+    height: 0;
+    position: absolute;
+    top: -1px;
+    margin-left: -1px;
+}
+a.selected:after{
+    content: "";
+    display: block;
+    border-color: #b00000 transparent transparent;
+    border-style: solid;
+    border-width: 5px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    margin-left: -5px;
+}
+div.productReviewContentPart{
+    padding-top: 50px;
+}
+div.productReviewItem{
+    border-bottom: 1px solid #E3E3E3;
+    margin: 10px 0px;
+}
+div.productReviewItem div.productReviewItemDesc{
+    width: 80%;
+    display: inline-block;
+    color: #333333;
+    margin: 5px 20px;
+    float: left;
+}
+div.productReviewItemDate{
+    margin: 15px 0px 0px 0px;
+    color: #CCCCCC;
+}
+div.productReviewItem div.productReviewItemUserInfo{
+    color: #404040;
+    margin: 5px 20px;
+    padding: 20px 0;
+}
+span.userInfoGrayPart{
+    color: #999999;
+}
+a:hover{
+    color:#C40000;
+    text-decoration:none;
+}
+
+/*搜索结果页面*/
+div.noMatch {
+    font-size: 20px;
+    width: 200px;
+    margin: 100px auto;
+    color: #888;
+}
+div.categoryPageDiv{
+
+    max-width: 1013px;
+    margin: 10px auto;
+}
+div.categoryProducts{
+    padding: 0px 20px 40px 20px;
+}
+div.productUnit{
+    width: 225px;
+    height: 338px;
+    border: 3px solid #fff;
+    background-color: white;
+    margin: 12px 5px;
+    float: left;
+}
+div.productUnit:hover{
+    border:3px solid #C40000;
+}
+div.productUnitFrame{
+    border:1px solid #eee;
+    height:100%;
+}
+div.productUnitFrame:hover{
+    border:1px solid #C40000;
+}
+div.productUnit img.productImage{
+    width: 100%;
+    height: 190px;
+}
+div.productUnit span.productPrice{
+    font-size: 20px;
+    color: #CC0000;
+    display: block;
+    padding-left: 4px;
+}
+div.productUnit a.productLink{
+    margin: 10px 0px;
+    color: #333333;
+    display: block;
+    height:34px;
+}
+div.productUnit a.productLink:hover{
+    text-decoration: underline;
+    color: #C40000;
+}
+div.productUnit a.tmallLink{
+    margin: 10px 0px;
+    color: #999999;
+    display:block;
+    text-decoration: underline;
+}
+div.productUnit a.tmallLink:hover{
+    text-decoration: underline;
+    color: #C40000;
+}
+div.productUnit div.productInfo{
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #EEEEEE;
+    color:#999999;
+}
+div.productUnit span.productDealNumber{
+    font-weight: bold;
+    color: #B57C5B;
+}
+div.productUnit span.productReview{
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #EEEEEE;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #EEEEEE;
+}
+div.productUnit span.productReviewNumber{
+    font-weight: bold;
+    color: #3388BB;
+}
+div.productUnit span.monthDeal, div.productUnit span.productReview{
+    display: inline-block;
+    width: 90px;
+    height:29px;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+div.productUnit span.wangwang{
+    padding-left: 3px;
+}
+
+
+

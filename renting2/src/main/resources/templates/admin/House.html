@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('房源信息管理')" ></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+    if(sessionStorage.jwt ==null||sessionStorage.jwt<3){
+        swal("您没有权限访问该界面","","error")
+        self.location="home"
+    }
+    $(function(){
+        var hid=getUrlParms("hid");
+        var data4Vue = {
+            uri:'houses',
+            beans: [],
+            bean: { id: 0, name: '',location:'',price:'',remark:"",num:1,state:'',householder:{'id':0}},
+            pagination:{},
+//            householder:''
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list(0);
+            },
+            methods: {
+                list:function(start){
+                    var url =  "householders/"+hid+"/"+this.uri+"?start="+start;
+                    axios.get(url).then(function(response) {
+                        vue.pagination = response.data;
+                        vue.beans = response.data.content;
+                    });
+                },
+                clear:function () {
+                    vue.bean =  { id: 0, name: '',location:'',price:'',remark:"",num:1,householder:{'id':0}};
+                },
+                add: function () {
+                    if(!checkEmpty(this.bean.location, "位置"))
+                        return;
+                    if (!checkEmpty(this.bean.price, "价格"))
+                        return;
+                    if (!checkInt(this.bean.num, "数量"))
+                        return;
+                    if (!checkEmpty(this.bean.remark, "备注"))
+                        return;
+                    var url = this.uri;
+                    this.bean.householder.id=hid;
+                    axios.post(url,this.bean).then(function(response){
+                        swal("添加成功！", "该房源信息成功录入数据库！","success")
+                        $('#myModal1').modal('hide');
+                        vue.list(0);
+                        vue.bean =  { id: 0, name: '',location:'',price:'',remark:"",num:1,householder:{'id':0}};
+                    });
+                },
+                get:function (id) {
+                    var url = this.uri+"/"+id;
+                    axios.get(url).then(function(response) {
+                        vue.bean = response.data;
+                        vue.householder = vue.bean.householder;
+                    });
+                },
+                update:function () {
+                    if(!checkEmpty(this.bean.location, "位置"))
+                        return;
+                    if (!checkEmpty(this.bean.price, "价格"))
+                        return;
+                    if (!checkInt(this.bean.num, "数量"))
+                        return;
+                    if (!checkEmpty(this.bean.remark, "备注"))
+                        return;
+                    var url = this.uri;
+                    axios.put(url,vue.bean).then(function(response){
+                        swal("修改成功！", "该房源信息成功被修改！","success")
+                        $('#myModal').modal('hide');
+                        vue.list(0);
+                        vue.bean =  { id: 0, name: '',location:'',price:'',remark:"",num:1,state:'',householder:{'id':0}};
+                    });
+                },
+                deleteBean: function (id) {
+                    var url = this.uri + "/" + id;
+                    swal({
+                            title: "确定删除该房源吗？",
+                            text: "这样做会同时删除该房源的所有图片信息！",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除！",
+                            cancelButtonText: "取消删除！",
+                            closeOnConfirm: false
+                        },
+                        function () {
+                            axios.delete(url).then(function (response) {
+                                swal("删除成功！", "该房源信息已从数据库中移除", "success");
+                                    vue.list(0);
+                            });
+                        });
+                },
+
+
+                jump: function(page){
+                    jump(page,vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function(start){
+                    jumpByNumber(start,vue);
+                }
+
+            }
+        });
+        Vue.filter('formatDateFilter', function (value, formatString) {
+            if(null==value)
+                return "";
+            formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+            return moment(value).format(formatString);
+        });
+    });
+
+</script>
+
+<div class="page"  id="workingArea">
+
+
+    <!-- 左部 -->
+    <div class="page-content d-flex align-items-stretch" >
+
+
+        <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                    <h1 class="h4">USC</h1>
+                    <p>Welcome</p>
+                </div>
+            </div>
+
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+                <li class="active"><a href="admin_householder">户主管理 </a></li>
+                <li><a href="admin_user">用户管理</a></li>
+                <li><a href="admin_statistics">数据统计</a></li>
+                <li><a href="admin_check">待审核信息</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- 右部部分 -->
+        <div class="content-inner" >
+            <!-- 管理标题-->
+            <header class="page-header">
+                <div class="container-fluid">
+                    <h2 class="no-margin-bottom">户主信息管理->房源信息管理</h2>
+                </div>
+            </header>
+
+
+            <!-- 表格 -->
+
+            <section class="tables" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive" >
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <!--<th>ID</th>-->
+                                                <th style="width:8%">图片</th>
+                                                <th style="width:20%">位置</th>
+                                                <th style="width:8%">价格</th>
+                                                <th style="width:8%">数量</th>
+                                                <th>日期</th>
+                                                <th >备注</th>
+                                                <th>状态</th>
+                                                <th>收藏</th>
+                                                <th>浏览</th>
+                                                <th style="width:8%">图片管理</th>
+                                                <th style="width:8%">修改</th>
+                                                <th style="width:8%">删除</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="bean in beans" >
+                                                <!--<td>{{bean.id}}</td>-->
+                                                <!--本地-->
+                                                <!--<td><img v-if="null != bean.firstHouseImage" width="40px" :src="'img/houseSingle/'+bean.firstHouseImage.id+'.jpg'"></td>-->
+                                                <!--服务器-->
+                                                <td><img v-if="null != bean.firstHouseImage" width="40px" :src="'http://116.62.79.166:8080/img/renting/houseSingle/'+bean.firstHouseImage.id+'.jpg'"></td>
+
+                                                <td>{{bean.location}}</td>
+                                                <td>{{bean.price}}</td>
+                                                <td>{{bean.num}}</td>
+                                                <td>{{bean.createDate| formatDateFilter}}</td>
+                                                <td>{{bean.remark}}</td>
+                                                <td>{{bean.state}}</td>
+                                                <td>{{bean.colnum}}</td>
+                                                <td>{{bean.scannum}}</td>
+                                                <td><a :href="'admin_houseimage?hid=' + bean.id "><img src="img/admin/manage.jpg" width="30" ></a></td>
+                                                <td><a herf="#" @click="get(bean.id)"><span data-toggle="modal" data-target="#myModal"><img src="img/admin/edit.jpg" width="30" ></span></a></td>
+                                                <td><a @click="deleteBean(bean.id)"><img src="img/admin/delete.jpg" width="30" ></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div th:replace="include/admin/adminPage::html" ></div>
+
+
+            <div class="modal fade" id="myModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                            <h4 class="modal-title">修改房源信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-body">
+                                <table class="table table-hover" align="center">
+                                    <tr>
+                                        <td>位置</td>
+                                        <td><input    type="text"  v-model="bean.location" class="form-control" placeholder="请输入房源位置"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>价格</td>
+                                        <td><input    type="text"  v-model="bean.price" class="form-control" placeholder="请输入价格"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>数量</td>
+                                        <td><input   type="text"  v-model="bean.num" class="form-control" placeholder="请输入房间数量"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>备注</td>
+                                        <td><input    type="text"  v-model="bean.remark" class="form-control" placeholder="请填写备注"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>状态</td>
+                                        <td>
+                                            <select name="" id="" v-model="bean.state" class="form-control">
+                                                <option value="上架">上架</option>
+                                                <option value="下架">下架</option>
+                                                <option value="待审核">待审核</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button" @click="clear">关闭</button>
+                            <button  class="btn btn-default" type="button" @click="update">提交</button>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+            <div align="center">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+                     添加数据
+                </button>
+            </div>
+            <div class="modal fade" id="myModal1"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                            <h4 class="modal-title">添加房源信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-body">
+                                <table class="table table-hover" align="center" >
+                                    <tr >
+                                        <td>位置</td>
+                                        <td><input    type="text"  v-model="bean.location" class="form-control" placeholder="请输入房源位置"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>价格</td>
+                                        <td><input    type="text"  v-model="bean.price" class="form-control" placeholder="请输入价格"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>数量</td>
+                                        <td><input   type="text"  v-model="bean.num" class="form-control" placeholder="请输入房间数量"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>备注</td>
+                                        <td><input    type="text"  v-model="bean.remark" class="form-control" placeholder="请填写备注"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                            <button  class="btn btn-default" type="button" @click="add">提交</button>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+            <!--页脚部分-->
+            <div th:replace="include/admin/adminFooter::html" ></div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

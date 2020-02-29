@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('户主信息管理')" ></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+        if(sessionStorage.jwt ==null||sessionStorage.jwt<3){
+            swal("您没有权限访问该界面","","error")
+            self.location="home"
+        }
+    $(function(){
+        var data4Vue = {
+            uri:'householders',
+            beans: [],
+            bean: { id: 0, name: '',tel:'',qq:'',vx:""},
+            pagination:{},
+//            每页大小,默认是5
+            size:'5',
+//            搜索户主的名字
+            name:''
+        };
+
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list(0);
+            },
+            methods: {
+                get:function (id) {
+                    var url = this.uri+"/"+id;
+                    axios.get(url).then(function(response) {
+                        vue.bean = response.data;
+                    });
+                },
+//                清除数据
+                clear:function () {
+                    vue.bean =  { id: 0, name: '',tel:'',qq:'',vx:""};
+                },
+
+//                获取数据
+                list:function(start){
+                    $("#b1").show();
+                    var url =  this.uri+ "?start="+start+"&size="+this.size;
+                    axios.get(url).then(function(response) {
+                        vue.pagination = response.data;
+                        vue.beans = response.data.content	;
+                    });
+                },
+
+                add: function () {
+                    if(!checkEmpty(this.bean.name, "户主姓名"))
+                        return;
+                    if(!checkEmpty(this.bean.tel, "户主电话"))
+                        return;
+                    if(!checkEmpty(this.bean.qq, "户主qq"))
+                        return;
+                    if(!checkEmpty(this.bean.vx, "户主微信"))
+                        return;
+
+                    var url = this.uri;
+                    axios.post(url,this.bean).then(function(){
+                        swal("添加成功！", "该户主信息成功录入数据库！","success")
+                        $('#myModal1').modal('hide');
+                        vue.list(0);
+                        vue.bean = { id: 0, name: '',tel:'',qq:'',vx:''};
+                    });
+                },
+                update:function () {
+                    if(!checkEmpty(this.bean.name, "户主姓名"))
+                        return;
+                    if(!checkEmpty(this.bean.tel, "户主电话"))
+                        return;
+                    if(!checkEmpty(this.bean.qq, "户主qq"))
+                        return;
+                    if(!checkEmpty(this.bean.vx, "户主微信"))
+                        return;
+//                    var url = this.uri+"/"+this.bean.id;
+                    var url = this.uri;
+                    axios.put(url,this.bean).then(function(){
+                        swal("修改成功！", "该户主信息成功被修改！","success")
+                        $('#myModal').modal('hide');
+                        vue.list(0);
+                        vue.bean = { id: 0, name: '',tel:'',qq:'',vx:''};
+                    });
+                },
+                deleteBean: function (id) {
+                    var url = this.uri + "/" + id;
+                    swal({
+                            title: "确定删除吗？",
+                            text: "删除后可以选择重新添加",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除！",
+                            cancelButtonText: "取消删除！",
+                            closeOnConfirm: false
+                        },
+                        function(){
+                            axios.delete(url).then(function (response) {
+                                if (0 != response.data.length) {
+                                    swal("删除失败！", "请先把该户主名下的房源信息删除",
+                                        "error");
+                                }
+                                else {
+                                    swal("删除成功！", "该户主信息已从数据库中移除。", "success");
+                                    vue.list(0);
+                                }
+                            });
+                        });
+
+
+                },
+
+                jump: function(page){
+                    jump(page,vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function(start){
+                    jumpByNumber(start,vue);
+                }
+            },
+//            通过watch来监听属性值size和name的变化
+            watch:{
+                size:function(val) {
+                    this.size = val;
+                    var url =  this.uri+ "?start=0"+"&size="+this.size;
+                    axios.get(url).then(function(response) {
+                        vue.pagination = response.data;
+                        vue.beans = response.data.content	;
+//                        vue.list(0);
+                    });
+                },
+
+                name:function(val) {
+                    this.name = val;
+                    if(this.name==='')
+                        this.list(0)
+                    else {
+                        $("#b1").hide();
+                        var url = "householdersearch?name=" + this.name;
+                        axios.post(url).then(function (response) {
+                            vue.beans = response.data;
+                        });
+                    }
+                },
+
+
+            },
+        });
+    });
+
+</script>
+
+<div class="page"  id="workingArea">
+
+
+    <!-- 左部 -->
+    <div class="page-content d-flex align-items-stretch" >
+
+
+        <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                    <h1 class="h4">USC</h1>
+                    <p>Welcome</p>
+                </div>
+            </div>
+
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+                <li class="active"><a href="admin_householder">户主管理 </a></li>
+                <li><a href="admin_user">用户管理</a></li>
+                <li><a href="admin_statistics">数据统计</a></li>
+                <li><a href="admin_check">待审核信息</a></li>
+            </ul>
+        </nav>
+
+        <!-- 右部部分 -->
+        <div class="content-inner" >
+            <!-- 管理标题-->
+            <header class="page-header">
+                <div class="container-fluid">
+                    <span> <h2 class="no-margin-bottom">户主信息管理</h2></span>
+                    <span style="margin-left:30px;">
+                        <span>
+                            <h2 class="no-margin-bottom">每页个数：</h2>
+                        </span>
+                        <span>
+                            <!--设置最多输出九位数，超过九位数会出错-->
+                        <input  class="form-control" v-model="size" maxlength="9" >
+                            </span>
+                    </span>
+
+                    <span style="margin-left: 30px">
+                        <span>
+                            <h2 class="no-margin-bottom">户主搜索：</h2>
+                        </span>
+                        <span>
+                        <input  class="form-control" v-model="name" >
+                            </span>
+                    </span>
+                </div>
+            </header>
+
+
+
+            <!-- 表格 -->
+            <section class="tables" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive" >
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th >ID</th>
+                                                <th >名字</th>
+                                                <th >电话</th>
+                                                <th >qq</th>
+                                                <th >微信</th>
+                                                <th >房源管理</th>
+                                                <th >修改户主信息</th>
+                                                <th >删除户主信息</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="bean in beans" >
+                                                <td>{{bean.id}}</td>
+                                                <td>{{bean.name}}</td>
+                                                <td>{{bean.tel}}</td>
+                                                <td>{{bean.qq}}</td>
+                                                <td>{{bean.vx}}</td>
+                                                <td><a :href="'admin_house?hid=' + bean.id "><img src="img/admin/manage.jpg" width="30" ></a></td>
+                                                <td><a herf="#" @click="get(bean.id)"><span data-toggle="modal" data-target="#myModal"><img src="img/admin/edit.jpg" width="30" ></span></a></td>
+                                                <td><a  @click="deleteBean(bean.id)"><img src="img/admin/delete.jpg" width="30" ></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--添加与分页-->
+            <div id="b1">
+                <div th:replace="include/admin/adminPage::html" ></div>
+                <div align="center"  style="padding-bottom: 20px">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" >
+                         添加数据
+                    </button>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade" id="myModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                            <h4 class="modal-title">修改户主信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-body">
+                                <table class="table table-hover" align="center">
+                                    <tr>
+                                        <td>名字</td>
+                                        <td><input    type="text"  v-model="bean.name" class="form-control" placeholder="请输入户主名字"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>电话</td>
+                                        <td><input    type="text"  v-model="bean.tel" class="form-control" placeholder="请输入户主电话"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>qq</td>
+                                        <td><input   type="text"  v-model="bean.qq" class="form-control" placeholder="请输入户主qq，若无qq可以填无"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>微信</td>
+                                        <td><input    type="text"  v-model="bean.vx" class="form-control" placeholder="请输入户主微信，若无微信可以填无"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button" @click="clear">关闭</button>
+                            <button  class="btn btn-default" type="button" @click="update">提交</button>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade" id="myModal1"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                            <h4 class="modal-title">添加户主信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-body">
+                                <table class="table table-hover" align="center" >
+                                    <tr >
+                                        <td>名字</td>
+                                        <td><input     v-model="bean.name" class="form-control" placeholder="请输入户主名字"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>电话</td>
+                                        <td><input    v-model="bean.tel" class="form-control" placeholder="请输入户主电话"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>qq</td>
+                                        <td><input    v-model="bean.qq" class="form-control" placeholder="请输入户主qq，若无qq可以填无"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>微信</td>
+                                        <td><input     v-model="bean.vx" class="form-control" placeholder="请输入户主微信，若无微信可以填无"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                            <button  class="btn btn-default" type="button" @click="add">提交</button>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+            <!--页脚部分-->
+            <div th:replace="include/admin/adminFooter::html" ></div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

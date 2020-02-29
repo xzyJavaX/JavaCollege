@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+<div th:replace="include/fore/top::html"></div>
+<script>
+    $(function(){
+        var data4Vue = {
+//                接收总信息集合
+            beans: [],
+//                接收一级评论集合
+            comment_firsts:[],
+//                接收二级评论集合
+            comment_seconds:[],
+            message: { id: 0,content:"",comment_count:'',view_count:"",like_count:'',createtime:'',user:{id:0}},
+            comment_first:{id: 0,content:"",comment_count:'',like_count:'',createtime:'',user:{'id':0},message:{'id':0}},
+            comment_second:{content:''},
+            pagination:{},
+            //            每页大小,默认是5
+            //存放0级信息的id，名字，内容，便于一级评论显示
+            id1:'',
+            username:'',
+            content1:'',
+            //存放1级信息的id，名字，内容，便于显示二级评论显示
+            id2:'',
+            username2:'',
+            content2:''
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list();
+            },
+            methods: {
+                //1、查询聊天室的信息
+                list:function(){
+                    var url = "getTop20"
+                    axios.get(url).then(function (reponse) {
+                        vue.beans= reponse.data;
+                    })
+                },
+//                  2、给信息点赞
+                like:function (id) {
+                    var url = "like/"+id;
+                    axios.put(url).then(function () {
+//                            刷新0级评论区
+                        vue.list();
+                        swal("点赞成功，笔芯","","success")
+                    });
+                },
+                //3、一级评论区点赞
+                likefirst:function (id) {
+                    var url = "like1/"+id;
+                    axios.put(url).then(function () {
+                        swal("点赞成功，笔芯","","success")
+//                            刷新一级评论区
+                        vue.getComment(vue.id1,vue.username,vue.content1);
+//                            一级评论区点赞不会影响0级信息
+//                            vue.list(0);
+                    });
+                },
+//                    4、二级评论区点赞
+                likesecond:function (id) {
+                    var url = "like2/"+id;
+                    axios.put(url).then(function () {
+                        swal("点赞成功，笔芯","","success");
+//                            刷新二级评论区
+                        vue.reply(vue.id2,vue.username2,vue.content2);
+//                            二级评论区的点赞不会影响0级评论区
+//                            vue.list(0)
+                    });
+                },
+
+                //4、一级评论区，获取该条信息的所有评论
+                getComment:function (id,username,content) {
+                    //在一级评论区顶部显示名字和内容
+                    vue.username=username;
+                    vue.content1=content;
+//                        获取这条信息的id
+                    vue.id1=id;
+                    var url ="comment_first/"+id;
+//                        获取该条信息的一级评论
+                    axios.get(url).then(function (reponse) {
+                        vue.comment_firsts=reponse.data;
+                    })
+                },
+
+                //打开二级评论的模态窗口,并获取该评论的回复信息
+                reply:function (id,username,content) {
+//                      方便显示二级评论顶部的名字与信息
+                    this.username2=username;
+                    this.content2=content;
+//                        获取一级评论的id
+                    this.id2=id;
+                    $('#myModal3').modal('show');
+                    var url = "comment_second/"+id;
+                    axios.get(url).then(function (reponse) {
+                        vue.comment_seconds=reponse.data;
+                    })
+                },
+
+                //一级评论信息
+                commentMessage:function(){
+                    var url = "forecheckLogin";
+                    axios.get(url).then(function(response) {
+                        if(0==response.data.code) {
+                            if (vue.comment_first.content.length==0){
+                                swal("内容不能为空","随便评论什么都可以哦","error")
+                                return
+                            }
+                            var url ="comment_first/"+vue.id1;
+                            axios.post(url,vue.comment_first).then(function () {
+                                swal("评论成功","","success"),
+//                                清空输入框
+                                    vue.comment_first={id: 0,content:"",comment_count:'',like_count:'',createtime:'',user:{'id':0},message:{'id':0}};
+//                            刷新一级评论信息
+                                vue.getComment(vue.id1,vue.username,vue.content1);
+//                            刷新0级信息
+                                vue.list();
+                            })
+                        }
+                        else{
+                            swal("请先登录哦","","info");
+                        }
+                    });
+                },
+
+                //二级评论，即回复信息
+                replyComment:function () {
+                    var url = "forecheckLogin";
+                    axios.get(url).then(function(response) {
+                        if(0==response.data.code) {
+                            if (vue.comment_second.content.length==0){
+                                swal("内容不能为空","随便回复什么都可以哦","error")
+                                return
+                            }
+                            var url = "comment_second/"+vue.id2;
+                            axios.post(url,vue.comment_second).then(function () {
+                                swal("回复成功","","success")
+//                            刷新二级评论的信息
+                                vue.reply(vue.id2,vue.username2,vue.content2);
+//                            刷新一级评论的信息
+                                vue.getComment(vue.id1,vue.username,vue.content1);
+//                            二级评论不会对0级信息产生影响
+//                            vue.list(0);
+//                            清空二级评论输入框
+                                vue.comment_second={content:''}
+                            })
+                        }
+                        else{
+                            swal("请先登录哦","","info");
+                        }
+                    });
+                },
+
+//                    发布消息  OK
+                add: function () {
+                    if (this.message.content.length==0){
+                        swal("内容不能为空","随便写什么都可以哦","error")
+                        return
+                    }
+                    var url = "messages";
+                    axios.post(url,vue.message).then(function(response){
+                        swal("发布成功！", "马上就会有人看见你的消息哦","success")
+                        $('#myModal1').modal('hide');
+//                            刷新0级信息
+                        vue.list();
+//                            清空信息输入框
+                        vue.message={ id: 0,content:'',comment_count:'',view_count:"",like_count:'',createtime:'',user:{'id':0}};
+                    });
+                },
+
+                mymessage:function () {
+                    var url = "forecheckLogin";
+                    axios.get(url).then(function(response) {
+                        if(0==response.data.code) {
+                            self.location="mymessage"
+                        }
+                        else{
+                            swal("请先登录哦","","info");
+                        }
+                    });
+                },
+                myreceive:function () {
+                    var url = "forecheckLogin";
+                    axios.get(url).then(function(response) {
+                        if(0==response.data.code) {
+                            self.location="myreceive"
+                        }
+                        else{
+                            swal("请先登录哦","","info");
+                        }
+                    });
+                },
+                openAdd:function () {
+                    var url = "forecheckLogin";
+                    axios.get(url).then(function(response) {
+                        if(0==response.data.code) {
+                            $('#myModal1').modal('show');
+                        }
+                        else{
+                            swal("请先登录哦","","info");
+                        }
+                    });
+                },
+
+
+            },
+        });
+    });
+
+</script>
+
+<div id="workingArea">
+    <div class="jumbotron">
+        <div class="container" align="center">
+            <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">chatroom-Top20</h2>
+            <br>
+            <div class="text-muted">基于信息的底下的所有评论数（包含每条子评论的回复数）</div>
+            <br>
+            <br>
+            <p><a href="#" class="btn btn-primary" @click="openAdd">发布消息</a></p>
+            <p>  </p>
+        </div>
+    </div>
+
+    <div style="position: absolute">
+        <div><a href="chatroom"><button class="btn btn-primary">返回聊天室</button></a></div>
+        <div style="margin-top: 10px"> <a href="top20"> <button class="btn btn-primary">热度Top20</button></a></div>
+        <div style="margin-top: 10px" @click="mymessage">    <button class="btn btn-primary">我发布的消息</button></a></div>
+        <div style="margin-top: 10px"  @click="myreceive">   <button class="btn btn-primary">我接收的通知</button></a></div>
+    </div>
+
+    <div class="productPageDiv" >
+        <div class="productReviewDiv" style="display: block;">
+            <div class="productReviewTopPart">
+                <!--<a class="selected" href="#nowhere">累计评价 <span class="productReviewTopReviewLinkNumber">{{p.reviewCount}}</span> </a>-->
+            </div>
+            <div class="productReviewContentPart">
+                <div class="productReviewItem"  v-for="bean in beans" >
+                    <div class="productReviewItemDesc">
+                        <div class="productReviewItemContent">
+                            <span class="text-primary" ><h3>Top{{bean.rank}}</h3></span>
+                        </div>
+                        <div class="productReviewItemContent">
+                            {{bean.content}}
+                        </div>
+                        <div class="productReviewItemDate">
+                            <span class="text-primary" data-toggle="modal" data-target="#myModal" @click="getComment(bean.id,bean.user.username,bean.content)"><img src="img/fore/comment.jpg" width="20px" > {{bean.comment_count}}条评论 </span>
+                            <span class="text-primary"  style="margin-left: 20px" @click="like(bean.id)"><img src="img/fore/like.jpg" height="20px">{{bean.like_count}}赞</span>
+                            <span style="margin-left: 20px">发表时间：{{bean.createtime|formatDateFilter('YYYY-MM-DD HH:mm:ss')}}</span>
+                        </div>
+                    </div>
+                    <div class="productReviewItemUserInfo">
+                        <!--{{r.user.anonymousName}}-->
+                        <span class="userInfoGrayPart">{{bean.user.username}}</span>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--一级评论区的模态窗口-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width: 1200px" >
+        <div class="modal-dialog"  >
+            <div class="modal-content" style="width: 850px">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" ></h4>
+                </div>
+                <div class="modal-body" align="center">
+                    <h1>一级评论模块</h1>
+                </div>
+                <div class="modal-body">
+                    <p>评论：{{username}}
+                    </p>
+                    <p>
+                        {{content1}}
+                    </p>
+                    <textarea class="form-control" v-model="comment_first.content"></textarea>
+                </div>
+                <span style="padding-left: 700px">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                    <button class="btn btn-primary" type="button" @click="commentMessage">评论</button>
+                </span>
+
+                <div class="productPageDiv" >
+                    <div class="productReviewDiv" style="display: block;">
+                        <div class="productReviewTopPart">
+                            <!--<a class="selected" href="#nowhere">累计评价 <span class="productReviewTopReviewLinkNumber">{{p.reviewCount}}</span> </a>-->
+                        </div>
+                        <div class="productReviewContentPart">
+                            <div class="productReviewItem"  v-for="bean in comment_firsts">
+                                <div class="productReviewItemDesc">
+                                    <div class="productReviewItemContent">
+                                        {{bean.content}}
+                                    </div>
+                                    <div class="productReviewItemDate">
+                                        <span class="text-primary" @click="reply(bean.id,bean.user.username,bean.content)" ><img src="img/fore/comment.jpg" width="20px" > {{bean.comment_count}}条回复 </span>
+                                        <span class="text-primary"  style="margin-left: 20px" @click="likefirst(bean.id)"><img src="img/fore/like.jpg" height="20px">{{bean.like_count}}赞</span>
+                                        <span style="margin-left: 20px">{{bean.createtime|formatDateFilter('YYYY-MM-DD HH:mm:ss')}}</span>
+                                    </div>
+                                </div>
+                                <div class="productReviewItemUserInfo">
+                                    <!--{{r.user.anonymousName}}-->
+                                    <span class="userInfoGrayPart">{{bean.user.username}}</span>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="jumbotron">
+                        <div class="container" align="center">
+                            <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">评论区</h2>
+                            <br>
+                            <div class="text-muted">一级评论模块</div>
+                            <br>
+                            <br>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+    <!--回复评论，即二级评论区的模态窗口-->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width: 1200px">
+        <div class="modal-dialog"  >
+            <div class="modal-content" style="width: 850px">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" ></h4>
+                </div>
+                <div class="modal-body" align="center">
+                    <h1>二级评论模块</h1>
+                </div>
+                <div class="modal-body">
+                    <p>回复：{{username2}}
+                    </p>
+                    <p>
+                        {{content2}}
+                    </p>
+                    <textarea class="form-control" v-model="comment_second.content"></textarea>
+                </div>
+                <span style="padding-left: 700px">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                    <button class="btn btn-primary" type="button" @click="replyComment">回复</button>
+                </span>
+
+                <div class="productPageDiv" >
+                    <div class="productReviewDiv" style="display: block;">
+                        <div class="productReviewTopPart">
+                            <!--<a class="selected" href="#nowhere">累计评价 <span class="productReviewTopReviewLinkNumber">{{p.reviewCount}}</span> </a>-->
+                        </div>
+                        <div class="productReviewContentPart">
+                            <div class="productReviewItem"  v-for="bean in comment_seconds">
+                                <div class="productReviewItemDesc">
+                                    <div class="productReviewItemContent">
+                                        {{bean.content}}
+                                    </div>
+                                    <div class="productReviewItemDate">
+                                        <span class="text-primary"  style="margin-left: 20px" @click="likesecond(bean.id)"><img src="img/fore/like.jpg" height="20px">{{bean.like_count}}赞</span>
+                                        <span style="margin-left: 20px">{{bean.createtime|formatDateFilter('YYYY-MM-DD HH:mm:ss')}}</span>
+                                    </div>
+                                </div>
+                                <div class="productReviewItemUserInfo">
+                                    <span class="userInfoGrayPart">{{bean.user.username}}</span>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="jumbotron">
+                        <div class="container" align="center">
+                            <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">回复区</h2>
+                            <br>
+                            <div class="text-muted">二级评论模块</div>
+                            <br>
+                            <br>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+    <div class="modal fade" id="myModal1"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">找合租，交朋友都行哦</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <table class="table table-hover" align="center" >
+                            <tr>
+                                <td>内容</td>
+                                <td><textarea    type="text"  v-model="message.content" class="form-control" placeholder="想说什么就说什么！"style="height: 150px"></textarea></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                    <button  class="btn btn-primary" type="button" @click="add">发布</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!--页脚-->
+</div>
+
+<div th:replace="include/fore/footer::html" ></div>
+</body>
+</html>
