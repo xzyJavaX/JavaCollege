@@ -1,0 +1,142 @@
+DROP DATABASE IF EXISTS renting;
+CREATE DATABASE renting DEFAULT CHARACTER SET utf8;
+USE renting;
+
+CREATE TABLE user (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tel` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `position` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE householder (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `tel` varchar(255) DEFAULT NULL,
+  `qq` varchar(255) DEFAULT NULL,
+  `vx` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE house (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `location` varchar(255) DEFAULT NULL,
+  `price` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `num` int(11) DEFAULT NULL,
+  `hid` int(11) DEFAULT NULL,
+  `createDate` datetime DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `colnum` int(11) NOT NULL DEFAULT '0',
+  `scannum` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_house_householder` (`hid`),
+  CONSTRAINT `fk_house_householder` FOREIGN KEY (`hid`) REFERENCES `householder` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE houseimage (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hid` int(11) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_houseimage_product` (`hid`),
+  CONSTRAINT `fk_houseimage_product` FOREIGN KEY (`hid`) REFERENCES `house` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE review (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(4000) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `hid` int(11) DEFAULT NULL,
+  `createDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_review_house` (`hid`),
+  KEY `fk_review_user` (`uid`),
+  CONSTRAINT `fk_review_house` FOREIGN KEY (`hid`) REFERENCES `house` (`id`),
+  CONSTRAINT `fk_review_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) NOT NULL,
+  `comment_count` int(11) NOT NULL DEFAULT '0',
+  `view_count` int(11) NOT NULL DEFAULT '0',
+  `like_count` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) DEFAULT NULL,
+  `createtime` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_message_user` (`uid`),
+  CONSTRAINT `fk_message_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `comment_first` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `mid` int(11) NOT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `like_count` int(11) DEFAULT '0',
+  `content` varchar(4000) NOT NULL,
+  `comment_count` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_comment_first_user` (`uid`),
+  KEY `fk_comment_first_message` (`mid`),
+  CONSTRAINT `fk_comment_first_message` FOREIGN KEY (`mid`) REFERENCES `message` (`id`),
+  CONSTRAINT `fk_comment_first_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `comment_second` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `cid` int(11) NOT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `like_count` int(11) DEFAULT '0',
+  `content` varchar(4000) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_comment_second_user` (`uid`),
+  KEY `fk_comment_second_comment_first` (`cid`),
+  CONSTRAINT `fk_comment_second_comment_first` FOREIGN KEY (`cid`) REFERENCES `comment_first` (`id`),
+  CONSTRAINT `fk_comment_second_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `collection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `hid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_collection_user` (`uid`),
+  KEY `fk_collection_house` (`hid`),
+  CONSTRAINT `fk_collection_house` FOREIGN KEY (`hid`) REFERENCES `house` (`id`),
+  CONSTRAINT `fk_collection_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `statistics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `home` int(11) NOT NULL,
+  `chatroom` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `scan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `hid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_scan_user` (`uid`),
+  KEY `fk_scan_house` (`hid`),
+  CONSTRAINT `fk_scan_house` FOREIGN KEY (`hid`) REFERENCES `house` (`id`),
+  CONSTRAINT `fk_scan_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `notifier` int(11) NOT NULL,
+  `receiver` int(11) NOT NULL,
+  `fatherid` int(11) NOT NULL,
+  `childid` int(11) NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `createtime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `status` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

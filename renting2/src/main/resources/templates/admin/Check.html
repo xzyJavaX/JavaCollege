@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('房源信息管理')" ></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+    if(sessionStorage.jwt ==null||sessionStorage.jwt<3){
+        swal("您没有权限访问该界面","","error")
+        self.location="home"
+    }
+
+    $(function(){
+        var data4Vue = {
+            uri:'checkhouses',
+            beans: [],
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list();
+            },
+            methods: {
+                list:function(){
+                    var url =  this.uri;
+                    axios.get(url).then(function(response) {
+                        vue.beans = response.data;
+                    });
+                },
+                check:function (id) {
+                    var url = this.uri+"/"+id;
+                    axios.put(url).then(function(response) {
+                        alert("审核通过");
+                        vue.list();
+                    });
+                },
+                deleteBean: function (id) {
+                    var d = confirm("这样做会删除该房源底下的全部图片，是否确定删除");
+                    if(d===true)
+                    {
+                        var url = "houses/"+id;
+                        axios.delete(url).then(function(response){
+                            alert("删除成功");
+                            vue.list();
+                        });
+                    }
+                },
+            }
+        });
+        Vue.filter('formatDateFilter', function (value, formatString) {
+            if(null==value)
+                return "";
+            formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+            return moment(value).format(formatString);
+        });
+    });
+
+</script>
+
+<div class="page"  id="workingArea">
+
+
+    <!-- 左部 -->
+    <div class="page-content d-flex align-items-stretch" >
+
+
+        <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                    <h1 class="h4">USC</h1>
+                    <p>Welcome</p>
+                </div>
+            </div>
+
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+                <li ><a href="admin_householder">户主管理 </a></li>
+                <li><a href="admin_user">用户管理</a></li>
+                <li><a href="admin_statistics">数据统计</a></li>
+                <li class="active"><a href="admin_check">待审核信息</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- 右部部分 -->
+        <div class="content-inner" >
+            <!-- 管理标题-->
+            <header class="page-header">
+                <div class="container-fluid">
+                    <h2 class="no-margin-bottom">房源信息管理</h2>
+                </div>
+            </header>
+
+
+            <!-- 表格 -->
+
+            <section class="tables" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive" >
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th style="width:8%">图片</th>
+                                                <th style="width:20%">位置</th>
+                                                <th style="width:8%">价格</th>
+                                                <th style="width:8%">数量</th>
+                                                <th>日期</th>
+                                                <th >备注</th>
+                                                <th>状态</th>
+
+                                                <th style="width:8%">房源图片管理</th>
+                                                <th style="width:8%">审核</th>
+                                                <th style="width:8%">删除</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="bean in beans">
+                                                <td>{{bean.id}}</td>
+                                                <!--本地-->
+                                                <!--<td><img v-if="null != bean.firstHouseImage" width="40px" :src="'img/houseSingle/'+bean.firstHouseImage.id+'.jpg'"></td>-->
+                                                <!--服务器-->
+                                                <td><img v-if="null != bean.firstHouseImage" width="40px" :src="'http://116.62.79.166:8080/img/renting/houseSingle/'+bean.firstHouseImage.id+'.jpg'"></td>
+
+                                                <td>{{bean.location}}</td>
+                                                <td>{{bean.price}}</td>
+                                                <td>{{bean.num}}</td>
+                                                <td>{{bean.createDate| formatDateFilter}}</td>
+                                                <td>{{bean.remark}}</td>
+                                                <td>{{bean.state}}</td>
+                                                <td><a :href="'admin_houseimage?hid=' + bean.id "><img src="img/admin/manage.jpg" width="30" ></a></td>
+                                                <td><a herf="#" @click="check(bean.id)"><img src="img/admin/edit.jpg" width="30" ></a></td>
+                                                <td><a @click="deleteBean(bean.id)"><img src="img/admin/delete.jpg" width="30" ></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--页脚部分-->
+            <div th:replace="include/admin/adminFooter::html" ></div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

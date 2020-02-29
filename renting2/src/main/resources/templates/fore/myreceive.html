@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+<div th:replace="include/fore/top::html"></div>
+<script>
+    if(sessionStorage.jwt ==null){
+        swal("请先登录哦","","error")
+        self.location="home"
+    }
+    $(function(){
+        var data4Vue = {
+//          接收总信息集合
+            beans: [],
+//            分页信息
+            pagination:{},
+//            信息数量
+            unread:'',
+            read:'',
+            all:'',
+            status1:'all',
+            message: { id: 0,content:"",comment_count:'',view_count:"",like_count:'',createtime:'',user:{id:0}}
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list(0);
+            },
+            methods: {
+                //1、查询聊天室的信息
+                list:function(start){
+                    var url = "getNotification?start="+start+"&status="+this.status1;
+                    axios.get(url).then(function (response) {
+                        vue.pagination = response.data;
+                        vue.beans=response.data.content[0].data;
+                        vue.unread=response.data.content[0].unread;
+                        vue.read=response.data.content[0].read;
+                        vue.all=response.data.content[0].all;
+                    })
+                },
+//                删除一个
+                deleteBean:function (id) {
+                    var url = "deleteNotifi/"+id;
+                    axios.delete(url).then(function () {
+                        vue.list(0);
+                        swal("删除成功","","success")
+                    })
+                },
+
+//                已读一个
+                readBean:function (id) {
+                    var url = "readNotifi/"+id;
+                    axios.put(url).then(function () {
+                        vue.list(0);
+                    })
+                },
+
+                deteleAllNotifi:function () {
+                    swal({
+                            title: "确定删除全部的通知嘛？",
+                            text: "删除后无法恢复哦",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除！",
+                            cancelButtonText: "取消删除！",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            if (isConfirm) {
+                                var url = "deteleAllNotifi";
+                                axios.delete(url).then(function () {
+                                    swal("全部删除成功","","success")
+                                    vue.list(0);
+                                })
+                            } else {
+                                swal("取消成功！", "您的通知将不会被删除)",
+                                    "success");
+                            }
+                        });
+                },
+
+                readAllNotifi:function () {
+                    swal({
+                            title: "确定把所有消息标志为已读嘛？",
+                            text: "",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定！",
+                            cancelButtonText: "取消！",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            if (isConfirm) {
+                                var url = "readAllNotifi";
+                                axios.put(url).then(function () {
+                                    swal("已经把所有通知标志为已读","","success")
+                                    vue.list(0);
+                                })
+                            } else {
+                                swal("取消成功！", "您的可以慢慢阅读您的通知",
+                                    "success");
+                            }
+                        });
+                },
+//                    发布消息
+                add: function () {
+                    if (this.message.content.length==0){
+                        swal("内容不能为空","随便写什么都可以哦","error")
+                        return
+                    }
+                    var url = "messages";
+                    axios.post(url,vue.message).then(function(response){
+                        swal("发布成功！", "马上就会有人看见你的消息哦","success")
+                        $('#myModal1').modal('hide');
+//                            刷新0级信息
+                        vue.list();
+//                            清空信息输入框
+                        vue.message={ id: 0,content:'',comment_count:'',view_count:"",like_count:'',createtime:'',user:{'id':0}};
+                    });
+                },
+                jump: function(page){
+                    jump(page,vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function(start){
+                    jumpByNumber(start,vue);
+                }
+            },
+        });
+    });
+</script>
+<style>
+    .parent { display: flex; justify-content: center; align-items: center; }
+</style>
+
+
+<div id="workingArea">
+    <div class="jumbotron">
+        <div class="container" align="center">
+            <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">我的通知</h2>
+            <br>
+            <div class="text-muted">聊一聊，看一看，找合租，交盆友</div>
+            <br>
+            <br>
+            <p><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">发布消息</a></p>
+            <p>  </p>
+        </div>
+    </div>
+
+    <div style="position: absolute">
+        <div><a href="chatroom"><button class="btn btn-primary">返回聊天室</button></a></div>
+        <div style="margin-top: 10px"> <a href="top20"> <button class="btn btn-primary">热度Top20</button></a></div>
+        <div style="margin-top: 10px"> <a href="mymessage">  <button class="btn btn-primary">我发布的消息</button></a></div>
+        <div style="margin-top: 10px"> <a href="myreceive">  <button class="btn btn-primary">我接收的通知</button></a></div>
+    </div>
+
+    <div class="productPageDiv" >
+        <div class="productReviewDiv" style="display: block;">
+            <div align="center">
+                <span>总消息数：{{all}}</span>
+                <span style="padding-left: 20px">已读消息数：{{read}}</span>
+                <span style="padding-left: 20px">未读消息数:{{unread}}</span>
+            </div>
+
+                <div class="form-inline parent">
+                <span>
+                    <select class="indexSelect form-control"  style="width: 200px"  @click="list(0)" v-model="status1" >
+                        <option value="all" >全部消息</option>
+                        <option value="未读" >未读消息</option>
+                        <option value="已读" >已读消息</option>
+                    </select>
+                </span>
+                <span style="margin-left: 20px">
+                    <button class="btn btn-primary" @click="readAllNotifi">全部已读</button>
+                </span>
+                <span style="margin-left: 20px">
+                    <button class="btn btn-primary" @click="deteleAllNotifi">全部删除</button>
+                </span>
+                </div>
+
+            <!--<div class="productReviewTopPart">-->
+                <!--<a class="selected" href="#nowhere">累计评价 <span class="productReviewTopReviewLinkNumber">1</span> </a>-->
+            <!--</div>-->
+            <div class="productReviewContentPart">
+                <div class="productReviewItem"  v-for="bean in beans" >
+                    <div class="productReviewItemDesc" >
+                        <span class="text-primary">{{bean.notifier}}</span>
+                        {{bean.type}}了我的{{bean.mytype}}
+                        <div class="productReviewItemContent">
+                            我的原{{bean.mytype}}：
+                            <span class="text-primary">
+                                {{bean.fcontent}}
+                            </span>
+                        </div>
+                        <div class="productReviewItemContent" style="margin-top: 10px">
+                            {{bean.type}}：
+                            <span class="text-primary">{{bean.ccontent}}
+                        </span>
+                        </div>
+                        <div class="productReviewItemDate">
+                            <span style="margin-left: 20px" class="text-primary">{{bean.status}}</span>
+                            <span style="margin-left: 20px">
+                                {{bean.type}}时间：{{bean.createtime|formatDateFilter('YYYY-MM-DD HH:mm:ss')}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="productReviewItemUserInfo">
+                        <span class="userInfoGrayPart">
+                            <!--{{bean.user.username}}-->
+                        </span>
+                        <span class="userInfoGrayPart" style="margin-left: 20px" >
+                            <div @click="readBean(bean.id)" v-if="bean.status=='未读'">标志已读</div>
+                            <div @click="deleteBean(bean.id)" style="margin-top: 15px">删除</div>
+                        </span>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parent">
+        <div th:replace="include/admin/adminPage::html" ></div>
+    </div>
+
+
+    <div class="modal fade" id="myModal1"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">找合租，交朋友都行哦</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <table class="table table-hover" align="center" >
+                            <tr>
+                                <td>内容</td>
+                                <td><textarea    type="text"  v-model="message.content" class="form-control" placeholder="想说什么就说什么！"style="height: 150px"></textarea></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                    <button  class="btn btn-primary" type="button" @click="add">发布</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</div>
+
+<div th:replace="include/fore/footer::html" ></div>
+</body>
+</html>

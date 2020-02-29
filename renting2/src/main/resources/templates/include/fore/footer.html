@@ -1,0 +1,101 @@
+<div th:fragment="html">
+    <script>
+        $(function(){
+            var data4Vue2 = {
+                statistics:{home:'',chatroom:''}
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea2',
+                data: data4Vue2,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    this.get();
+                },
+                methods: {
+                    get:function () {
+                        var url = "getStatistics";
+                        axios.get(url).then(function (reponse) {
+                            vue.statistics=reponse.data;
+                        })
+                    },
+
+                    jump1:function () {
+                        swal({
+                                title: "既然来了，点个星星再走呗",
+                                text: "听说点了星星的人都一夜暴富了",
+                                type: "success",
+                                confirmButtonText: "立即前往！",
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    self.location="https://github.com/xzytriangle/JavaX"
+                                }
+                            });
+                    },
+                    jump2:function () {
+                        swal({
+                                title: "恭喜你捡到了一本武林秘籍，经验值+999",
+                                text: "在博客中的链接会不定期更新Java校招资料，J2SE算法Mysql数据结构JVM操作系统Redis网络原理Spring设计模式一个都不会少哦",
+                                type: "success",
+                                confirmButtonText: "立即前往！",
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    self.location="https://github.com/xzytriangle/JavaX/blob/master/Java%E6%A0%A1%E6%8B%9B%E5%A4%8D%E4%B9%A0%E8%B5%84%E6%96%99%2B%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98.txt"
+                                }
+                            });
+                    },
+                    jump3:function () {
+                        swal({
+                                title: "恭喜你获得了100w无门槛购物券",
+                                text: "赶快注册吧，商城内随意购买，体验剁手的快感",
+                                type: "success",
+                                confirmButtonText: "立即前往！",
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    self.location="http://116.62.79.166:8002/tmall/home"
+                                }
+                            });
+                    },
+                    jump4:function () {
+                        swal({
+                                title: "它可能比你的零钱通和余额宝更厉害哦",
+                                text: "投资有风险，入市需谨慎！理财不规范，亲人两行泪",
+                                type: "success",
+                                confirmButtonText: "立即前往！",
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    self.location="http://116.62.79.166:8001/trend/"
+                                }
+                            });
+                    }
+
+                }
+            });
+        });
+    </script>
+
+    <div class="jumbotron text-center" style="margin:0 " id="workingArea2">
+        友链~~
+        <p>
+            <a href="#" @click="jump1">项目源码(Github点个 <img src="img/fore/star.jpg" alt="" width="11px">  <img src="img/fore/star.jpg" alt="" width="11px">      )</a>
+            <a href="#" @click="jump2"  style="margin-left: 200px">个人博客(互联网校招资料)</a>
+        </p>
+
+        <p>
+            <a href="#" @click="jump3" >Spring Boot仿天猫商城</a>
+            <a href="#" @click="jump4" style="margin-left: 200px">Spring Cloud趋势投资</a></p>
+        <p>
+            <a href="#">首页访问量：{{statistics.home}}，聊天室访问量：{{statistics.chatroom}}</a>
+        </p>
+    </div>
+    <footer class="main-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 align="center">USC-校园租房网</h5>
+                </div>
+            </div>
+    </footer>
+    </div>

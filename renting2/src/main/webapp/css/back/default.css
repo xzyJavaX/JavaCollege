@@ -1,0 +1,207 @@
+/*后台管理*/
+/* 右部 */
+span {
+    display: inline-block;
+}
+
+section {
+    padding: 50px 0;
+}
+
+.container-fluid {
+    padding: 0 30px;
+}
+
+header.page-header {
+    padding: 20px 0;
+}
+
+table {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.content-inner {
+    position: relative;
+    width: calc(100% - 250px);
+    min-height: calc(100vh - 70px);
+    padding-bottom: 60px;
+}
+
+.page-header {
+    background: #fff;
+    padding: 20px;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 8;
+}
+
+.page {
+    background: #EEF5F9;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0 !important;
+}
+
+
+/* 左部 */
+nav.side-navbar {
+    background: #fff;
+    min-width: 250px;
+    max-width: 250px;
+    color: #686a76;
+    -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    z-index: 9;
+}
+
+nav.side-navbar a {
+    color: inherit;
+    position: relative;
+    font-size: 0.9em;
+}
+
+nav.side-navbar .sidebar-header {
+    padding: 30px 15px;
+}
+
+nav.side-navbar .avatar {
+    width: 55px;
+    height: 55px;
+}
+
+nav.side-navbar .title {
+    margin-left: 10px;
+}
+
+nav.side-navbar .title h1 {
+    color: #333;
+}
+
+nav.side-navbar .title p {
+    font-size: 0.9em;
+    font-weight: 200;
+    margin-bottom: 0;
+    color: #aaa;
+}
+
+nav.side-navbar span.heading {
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-left: 20px;
+    color: #ccc;
+    font-size: 0.8em;
+}
+nav.side-navbar ul {
+    padding: 15px 0;
+}
+
+nav.side-navbar ul li a {
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-weight: 300;
+    border-left: 4px solid transparent;
+}
+
+nav.side-navbar ul li.active > a {
+    background: #796AEE;
+    color: #fff;
+    border-left: 4px solid #3b25e6;
+}
+
+
+/* top */
+nav.navbar {
+    background: #2f333e;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: #fff;
+    position: relative;
+    border-radius: 0;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+nav.navbar a {
+    color: inherit;
+}
+
+
+/* 页脚 */
+footer.main-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #2f333e;
+    color: #fff;
+    padding: 20px 10px;
+}
+
+footer.main-footer a {
+    color: inherit;
+}
+
+footer.main-footer p {
+    margin: 0;
+    font-size: 0.8em;
+}
+
+
+/* 字体 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.1;
+    color: inherit;
+}
+
+h1,
+.h1 {
+    font-size: 1.5rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.3rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.2rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.1rem;
+}
+
+h5,
+.h5 {
+    font-size: 1rem;
+}
+
+h6,
+.h6 {
+    font-size: 0.95rem;
+}
+
+
+

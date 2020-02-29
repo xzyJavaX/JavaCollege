@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+<div >
+        <div th:replace="include/fore/top::html"></div>
+        <div th:replace="include/fore/search::html"></div>
+        <script>
+            $(function () {
+                var data4Vue = {
+                    uri:'houses',
+                    houses:[]
+                }
+                var vue = new Vue({
+                    el:'#workingArea',
+                    data:data4Vue,
+                    mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                        this.load();
+                        //浏览数+1
+                        var url1 ="addhome";
+                        axios.put(url1);
+                    },
+                    methods: {
+                        load:function(){
+                            var url =  this.uri;
+                            axios.get(url).then(function(response) {
+                                vue.houses = response.data;
+                            });
+//                            vue.$nextTick(function(){
+//                                imgAndInfoPageRegisterListeners(vue);
+//                            })
+                        },
+
+                        getOrderByCol:function () {
+                            var url = "getHouseOrderByCol"
+                            axios.get(url).then(function(response) {
+                                vue.houses = response.data;
+                            });
+                        },
+                        getOrderByTime:function () {
+                            var url = "getHouseOrderByTime"
+                            axios.get(url).then(function(response) {
+                                vue.houses = response.data;
+                            });
+                        },
+                        getOrderByScan:function () {
+                            var url = "getHouseOrderByScan"
+                            axios.get(url).then(function(response) {
+                                vue.houses = response.data;
+                            });
+                        },
+
+//                        随机看房
+                        randomJump:function () {
+                            var url ="randomJump"
+                            var x
+                            axios.get(url).then(function (reponse) {
+                                x=reponse.data;
+                                location.href="house?hid="+x;
+                            })
+                        }
+
+                    },
+                })
+            });
+        </script>
+
+        <style>
+                #workingArea{
+                        font-size: 12px;
+                        font-family: Arial;
+                }
+        </style>
+
+        <div id="workingArea">
+                <!--轮播图-->
+                <div id="demo" class="carousel slide" data-ride="carousel" align="center">
+                        <!-- 指示符 -->
+                        <ul class="carousel-indicators">
+                                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                <li data-target="#demo" data-slide-to="1"></li>
+                                <li data-target="#demo" data-slide-to="2"></li>
+                        </ul>
+                        <!-- width：1400px是自己设置的，高度会自适应宽度，如果宽度小了，背景是白色，可能看不到左右切换按钮 -->
+                        <div class="carousel-inner" @click="randomJump">
+                                <div class="carousel-item active">
+                                        <img src="img/fore/carousel/1.jpg" style="width: 900px; height: 400px">
+                                        <!-- 可去除文字 -->
+                                        <div class="carousel-caption">
+                                                <!--<h3>第一张图片描述标题</h3>-->
+                                                <!--<p>描述文字!</p>-->
+                                        </div>
+                                </div>
+                                <div class="carousel-item">
+                                        <img src="img/fore/carousel/2.jpg"  style="width: 900px; height: 400px">
+                                        <!-- 可去除文字 -->
+                                        <div class="carousel-caption">
+                                                <!--<h3>第二张图片描述标题</h3>-->
+                                                <!--<p>描述文字!</p>-->
+                                        </div>
+                                </div>
+                                <div class="carousel-item">
+                                        <img src="img/fore/carousel/3.jpg"  style="width: 900px; height: 400px">
+                                        <!-- 可去除文字 -->
+                                        <div class="carousel-caption">
+                                                <!--<h3>第三张图片描述标题</h3>-->
+                                                <!--<p>描述文字!</p>-->
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- 左右切换按钮 -->
+                        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                <img src="img/fore/left.jpg" style="width: 60px">
+                        </a>
+                        <a class="carousel-control-next" href="#demo" data-slide="next">
+                                <img src="img/fore/right.jpg" style="width: 60px">
+                        </a>
+                </div>
+
+        <div style="position: absolute">
+                <div style="margin-top: 5px"> <button class="btn btn-primary" @click="randomJump">随机看房</button></div>
+                <div style="margin-top: 5px"> <button class="btn btn-primary" @click="load">随机排序</button></div>
+                <div style="margin-top: 5px"> <button class="btn btn-primary" @click="getOrderByTime">按时间排序</button></div>
+                <div style="margin-top: 5px"> <button class="btn btn-primary" @click="getOrderByCol">按收藏数排序</button></div>
+                <div style="margin-top: 5px"> <button class="btn btn-primary" @click="getOrderByScan">按浏览数排序</button></div>
+        </div>
+                <div class="categoryPageDiv">
+                        <div class="categoryProducts">
+                                <div  class="productUnit" v-for="h in houses">
+                                        <div class="productUnitFrame">
+                                                <a :href="'house?hid='+h.id">
+                                                        <img class="productImage" :src="'img/fore/material/'+Math.ceil(Math.random()*40)+'.jpg'">
+                                                        <!--<img class="productImage" :src="'img/houseSingle/'+h.firstHouseImage.id+'.jpg'">-->
+                                                </a>
+                                                <span class="productPrice">价格：{{h.price}}</span>
+                                                <a :href="'house?hid='+h.id" class="productLink">
+                                                        位置：{{h.location}}
+                                                </a>
+                                                <a :href="'house?hid='+h.id" class="tmallLink">首次上架时间：{{h.createDate| formatDateFilter}}</a>
+                                                <div class="show1 productInfo">
+                                                        <span class="monthDeal ">
+                                                                <span class="productDealNumber">{{h.num}}间</span>
+                                                                览<span class="productDealNumber">{{h.scannum}}</span>
+                                                        </span>
+                                                        <span class="productReview">评<span class="productReviewNumber">{{h.reviewCount}}</span>
+                                                                藏<span class="productReviewNumber">{{h.colnum}}</span>
+                                                        </span>
+                                                        <span class="wangwang">
+                                                                <a :href="'house?hid='+h.id" class="wangwanglink">
+                                                                        <img src="img/fore/house.jpg" width="20px">
+                                                                </a>
+                                                        </span>
+                                                </div>
+                                        </div>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <div v-if="0 == houses.length" class="noMatch">
+                                        没有满足条件的产品
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                </div>
+                                <div style="clear:both"></div>
+                        </div>
+                        <div class="wrapper">
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <span class="line"></span>
+                                <span class="content">我是有底线的</span>
+                                <span class="line"></span>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                        </div>
+                </div>
+                <div style="clear:both"></div>
+        </div>
+        <div th:replace="include/fore/footer::html" ></div>
+</div>
+</body>
+</html>

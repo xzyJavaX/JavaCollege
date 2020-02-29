@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+
+    <script>
+        $(function(){
+            var data4Vue = {
+                uri:'forelogin',
+                result: [],
+                user:{tel:'', password:''}
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){
+
+                },
+                methods: {
+                    getPassword:function () {
+                        swal("请直接联系后台管理员","QQ:2387295532")
+                    },
+                    login:function(){
+                        var url =  this.uri;
+                        if(0==this.user.tel.length){
+                            $("span.errorMessage").html("请输入电话");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+                        if(0==this.user.password.length){
+                            $("span.errorMessage").html("请输入密码");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        var reg = /^1[0-9]{10}$/;
+                        if(!reg.test(this.user.tel)){
+                            $("span.errorMessage").html("手机号格式错误");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        axios.post(url,this.user).then(function(response) {
+                            var result = response.data;
+                            if(result.code==0){
+                                if(result.data=="普通用户"){
+                                    swal({
+                                            title: "登录成功！",
+                                            text: "欢迎您来到本系统，即将进入到首页",
+                                            type: "success",
+                                            confirmButtonText: "确定！",
+                                        },
+                                        function(isConfirm){
+                                            if (isConfirm) {
+                                                sessionStorage.jwt = 1;
+                                                location.href="home";
+                                            }
+                                        });
+                                }
+                                else if(result.data=="户主"){
+                                    swal({
+                                            title: "登录成功！",
+                                            text: "欢迎您来到本系统，即将进入后台管理界面",
+                                            type: "success",
+                                            confirmButtonText: "确定！",
+                                        },
+                                        function(isConfirm){
+                                            if (isConfirm) {
+                                                sessionStorage.jwt = 2;
+                                                location.href="hadmin_house";
+                                            }
+                                        });
+                                }
+                                else if(result.data=="管理员"){
+                                    swal({
+                                            title: "登录成功！",
+                                            text: "欢迎您来到本系统，即将进入后台管理界面",
+                                            type: "success",
+                                            confirmButtonText: "确定！",
+                                        },
+                                        function(isConfirm){
+                                            if (isConfirm) {
+                                                sessionStorage.jwt = 3;
+                                                location.href="admin_householder";
+                                            }
+                                        });
+                                }
+                            }
+                            else{
+                                $("span.errorMessage").html(result.message);
+                                $("div.registerErrorMessageDiv").css("visibility","visible");
+                            }
+                        });
+                    }
+                }
+            });
+        })
+
+    </script>
+    <div class="page login-page" id="workingArea">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>USC</h1>
+                                </div>
+                                <p>欢迎来到USC校园租房网</p>
+                                <p>手机号是1开头的11位数即可,填写真实手机号不容易忘记</p>
+                                <p>如有任何疑问或合作意向，请联系后台管理员，QQ：2387295532</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Panel    -->
+                    <div class="col-lg-6 bg-white">
+
+                        <div class="form d-flex align-items-center">
+
+                            <div class="content">
+
+                                <div class="registerErrorMessageDiv">
+                                    <div class="alert alert-info" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                                        <span class="errorMessage"></span>
+                                    </div>
+                                </div>
+
+                                <table class="loginTable">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                电话
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.tel" placeholder="请输入您的电话" class="input-material" >
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                密码
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.password"  type="password"  placeholder="请输入密码" class="input-material"  >
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="form-group" align="center">
+                                    <button  @click="login"  type="submit" class="btn btn-primary">登录</button>
+                                </div>
+                                <small>还没有账号? 请注册：</small><a href="hregister" class="signup" style="padding-right: 10px">我是户主</a><a href="register.html" class="signup">我是普通用户</a>
+                                <!--<div><small>忘记密码? </small><a href="#" class="signup" @click="getPassword">点击</a></div>-->
+                                <div><small>不想登录? </small><a href="home" class="signup" >直接进入首页</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

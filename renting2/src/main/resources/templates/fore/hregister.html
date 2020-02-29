@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/fore/header::html" ></head>
+<body>
+    <script>
+        $(function(){
+            var data4Vue = {
+                uri:'hregister',
+                result: [],
+                user:{tel:'',repeattel:'',name:'', vx:'',qq:'',password:'', repeatpassword:''}
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){
+
+                },
+                methods: {
+                    register:function(){
+                        var url =  this.uri;
+
+                        if(0==this.user.tel.length){
+                            $("span.errorMessage").html("请输入您的手机号");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(0==this.user.repeattel.length){
+                            $("span.errorMessage").html("请输入重复手机号");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(0==this.user.name.length){
+                            $("span.errorMessage").html("请输入您的真实姓名");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(0==this.user.password.length){
+                            $("span.errorMessage").html("请输入密码");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+                        if(0==this.user.repeatpassword.length){
+                            $("span.errorMessage").html("请输入重复密码");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        var reg = /^1[0-9]{10}$/;
+                        if(!reg.test(this.user.tel)){
+                            $("span.errorMessage").html("手机号格式错误");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+                        if(!reg.test(this.user.repeattel)){
+                            $("span.errorMessage").html("手机号格式错误");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(this.user.tel !=this.user.repeattel){
+                            $("span.errorMessage").html("手机号不一致");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        if(this.user.password !=this.user.repeatpassword){
+                            $("span.errorMessage").html("密码不一致");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        axios.post(url,this.user).then(function(response) {
+                            var result = response.data;
+                            if(result.code==0){
+
+                                swal({
+                                        title: "注册成功！",
+                                        text: "欢迎您使用本系统，即将进入到登录界面",
+                                        type: "success",
+                                        confirmButtonText: "确定！",
+                                    },
+                                    function(isConfirm){
+                                        if (isConfirm) {
+                                            location.href="login";
+                                        }
+                                    });
+                            }
+                            else{
+                                $("span.errorMessage").html(result.message);
+                                $("div.registerErrorMessageDiv").css("visibility","visible");
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+
+    <div class="page login-page" id="workingArea">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>USC</h1>
+                                </div>
+                                <p>欢迎来到USC校园租房网</p>
+                                <p>手机号是1开头的11位数即可,填写真实手机号不容易忘记</p>
+                                <p>如有任何疑问或合作意向，请联系后台管理员，QQ：2387295532</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Panel    -->
+                    <div class="col-lg-6 bg-white">
+
+                        <div class="form d-flex align-items-center">
+
+                            <div class="content">
+
+                                <div class="registerErrorMessageDiv">
+                                    <div class="alert alert-info" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                                        <span class="errorMessage"></span>
+                                    </div>
+                                </div>
+                                <table class="HouseholderRegisterTable">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                电话
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.tel" placeholder="设置您的电话,用于登录,设置成功后无法修改" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                确认电话：
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.repeattel" placeholder="请再次确认您的电话，设置成功后无法修改" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                姓名
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.name" placeholder="设置您的真实姓名" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>
+                                            <div class="form-group">
+                                                微信
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.vx" placeholder="请尽量填写真实信息，以便租客联系您，可以不填" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                QQ
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.qq" placeholder="请尽量填写真实信息，以便租客联系您，可以不填" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                密码
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.password"  type="password"  placeholder="设置您的登陆密码" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                确认密码
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.repeatpassword"   type="password"  placeholder="请再次输入您的密码" class="input-material" style="width: 400px">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <div class="form-group" align="center">
+                                    <button  @click="register" type="submit" class="btn btn-primary">注册</button>
+                                </div>
+                               <small style="font-size: 20px;">已有账号? </small><a href="login" class="signup"  style="font-size: 25px;">登录</a>
+                                <small style="font-size: 20px; padding-left: 20px">或者</small><a href="home" class="signup"  style="font-size: 25px;" >进入首页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('户主信息管理')" ></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+    if(sessionStorage.jwt ==null||sessionStorage.jwt<3){
+        swal("您没有权限访问该界面","","error")
+        self.location="home"
+    }
+    $(function(){
+        var data4Vue = {
+            uri:'users',
+            beans: [],
+            pagination:{},
+            user:{ id: 0, tel: '',password:'',username:'',position:""},
+//            存储选择的用户等级
+            position:'全部'
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list(0);
+            },
+            methods: {
+//                查询所有用户信息，或者根据等级查询用户信息
+                list:function(start){
+                    if(this.position=="全部")
+                    {
+                        var url =  this.uri+ "?start="+start;
+                        axios.get(url).then(function(response) {
+                            vue.pagination = response.data;
+                            vue.beans = response.data.content   ;
+                        });
+                        return;
+                    }
+                    var url ="pusers?start="+start+"&position="+this.position;
+                    axios.get(url).then(function(response) {
+                        vue.pagination = response.data;
+                        vue.beans = response.data.content   ;
+                    });
+                },
+                get:function (id) {
+                    var url = this.uri+"/"+id;
+                    axios.get(url).then(function(response) {
+                        vue.user = response.data;
+                    });
+                },
+                update:function () {
+                    if (!checkEmpty(this.user.password, "密码"))
+                        return;
+                    if(!checkEmpty(this.user.username, "用户名"))
+                        return;
+                    var url = this.uri;
+                    axios.put(url,vue.user).then(function(response){
+                        swal("修改成功！", "该用户信息成功被修改","success")
+                        $('#myModal').modal('hide');
+                        vue.list(0);
+                        vue.bean ={ id: 0, tel: '',password:'',username:'',position:""}
+                    });
+                },
+                jump: function(page){
+                    jump(page,vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function(start){
+                    jumpByNumber(start,vue);
+                }
+            }
+        });
+    });
+
+</script>
+
+<div class="page"  id="workingArea">
+    <!-- 左部 -->
+    <div class="page-content d-flex align-items-stretch" >
+        <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                    <h1 class="h4">USC</h1>
+                    <p>Welcome</p>
+                </div>
+            </div>
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+                <li ><a href="admin_householder">户主管理 </a></li>
+                <li class="active"><a href="admin_user">用户管理</a></li>
+                <li><a href="admin_statistics">数据统计</a></li>
+                <li><a href="admin_check">待审核信息</a></li>
+            </ul>
+        </nav>
+        <!-- 右部部分 -->
+        <div class="content-inner" >
+            <!-- 管理标题-->
+            <header class="page-header">
+                <div class="container-fluid">
+                    <span><h2 class="no-margin-bottom">用户信息管理</h2></span>
+                    <span style="margin-left:30px;">
+                        <span>
+                        <select name="" id="" class="form-control" v-model="position" @click="list(0)">
+                            <option value="全部">全部</option>
+                            <option value="户主">户主</option>
+                            <option value="普通用户">普通用户</option>
+                        </select>
+                            </span>
+                    </span>
+                </div>
+
+            </header>
+            <!-- 表格 -->
+            <section class="tables" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive" >
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th >ID</th>
+                                                <th>电话</th>
+                                                <th>用户名</th>
+                                                <th>密码</th>
+                                                <th>等级</th>
+                                                <th>修改</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="bean in beans">
+                                                <td>{{bean.id}}</td>
+                                                <td>{{bean.tel}}</td>
+                                                <td>{{bean.username}}</td>
+                                                <td>{{bean.password}}</td>
+                                                <td>{{bean.position}}</td>
+                                                <td><a herf="#" @click="get(bean.id)"><span data-toggle="modal" data-target="#myModal"><img src="img/admin/edit.jpg" width="30" ></span></a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div th:replace="include/admin/adminPage::html" ></div>
+
+            <div class="modal fade" id="myModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                            <h4 class="modal-title">修改用户信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-body">
+                                <table class="table table-hover" align="center">
+                                    <tr>
+                                        <td>密码</td>
+                                        <td><input    type="text"  v-model="user.password" class="form-control" placeholder="请输入密码"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>用户名</td>
+                                        <td><input   maxlength="11" type="text"  v-model="user.username" class="form-control" placeholder="请输入用户名"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>等级</td>
+                                        <td>
+                                            <select name="" v-model="user.position" class="form-control">
+                                                <option value="户主">户主</option>
+                                                <option value="普通用户">普通用户</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                            <button  class="btn btn-default" type="button" @click="update">提交</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+            <!--页脚部分-->
+            <div th:replace="include/admin/adminFooter::html" ></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

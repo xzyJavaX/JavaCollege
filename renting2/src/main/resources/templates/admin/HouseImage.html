@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('房源图片管理')" >
+
+    <link href="css/back/style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+    if(sessionStorage.jwt ==null||sessionStorage.jwt<3){
+        swal("您没有权限访问该界面","","error")
+        self.location="home"
+    }
+    $(function(){
+        var hid = getUrlParms("hid");
+        var data4Vue = {
+            uri:'houseImages',
+            singleHouseImages: [],
+            detailHouseImages: [],
+            house: '',
+            householder:'',
+            singleFile:'',
+            detailFile:''
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.listSingles();
+                this.listDetails();
+                this.getHouse(hid);
+            },
+            methods: {
+                getHouse:function(hid){
+                    var url = "houses/"+hid;
+                    axios.get(url).then(function(response) {
+                        vue.house = response.data;
+                        vue.householder= vue.house.householder;
+                    })
+                },
+                listSingles:function(start){
+                    var url =  "houses/"+hid+"/"+this.uri+"?type=single";
+                    axios.get(url).then(function(response) {
+                        vue.singleHouseImages = response.data;
+                    });
+                },
+                listDetails:function(start){
+                    var url =  "houses/"+hid+"/"+this.uri+"?type=detail";
+                    axios.get(url).then(function(response) {
+                        vue.detailHouseImages = response.data;
+                    });
+                },
+                addSingle: function () {
+                    if(!checkEmpty(this.singleFile, "单个产品图片"))
+                        return;
+
+                    var url = this.uri+"?type=single&hid="+hid;
+
+                    var formData = new FormData();
+                    formData.append("image", this.singleFile);
+
+                    axios.post(url,formData).then(function(response){
+                        swal("添加成功！", "该图片成功上传至服务器！","success");
+                        vue.listSingles();
+                        $("#singlePic").val('');
+                        vue.singleFile = null;
+                    });
+                },
+                addDetail: function () {
+                    if(!checkEmpty(this.detailFile, "详情产品图片"))
+                        return;
+
+                    var url = this.uri+"?type=detail&hid="+hid;
+
+                    var formData = new FormData();
+                    formData.append("image", this.detailFile);
+
+                    axios.post(url,formData).then(function(response){
+                        swal("添加成功！", "该图片成功上传至服务器！","success");
+                        vue.listDetails();
+                        $("#detailPic").val('');
+                        vue.detailFile = null;
+                    });
+                },
+                deleteBean: function (id) {
+                    var url = this.uri+"/"+id;
+                    swal({
+                            title: "确定删除吗？",
+                            text: "删除后可以选择重新添加哦！",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定删除！",
+                            cancelButtonText: "取消删除！",
+                            closeOnConfirm: false
+                        },
+                        function(){
+                            swal("删除成功！", "该图片已从服务器上移除。", "success");
+                            axios.delete(url).then(function(){
+                                vue.listSingles();
+                                vue.listDetails();
+                            });
+                        });
+                },
+
+                getSingleFile: function (event) {
+                    this.singleFile = event.target.files[0];
+                },
+                getDetailFile: function (event) {
+                    this.detailFile = event.target.files[0];
+                },
+            }
+
+        });
+    });
+
+</script>
+
+<div class="page"  id="workingArea">
+
+
+    <!-- 左部 -->
+    <div class="page-content d-flex align-items-stretch" >
+
+
+        <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                    <h1 class="h4">USC</h1>
+                    <p>Welcome</p>
+                </div>
+            </div>
+
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+                <li class="active"><a href="admin_householder">户主管理 </a></li>
+                <li><a href="admin_user">用户管理</a></li>
+                <li><a href="admin_statistics">数据统计</a></li>
+                <li><a href="admin_check">待审核信息</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- 右部部分 -->
+        <div class="content-inner" >
+            <!-- 管理标题-->
+            <header class="page-header">
+                <div class="container-fluid">
+                    <h2 class="no-margin-bottom">户主信息管理->房源信息管理->图片管理</h2>
+                </div>
+            </header>
+
+            <!-- 表格 -->
+            <table class="addPictureTable" align="center">
+                <tr>
+                    <td class="addPictureTableTD"  valign="top">
+
+                        <div>
+                        <div class="panel panel-warning addPictureDiv">
+                        <div class="panel-heading">新增产品<b class="text-primary"> 单个 </b>图片</div>
+                        <div class="panel-body">
+                        <table class="addTable">
+                        <tr>
+                        <td>请选择本地图片 尺寸400X400 为佳</td>
+                        </tr>
+                        <tr>
+                        <td>
+                        <input id="singlePic" type="file" @change="getSingleFile($event)" name="image" />
+                        </td>
+                        </tr>
+                        <tr class="submitTR">
+                        <td align="center">
+                        <button type="submit" @click="addSingle" class="btn btn-success">提 交</button>
+                        </td>
+                        </tr>
+                        </table>
+                        </div>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover  table-condensed">
+                        <thead>
+                        <tr class="success">
+                        <th>ID</th>
+                        <th>产品单个图片缩略图</th>
+                        <th>删除</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="pi in singleHouseImages">
+                        <td>{{pi.id}}</td>
+                        <td>
+                            <!--本地-->
+                        <!--<a title="点击查看原图" :href="'img/houseSingle/'+pi.id+'.jpg'"><img height="50px" :src="'img/houseSingle/'+pi.id+'.jpg'"></a>-->
+                            <!--服务器-->
+                            <a title="点击查看原图" :href="'http://116.62.79.166:8080/img/renting/houseSingle/'+pi.id+'.jpg'"><img height="50px" :src="'http://116.62.79.166:8080/img/renting/houseSingle/'+pi.id+'.jpg'"></a>
+                        </td>
+                        <td><a href="#nowhere" @click="deleteBean(pi.id)"><img src="img/admin/delete.jpg" width="30" ></a></td>
+
+                        </tr>
+                        </tbody>
+                        </table>
+
+                        </div>
+                    </td>
+
+                    <td class="addPictureTableTD" valign="top">
+                        <div>
+
+                        <div class="panel panel-warning addPictureDiv">
+                        <div class="panel-heading">新增产品<b class="text-primary"> 详情 </b>图片</div>
+                        <div class="panel-body">
+                        <table class="addTable">
+                        <tr>
+                        <td>请选择本地图片 宽度790  为佳</td>
+                        </tr>
+                        <tr>
+                        <td>
+                        <input id="detailPic" type="file" @change="getDetailFile($event)" name="image" />
+                        </td>
+                        </tr>
+                        <tr class="submitTR">
+                        <td align="center">
+                        <button type="submit" @click="addDetail" class="btn btn-success">提 交</button>
+                        </td>
+                        </tr>
+                        </table>
+
+                        </div>
+                        </div>
+
+                        <table class="table table-striped table-bordered table-hover  table-condensed">
+                        <thead>
+                        <tr class="success">
+                        <th>ID</th>
+                        <th>产品详情图片缩略图</th>
+                        <th>删除</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="pi in detailHouseImages">
+                        <td>{{pi.id}}</td>
+                        <td>
+                            <!--本地-->
+                        <!--<a title="点击查看原图" :href="'img/houseDetail/'+pi.id+'.jpg'"><img height="50px" :src="'img/houseDetail/'+pi.id+'.jpg'"></a>-->
+                            <!--服务器-->
+                            <a title="点击查看原图" :href="'http://116.62.79.166:8080/img/renting/houseDetail/'+pi.id+'.jpg'"><img height="50px" :src="'http://116.62.79.166:8080/img/renting/houseDetail/'+pi.id+'.jpg'"></a>
+                        </td>
+                        <td><a href="#nowhere" @click="deleteBean(pi.id)"><img src="img/admin/delete.jpg" width="30" ></a></td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--页脚部分-->
+            <div th:replace="include/admin/adminFooter::html" ></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
