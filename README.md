@@ -1,8 +1,8 @@
 # 各个文件介绍：
 ## 1.renting2
-一个基于Spring Boot的租房+聊天平台项目，后端自己独立完成，前端借鉴了how2j的天猫商城项目，以及bootstrapious的后台管理模板。上传的是没有使用中间件的版本，方便你们把项目跑起来。喜欢的老铁可以点个星星。
-项目URL：
-http://www.javax.org.cn:8888/renting/home
+一个基于Spring Boot的租房+聊天平台项目，后端自己独立完成，前端借鉴了how2j的天猫商城项目，以及bootstrapious的后台管理模板。上传的是没有使用中间件的版本，方便你们把项目跑起来。喜欢的老铁可以点个星星。  
+项目URL：  
+http://www.javax.org.cn:8888/renting/home  
 http://www.javax.org.cn:8888/renting/chatroom
 
 ## 2.Java校招复习资料+笔试面试题.txt
