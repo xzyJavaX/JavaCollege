@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作品标签管理</title>
+
+   <!-- bootstrap -->
+   <script src="vendor/jquery/jquery.min.js"></script>
+   <link href="vendor/bootstrap/css/bootstrap.min.css"  rel="stylesheet">
+   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+   <!-- 主要css-->
+   <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+
+   <!-- vue和axios -->
+   <script src="js/vue.min.js"></script>
+   <script src="js/axios.min.js"></script>
+   
+  <!-- js -->
+   <script src="js/header.js"></script>
+</head>
+<body>
+    <script>
+  
+        $(function(){
+          if(sessionStorage.jwt != '123456'){
+              window.location.href = 'admin_login.html';
+            }
+          var pid = getUrlParms("pid");
+                       var data4Vue = {
+                           data1:null,
+                           data2:null,
+                           id:0,
+                           tid:'',
+                           tagss:'',
+                           page:'1',
+                           lastpage:''
+                       };
+                       //ViewModel
+                      var vue =new Vue({
+                            el: '#workArea',
+                            data: data4Vue,
+                            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                            this.getTags();
+                            this.init();     
+                            },
+                            methods: {
+                              // 清理数据
+                              clear:function () {
+                                this.tagss='';
+                                },                   
+                              getTags:function(){
+                                axios.get('http://120.79.186.44:9092/manager/tags/show').then(response=>{
+                                  this.data1 = response.data.data;
+                                }
+                                )
+                              },
+                               // 分页显示
+                                init:function(){
+                                  uri='http://120.79.186.44:9092/manager/production/tagProduction/list';
+                                  url=uri+"?id="+pid;
+                                 axios.get(url).then(response => {
+                            this.data2 = response.data;
+                            })    //获取到的indexDatas赋值给data2
+                          .catch(function (error) { // 请求失败处理
+                            console.log(error);
+                            });
+                                 },
+                                //  删除
+                                 deleteBean: function(id) {     
+                                  var d = confirm("是否要删除");  
+                                  uri='http://120.79.186.44:9092/manager/production/tagProduction/delete';
+                                  url=uri+"?ids="+id;
+                                  if(d===true)               
+                                   axios.post(url)
+                                     .then(res => {
+                                      if(res.status === 200) {
+                                        alert("删除成功");
+                                        this.init();
+                                    }
+                                    })
+                                 },
+                               
+                                //  添加
+                                 add:function(){
+                                  if(!checkEmpty(this.tid, "标签名"))
+                                   return;
+                                 axios.post('http://120.79.186.44:9092/manager/production/tagProduction/insert', {pid:pid,tid:this.tid})
+                               .then(res => {
+                                    if(res.status === 200) {
+                                      $('#myModal1').modal('hide');
+                                      alert("添加成功");
+                                        this.init();
+                                        this.clear();
+                                    }
+                                  })           
+                                  },
+                                  }
+                      });
+   
+               });
+           </script>   
+    <div class="page" id="workArea">
+        <!--头部-->
+        <header class="header">
+            <nav class="navbar">
+              <div class="container-fluid">
+                <div class="navbar-holder d-flex align-items-center justify-content-between">
+                  <div class="navbar-header">
+                    <a href="#" class="navbar-brand d-none d-sm-inline-block">
+                      <div class="brand-text d-none d-lg-inline-block"><span>USC-SE </span><strong>ADMIN</strong></div>
+                    </a>
+                  </div>
+                  
+                </div>
+              </div>
+            </nav>
+          </header>
+       
+        <!-- 左部 -->
+        <div class="page-content d-flex align-items-stretch">
+          <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                  <h1 class="h4">USC</h1>
+                  <p>Welcome</p>
+                </div>
+            </div>
+  
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+              <li class="active"><a href="admin_category.html">比赛管理 </a></li>
+              <li><a href="admin_user.html">用户管理</a></li>
+              <li ><a href="admin_tags.html">标签管理 </a></li>    
+              <li ><a href="admin_news.html">近期新闻管理 </a></li>
+              <li ><a href="admin_newsswiper.html">新闻轮播图管理 </a></li> 
+              <li ><a href="admin_competitionswiper.html">比赛轮播图管理 </a></li>        
+            </ul>
+          </nav>
+  
+  
+          <!-- 右部表格部分 -->
+          <div class="content-inner"> 
+            <!-- 管理标题-->
+            <header class="page-header">
+              <div class="container-fluid">
+                <h2 class="no-margin-bottom">
+                    <script>
+                        var cname=getUrlParms("cname");
+                        document.write(cname)
+                        </script>
+                  ->
+                  <script>
+                      var pname=getUrlParms("pname");
+                      document.write(pname)
+                      </script>
+                    ->作品—标签管理</h2>
+              </div>
+            </header>
+            
+            <!-- 表格 -->
+            <section class="tables">   
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="table-responsive">  
+                          <div>
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>标签</th>
+                                <th>删除</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="bean in data2.data">
+                                <td>{{bean.tagss}}</td>
+                                <td><a href="#nowhere"  @click="deleteBean(bean.id)"><img src="img/delete.jpg" alt="" width="30"></a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </section>
+  
+                <!-- 添加模态窗口 -->
+           <div align="center">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" >
+                   添加数据
+              </button>
+          </div>
+
+          <div class="modal fade" id="myModal1"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                        <h4 class="modal-title">添加标签信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <table class="table table-hover" align="center" >
+                              <tr>
+                                <select class="indexSelect form-control"  v-model="tid">
+                                  <option v-for="bean in data1 " :value="bean.id" >{{bean.tagss}} </option>
+                                </select>
+                            </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                        <button  class="btn btn-default" type="button" @click="add">提交</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+        
+            
+         
+
+  
+  
+             <!-- 页脚-->
+             <footer class="main-footer">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p>USC-SE</p>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <p>Powered by <a href="https://bootstrapious.com/p/admin-template" class="external">Bootstrapious</a></p>
+                </div>
+              </div>
+            </footer>
+  
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    
+</body>
+</html>

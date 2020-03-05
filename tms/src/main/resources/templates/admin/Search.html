@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('工夹具全寿命智能管理系统')" ></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+    $(function(){
+        if(sessionStorage.jwt == null){
+            self.location="login"
+        }
+        var id= getUrlParms("keyword");
+        var data4Vue = {
+            uri:'searchs',
+            beans: [],
+
+        };
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list(id);
+            },
+            methods: {
+                list:function(id){
+
+                    var url =  this.uri+ "/"+id;
+                    axios.get(url).then(function(response) {
+                        vue.beans=response.data;
+                    });
+                },
+//
+            }
+        });
+        Vue.filter('formatDateFilter', function (value, formatString) {
+            if(null==value)
+                return "";
+            formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+            return moment(value).format(formatString);
+        });
+    });
+
+</script>
+
+<div  class="page login-page" id="workingArea">
+
+
+    <div class="container">
+
+        <h2>工具夹编号：
+        <script>
+            var id= getUrlParms("keyword");
+            document.write(id);
+        </script>
+        </h2>
+        <table class="table table-dark table-hover" style="margin-top: 20px">
+            <thead>
+            <tr>
+            <td>班次</td>
+            <td>存放库位</td>
+            <td>出库时间</td>
+            <td>出库人签字</td>
+            <td>使用位置</td>
+            <td>入库时间</td>
+            <td>入库人员签字</td>
+            <td>登记员名字</td>
+            <td>备注</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="bean in beans">
+                <td>{{bean.shift}}</td>
+                <td>{{bean.location}}</td>
+                <td>{{bean.outdate | formatDateFilter}}</td>
+                <td>{{bean.usename}}</td>
+                <td>{{bean.uselocation}}</td>
+                <td>{{bean.indate | formatDateFilter}}</td>
+                <td>{{bean.retname}}</td>
+                <td>{{bean.writename}}</td>
+                <td>{{bean.remark}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</div>
+
+
+
+</body>
+</html>

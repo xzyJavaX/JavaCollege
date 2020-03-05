@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作品管理</title>
+
+    <!-- bootstrap -->
+   <script src="vendor/jquery/jquery.min.js"></script>
+   <link href="vendor/bootstrap/css/bootstrap.min.css"  rel="stylesheet">
+   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+   <!-- 主要css-->
+   <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+
+   <!-- vue和axios -->
+   <script src="js/vue.min.js"></script>
+   <script src="js/axios.min.js"></script>
+   
+  <!-- js -->
+   <script src="js/header.js"></script>
+
+   <!-- vue.js 格式化日期用的 -->
+   <script src="vendor/moment/2.22.2/moment.js"></script> 
+</head>
+<body>
+    <script>
+  
+        $(function(){
+          if(sessionStorage.jwt != '123456'){
+              window.location.href = 'admin_login.html';
+            }
+          var cid = getUrlParms("cid");
+                       var data4Vue = {
+                           data2:null,
+                           id:0,
+                           title:'',
+                           status:'',
+                           introduction:'',
+                           url:'',
+                           type:'',
+                           degree:'',
+                           time:'',
+                           page:'1',
+                           lastpage:'',
+                          
+                       };
+                       //ViewModel
+                     var vue =new Vue({
+                            el: '#workArea',
+                            data: data4Vue,
+                            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                            this.init();     
+                            },
+                            methods: {
+                              clear:function () {
+                                this.title='';
+                                this.status='';
+                                this.introduction='';
+                                this.url='';
+                                this.type='';
+                                this.degree='';
+                                this.time='';
+                                },
+                              get:function (id,title,status,introduction,url,type,degree,time) {
+                                this.id=id;
+                                this.title=title;
+                                this.status=status;
+                                this.introduction=introduction;
+                                this.url=url;
+                                this.type=type;
+                                this.degree=degree;
+                                this.time=time;
+                },
+                                init:function(){
+                                  var uri='http://120.79.186.44:9092/manager/production/selByCid';
+                                  var url=uri+"?cid="+cid+"&page="+this.page;
+                                 axios.get(url)
+                          .then(response => {
+                            this.data2 = response.data;
+                            this.callastpage();
+                            })    //获取到的indexDatas赋值给data2
+                          .catch(function (error) { // 请求失败处理
+                            console.log(error);
+                            });
+                                 },
+                                 deleteBean: function(id) {     
+                                  var d = confirm("这样会删除包含学生老师图片在内的所有信息，是否确认删除");  
+                                  var uri='http://120.79.186.44:9092/manager/production/delete';
+                                  var url=uri+ "?id="+id;
+                                  if(d===true)               
+                                   axios.post(url)
+                                     .then(res => {
+                                      if(res.status === 200) {
+                                        alert("删除成功");
+                                        this.init();
+                                    }
+                                    })
+                                 },
+                                 update: function() { 
+                                  if(!checkEmpty(this.title, "作品名"))
+                                   return;
+                                  if(!checkEmpty(this.introduction, "简介"))
+                                   return;
+                                  if(!checkEmpty(this.url, "url"))
+                                   return;
+                                  if(!checkEmpty(this.type, "比赛类型"))
+                                   return;
+                                  if(!checkEmpty(this.degree, "等级"))
+                                   return;
+                                  if(!checkEmpty(this.time, "时间"))
+                                   return;
+                                   axios.post('http://120.79.186.44:9092/manager/production/update',{id:this.id,catId:cid,title:this.title,status:this.status,introduction:this.introduction,url:this.url,type:this.type,degree:this.degree,time:this.time})
+                                     .then(res => {
+                                      if(res.status === 200) {
+                                        $('#myModal').modal('hide');
+                                        alert("修改成功");
+                                        this.init();
+                                        this.clear();
+                                    }
+                                     })
+                                 },
+                                 add:function(){
+                                  if(!checkEmpty(this.title, "作品名"))
+                                   return;
+                                  if(!checkEmpty(this.introduction, "简介"))
+                                   return;
+                                  if(!checkEmpty(this.url, "url"))
+                                   return;
+                                  if(!checkEmpty(this.type, "比赛类型"))
+                                   return;
+                                  if(!checkEmpty(this.degree, "等级"))
+                                   return;
+                                  if(!checkEmpty(this.time, "时间"))
+                                   return;
+                                 axios.post('http://120.79.186.44:9092/manager/production/insert', 
+                                 {catId:cid,title:this.title,status:this.status,introduction:this.introduction,url:this.url,type:this.type,degree:this.degree,time:this.time})
+    .then(res => {
+                                    if(res.status === 200) {
+                                      $('#myModal1').modal('hide');
+                                        alert("添加成功");
+                                        this.init();
+                                        this.clear();
+                                        
+                                    }
+                                  })  
+                                         
+                                  },
+                                  //分页
+                                  paging:function(page){  
+                                    if(page===0) {page=1; alert('已经是第一页了')}
+                                    if(page===this.lastpage+1)  {page=this.lastpage; alert('已经是最后一页了')}
+                                       this.page=page;
+                                       this.init();
+                                  },
+                                  callastpage:function(){
+                                    if(this.data2.total%5===0){
+                              this.lastpage=this.data2.total/5;
+                                         }
+                                   else
+                                  {
+                                  this.lastpage = (this.data2.total-this.data2.total%5)/5+1;
+                                    }
+                                  }
+                                  }
+                      });
+                      Vue.filter('formatDateFilter', function (value, formatString) {
+            if(null==value)
+                return "";
+            formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+            return moment(value).format(formatString);
+        });
+   
+               });
+           </script>   
+    <div class="page" id="workArea">
+        <!--头部-->
+        <header class="header">
+            <nav class="navbar">
+              <div class="container-fluid">
+                <div class="navbar-holder d-flex align-items-center justify-content-between">
+                  <div class="navbar-header">
+                    <a href="#" class="navbar-brand d-none d-sm-inline-block">
+                      <div class="brand-text d-none d-lg-inline-block"><span>USC-SE </span><strong>ADMIN</strong></div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </header>
+       
+        <!-- 左部 -->
+        <div class="page-content d-flex align-items-stretch">
+          <nav class="side-navbar">
+            <!-- 头像名字部分-->
+            <div class="sidebar-header d-flex align-items-center">
+                <div class="avatar"><img src="img/admin.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="title">
+                  <h1 class="h4">USC</h1>
+                  <p>Welcome</p>
+                </div>
+            </div>
+  
+            <!-- 左边菜单-->
+            <span class="heading">管理</span>
+            <ul class="list-unstyled">
+              <li class="active"><a href="admin_category.html">比赛管理 </a></li>
+              <li><a href="admin_user.html">用户管理</a></li>
+              <li ><a href="admin_tags.html">标签管理 </a></li>    
+              <li ><a href="admin_news.html">近期新闻管理 </a></li>
+              <li ><a href="admin_newsswiper.html">新闻轮播图管理 </a></li> 
+              <li ><a href="admin_competitionswiper.html">比赛轮播图管理 </a></li>    
+            </ul>
+          </nav>
+  
+  
+          <!-- 右部表格部分 -->
+          <div class="content-inner"> 
+            <!-- 管理标题-->
+            <header class="page-header">
+              <div class="container-fluid">
+                <h2 class="no-margin-bottom">
+                  <script>
+                  var cname=getUrlParms("cname");
+                  document.write(cname)
+                  </script>
+                  ->作品管理</h2>
+              </div>
+            </header>
+            <!-- 表格 -->
+            <section class="tables">   
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="table-responsive">  
+                          <div>
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>作品名</th>
+                                <!-- <th>网盘</th> -->
+                                <th>类型</th>
+                                <th>奖项等级</th>
+                                <th>获奖时间</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th style="width:7%">标签管理</th>
+                                <th style="width:7%">图片管理</th>
+                                <th style="width:7%">学生管理</th>
+                                <th style="width:7%">老师管理</th>
+                                <th style="width:1%">编辑</th>
+                                <th style="width:1%">删除</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="bean in data2.rows">
+                                <td>{{bean.title}}</td>
+                                <!-- <td>{{bean.url}}</td> -->
+                                <td>{{bean.type}}</td>
+                                <td>{{bean.degree}}</td>
+                                <td>{{bean.time}}</td>
+                                <td>{{bean.created | formatDateFilter}}</td>
+                                <td>{{bean.updated | formatDateFilter}}</td>
+                                <td><a :href="'admin_production_tags.html?pid=' + bean.id+'&cname='+cname+'&pname='+bean.title"><img src="img/manage.jpg" width="30" ></a></td>
+                                <td><a :href="'admin_production_img.html?pid=' + bean.id+'&cname='+cname+'&pname='+bean.title"><img src="img/manage.jpg" width="30" ></a></td>
+                                <td><a :href="'admin_production_student.html?pid=' + bean.id +'&cname='+cname+'&pname='+bean.title"><img src="img/manage.jpg" width="30" ></a></td>
+                                <td><a :href="'admin_production_teacher.html?pid=' + bean.id +'&cname='+cname+'&pname='+bean.title"><img src="img/manage.jpg" width="30" > </a></td>
+                                <td><a herf="#" @click="get(bean.id,bean.title,bean.status,bean.introduction,bean.url,bean.type,bean.degree,bean.time)"><span data-toggle="modal" data-target="#myModal"><img src="img/edit.jpg" width="30" ></span></a></td>
+                                <td><a href="#nowhere"  @click="deleteBean(bean.id)"><img src="img/delete.jpg" width="30" ></a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </section>
+
+            <div align="center">
+              <span>
+                  <ul class="pagination">
+                      <li class="page-item"><a class="page-link" href="#" @click="paging(1)">首页</a></li>
+                      <li class="page-item"><a class="page-link" href="#" @click="paging(--page)">上一页</a></li>           
+                      <li class="page-item"><a class="page-link" href="#" @click="paging(page)">页数：{{page}}</a></li>
+                      <li class="page-item"><a class="page-link" href="#" @click="paging(++page)">下一页</a></li>
+                      <li class="page-item"><a class="page-link" href="#" @click="paging(lastpage)">尾页</a></li>
+                  </ul>
+              </span>
+             </div> 
+
+
+
+             <div class="modal fade" id="myModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h4 class="modal-title">修改作品信息</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="panel-body">
+                              <table class="table table-hover" align="center">
+                                <tr>
+                                  <td>作品名</td>
+                                  <td><input    type="text"  v-model="title" class="form-control" placeholder="请在这里输入作品名"></td>
+                              </tr>
+    
+                              <tr>
+                                  <td>简介</td>
+                                  <td><input    type="text"  v-model="introduction" class="form-control" placeholder="请在这里输入作品简介"></td>
+                              </tr>
+                              <tr>
+                                  <td>网盘</td>
+                                  <td><input     type="text" v-model="url" class="form-control" placeholder="请把百度网盘返回的信息复制到这里"></td>
+                              </tr>
+                              <tr>
+                                  <td>类型</td>
+                                  <td><input    type="text"  v-model="type" class="form-control" placeholder="请在这里输入类型，例如国家级，省级等"></td>
+                              </tr>
+                              <tr>
+                                  <td>等级</td>
+                                  <td><input     type="text" v-model="degree" class="form-control" placeholder="请在这里输入等级，例如一等奖，优胜奖等"></td>
+                              </tr>
+                              <tr>
+                                  <td>时间</td>
+                                  <td><input     type="text" v-model="time" class="form-control" placeholder="请在这里输入获奖年份"></td>
+                              </tr>
+                          
+                              </table>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button data-dismiss="modal" class="btn btn-default" type="button" @click="clear">关闭</button>
+                          <button  class="btn btn-default" type="button" @click="update">提交</button>
+
+                      </div>
+                  </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+          </div>
+            <!-- 添加模态窗口 -->
+            <div align="center">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" >
+                     添加数据
+                </button>
+            </div>
+            <div class="modal fade" id="myModal1"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <!-- <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> -->
+                          <h4 class="modal-title">添加作品信息</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="panel-body">
+                              <table class="table table-hover" align="center" >
+                                <tr>
+                                  <td>作品名</td>
+                                  <td><input    type="text"  v-model="title" class="form-control" placeholder="请在这里输入作品名"></td>
+                              </tr>
+                              <tr>
+                                  <td>简介</td>
+                                  <td><input    type="text"  v-model="introduction" class="form-control" placeholder="请在这里输入作品简介"></td>
+                              </tr>
+                              <tr>
+                                  <td>网盘</td>
+                                  <td><input     type="text" v-model="url" class="form-control" placeholder="请把百度网盘返回的信息复制到这里"></td>
+                              </tr>
+                              <tr>
+                                  <td>类型</td>
+                                  <td><input    type="text"  v-model="type" class="form-control" placeholder="请在这里输入类型，例如国家级，省级等"></td>
+                              </tr>
+                              <tr>
+                                  <td>等级</td>
+                                  <td><input     type="text" v-model="degree" class="form-control" placeholder="请在这里输入等级，例如一等奖，优胜奖等"></td>
+                              </tr>
+                              <tr>
+                                  <td>时间</td>
+                                  <td><input     type="text" v-model="time" class="form-control" placeholder="请在这里输入获奖年份"></td>
+                              </tr>
+                              </table>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button data-dismiss="modal" class="btn btn-default" type="button" >关闭</button>
+                          <button  class="btn btn-default" type="button" @click="add">提交</button>
+                      </div>
+                  </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+          </div>
+  
+
+          
+          
+        
+
+            
+  
+  
+          
+             <!-- 页脚-->
+             <footer class="main-footer">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p>USC-SE</p>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <p>Powered by <a href="https://bootstrapious.com/p/admin-template" class="external">Bootstrapious</a></p>
+                </div>
+              </div>
+            </footer>
+  
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    
+</body>
+</html>

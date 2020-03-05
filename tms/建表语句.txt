@@ -1,0 +1,40 @@
+DROP DATABASE IF EXISTS tms;
+CREATE DATABASE tms DEFAULT CHARACTER SET utf8;
+CREATE DATABASE `tms`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `username` varchar(255) DEFAULT NULL COMMENT '用户名',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `name` varchar(255) DEFAULT NULL COMMENT '姓名',
+  `tel` varchar(255) DEFAULT NULL COMMENT '电话',
+  `position` varchar(255) DEFAULT NULL COMMENT '职位', 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `useinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `shift` varchar(255) DEFAULT NULL COMMENT '班次',
+  `fid` varchar(255) DEFAULT NULL COMMENT '夹具编号',
+  `location` varchar(255) DEFAULT NULL COMMENT '存放库位',
+  `outdate` datetime DEFAULT NULL COMMENT '出库时间',
+  `usename` varchar(255) DEFAULT NULL COMMENT '出库人员签字',
+  `uselocation` varchar(255) DEFAULT NULL COMMENT '使用位置',
+  `indate` datetime DEFAULT NULL COMMENT '入库时间',
+  `retname` varchar(255) DEFAULT NULL COMMENT '入库人员签字',
+  `writename` varchar(255) DEFAULT NULL COMMENT '登记员名字',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `useinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `shift` varchar(255) DEFAULT NULL COMMENT '班次',
+  `fid` varchar(255) DEFAULT NULL COMMENT '夹具编号',
+  `location` varchar(255) DEFAULT NULL COMMENT '存放库位',
+  `outdate` datetime DEFAULT NULL COMMENT '出库时间',
+  `usename` varchar(255) DEFAULT NULL COMMENT '出库人员签字',
+  `uselocation` varchar(255) DEFAULT NULL COMMENT '使用位置',
+  `indate` datetime DEFAULT NULL COMMENT '入库时间',
+  `retname` varchar(255) DEFAULT NULL COMMENT '入库人员签字',
+  `writename` varchar(255) DEFAULT NULL COMMENT '登记员名字',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

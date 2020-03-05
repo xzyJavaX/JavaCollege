@@ -1,0 +1,193 @@
+/*消除左右滑轮*/
+body {
+    overflow-x: hidden;
+}
+
+
+
+/*页头*/
+.container-fluid {
+    padding: 0 30px;
+}
+
+nav.navbar {
+    background: #2f333e;
+    padding-top: 23px;
+    padding-bottom: 23px;
+    color: #fff;
+    position: relative;
+    border-radius: 0;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+nav.navbar .navbar-holder {
+    width: 100%;
+}
+
+nav.navbar a {
+    color: inherit;
+}
+
+nav.navbar .nav-menu {
+    margin-bottom: 0;
+}
+
+
+
+/* 字体*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.1;
+    color: inherit;
+}
+
+h1,
+.h1 {
+    font-size: 1.5rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.3rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.2rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.1rem;
+}
+
+h5,
+.h5 {
+    font-size: 1rem;
+}
+
+h6,
+.h6 {
+    font-size: 0.95rem;
+}
+
+
+
+/*前台页脚*/
+footer.main-footer {
+    position: absolute;
+    /*bottom:0;*/
+    margin: 0;
+    width: 100%;
+    background: #2f333e;
+    color: #fff;
+    padding: 20px 10px;
+}
+
+
+/*前台底线*/
+.wrapper {
+    text-align: center;
+}
+.wrapper .line {
+    width: 40%;
+    display: inline-block;
+    border: 0.4px solid #ddd;
+    vertical-align: middle;
+}
+.wrapper .content {
+    color: #ccc;
+    font-size: 14px;
+}
+
+
+
+/*首页瀑布效果*/
+div.homepageCategoryProducts{
+     background-color: #F5F5F5;
+     padding: 50px 10px 50px 10px;
+     margin: 10px auto;
+     max-width: 1013px;
+ }
+div.productItem{
+    width: 189px;
+    height: 285px;
+    border: 1px solid white;
+    background-color: white;
+    margin: 8px 4px;
+    float: left;
+    cursor: pointer;
+}
+div.productItem span.productItemDesc{
+    font-size: 12px;
+    color: #666666;
+    display: block;
+    padding: 16px;
+}
+div.productItem span.productPrice{
+    font-size: 16px;
+    color: #FF003A;
+    display: block;
+    padding-left: 16px;
+    margin-top: -10px;
+}
+div.productItem img{
+    width: 187px;
+    height: 190px;
+}
+div.productItem  img:hover{
+    opacity: 0.7;
+    filter: alpha(opacity = 70);
+}
+div.eachHomepageCategoryProducts{
+    margin: 0px 0px 40px 0px;
+}
+a.productItemDescLink{
+    display: inline-block;
+    height: 66px;
+    text-decoration:none;
+}
+span.categoryTitle{
+    font-size: 16px;
+    margin-left: 30px;
+    color: #646464;
+    font-weight: bold;
+}
+div.left-mark{
+    display: inline-block;
+    height: 20px;
+    vertical-align: top;
+    width: 5px;
+    background-color: #19C8A9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
