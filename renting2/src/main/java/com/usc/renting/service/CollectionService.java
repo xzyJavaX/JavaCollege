@@ -15,21 +15,22 @@ public class CollectionService {
     @Autowired
     CollectionDAO collectionDAO;
 
-    public Collection getByUserAndHouse(User user,House house){
-        return collectionDAO.getByUserAndHouse(user,house);
+    public Collection getByUserAndHouse(User user, House house) {
+        return collectionDAO.getByUserAndHouse(user, house);
     }
 
-    public void add(User user, House house){
+    public void add(User user, House house) {
         Collection collection = new Collection();
         collection.setHouse(house);
         collection.setUser(user);
         collectionDAO.save(collection);
     }
-    public List<Collection> getAllByUser(User user){
+
+    public List<Collection> getAllByUser(User user) {
         return collectionDAO.getAllByUser(user);
     }
 
-    public void delete(Collection collection){
+    public void delete(Collection collection) {
         collectionDAO.delete(collection);
     }
 }

@@ -20,6 +20,9 @@ public class Householder {
     int id;
 
     String name;
+    String tel;
+    String qq;
+    String vx;
 
     public int getId() {
         return id;
@@ -60,8 +63,4 @@ public class Householder {
     public void setVx(String vx) {
         this.vx = vx;
     }
-
-    String tel;
-    String qq;
-    String vx;
 }

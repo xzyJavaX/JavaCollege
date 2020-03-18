@@ -137,6 +137,7 @@
                         <span><a href="home">USC-校园租房网首页</a></span>
                         <!--只是为了让别人看到这个东西。。。。-->
                         <span><a href="chatroom" style="padding-left: 50px">在线聊天室，快点这里</a></span>
+
                     </div>
                     <!-- Navbar Menu -->
                     <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
@@ -156,8 +157,9 @@
                         <span th:if="${session.user==null}"  style="height:40px; ">
                             <div style="padding-top: 8px">
                                 <!--<a href="chatroom" style="margin-right: 10px">在线聊天室</a>-->
-                                <a href="login" style="margin-right: 10px">登录</a>
-                                <a href="#" @click="register">注册</a>
+                                <span style="margin-right: 30px">(不要使用360,IE浏览器)</span>
+                                <a href="login" style="margin-right: 10px">点击登录</a>
+                                <a href="#" @click="register">点击注册</a>
                             </div>
                         </span>
 

@@ -30,83 +30,82 @@ public class MessageService {
     @Autowired
     CommentFirstDAO commentFirstDAO;
 
-    public void add(Message bean){
+    public void add(Message bean) {
         messageDAO.save(bean);
     }
 
     public Page4Navigator<Message> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-//        定义一个Pageable对象，参数分别为页面数，页面大小，sort
+        // 定义一个Pageable对象，参数分别为页面数，页面大小，sort
         Pageable pageable = new PageRequest(start, size,sort);
-//        直接调用findAll方法
-        Page pageFromJPA =messageDAO.findAll(pageable);
+        // 直接调用findAll方法
+        Page pageFromJPA = messageDAO.findAll(pageable);
         return new Page4Navigator<>(pageFromJPA,navigatePages);
     }
 
-    public Message get(Integer id){
+    public Message get(Integer id) {
         return messageDAO.findOne(id);
     }
 
-    public void update(Message message){
+    public void update(Message message) {
         messageDAO.save(message);
     }
 
-//    获取总评论数前20的信息
-    public List<Message> findAllMessageTop20(){
-//        获取所有信息
-        List<Message> messages= messageDAO.findAll();
-//依次遍历每个信息
-        for (Message message:messages){
+    // 获取总评论数前20的信息
+    public List<Message> findAllMessageTop20() {
+        // 获取所有信息
+        List<Message> messages = messageDAO.findAll();
+        // 依次遍历每个信息
+        for (Message message : messages) {
             int sum = 0;
-            List<CommentFirst> commentFirsts=commentFirstService.findAllByMessage(message);
-            for (CommentFirst commentFirst :commentFirsts){
-                sum=sum+commentFirst.getComment_count();
-//                sum=sum+commentSecondDAO.countByCommentFirst(commentFirst);
+            List<CommentFirst> commentFirsts = commentFirstService.findAllByMessage(message);
+            for (CommentFirst commentFirst : commentFirsts) {
+                sum = sum + commentFirst.getComment_count();
             }
-//            sum=sum+commentFirstDAO.countByMessage(message);
-            sum=sum+message.getComment_count();
+            sum = sum + message.getComment_count();
             message.setSum(sum);
         }
-//        匿名类，按sum总数降序排列
+
+        // 匿名类，按sum总数降序排列
         Collections.sort(messages, new Comparator<Message>() {
             @Override
             public int compare(Message o1, Message o2) {
-                return o2.getSum()-o1.getSum();
+                return o2.getSum() - o1.getSum();
             }
         });
-//        返回前Top20
-        if (messages.size()>=20)
-        {
-            for (int i = 0;i<20;i++){
+
+        // 返回前Top20
+        if (messages.size() >= 20) {
+            for (int i = 0; i < 20; i++){
                 messages.get(i).setRank(i+1);
             }
-            return messages.subList(0,20);
+            return messages.subList(0, 20);
         }
         else{
-            for (int i = 0;i<messages.size();i++){
+            for (int i = 0; i < messages.size(); i++){
                 messages.get(i).setRank(i+1);
             }
-            return messages.subList(0,messages.size());
+            return messages.subList(0, messages.size());
         }
     }
 
-//    删除该信息以及下面的所有评论
+    // 删除该信息以及下面的所有评论
     @Transactional
-    public void delete(Integer id){
+    public void delete(Integer id) {
         Message message = messageDAO.getOne(id);
         List<CommentFirst> commentFirsts = commentFirstDAO.findAllByMessage(message);
-        for (CommentFirst commentFirst : commentFirsts){
+        for (CommentFirst commentFirst : commentFirsts) {
             commentSecondDAO.deleteAllByCommentFirst(commentFirst);
         }
         commentFirstDAO.deleteAllByMessage(message);
         messageDAO.delete(id);
     }
 
-    public List<Message> findByUser(User user){
+    public List<Message> findByUser(User user) {
         return messageDAO.findAllByUserOrderByIdDesc(user);
     }
 
-    public int countAll(){
+    public int countAll() {
         return messageDAO.countByIdNot(0);
     }
 }

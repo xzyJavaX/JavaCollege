@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ScanDAO extends JpaRepository<Scan,Integer> {
+public interface ScanDAO extends JpaRepository<Scan, Integer> {
     Scan getByUserAndHouse(User user, House house);
 
     List<Scan> getAllByUserOrderById(User user);

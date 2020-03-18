@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CommentFirstDAO extends JpaRepository<CommentFirst,Integer> {
+public interface CommentFirstDAO extends JpaRepository<CommentFirst, Integer> {
     List<CommentFirst> findAllByMessageOrderByCreatetimeDesc(Message message);
 
     int countByIdNot(int id);

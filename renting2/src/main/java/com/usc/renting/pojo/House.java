@@ -26,10 +26,9 @@ public class House {
     int id;
 
     @ManyToOne
-    @JoinColumn(name="hid")
+    @JoinColumn(name = "hid")
     private Householder householder;
 
-    //如果既没有指明 关联到哪个Column,又没有明确要用@Transient忽略，那么就会自动关联到表对应的同名字段
     private String location;
     private String price;
     private String remark;
@@ -38,6 +37,15 @@ public class House {
     private String state;
     private int colnum;
     private int scannum;
+
+    @Transient
+    private HouseImage firstHouseImage;
+    @Transient
+    private List<HouseImage> houseSingleImages;
+    @Transient
+    private List<HouseImage> houseDetailImages;
+    @Transient
+    private int reviewCount;
 
     public int getScannum() {
         return scannum;
@@ -62,16 +70,6 @@ public class House {
     public void setState(String state) {
         this.state = state;
     }
-
-    @Transient
-    private HouseImage firstHouseImage;
-
-    @Transient
-    private List<HouseImage> houseSingleImages;
-    @Transient
-    private List<HouseImage> houseDetailImages;
-    @Transient
-    private int reviewCount;
 
     public int getReviewCount() {
         return reviewCount;

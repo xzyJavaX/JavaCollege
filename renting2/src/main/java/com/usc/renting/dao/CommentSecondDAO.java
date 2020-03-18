@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CommentSecondDAO extends JpaRepository<CommentSecond,Integer> {
+public interface CommentSecondDAO extends JpaRepository<CommentSecond, Integer> {
     List<CommentSecond> findAllByCommentFirstOrderByCreatetimeDesc(CommentFirst commentFirst);
 
     int countByIdNot(int id);

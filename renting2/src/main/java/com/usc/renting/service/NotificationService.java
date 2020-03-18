@@ -21,7 +21,7 @@ public class NotificationService {
     @Autowired
     NotificationDAO notificationDAO;
 
-    public void addCommentFirst(Integer nid,Integer rid,Integer fid,Integer cid){
+    public void addCommentFirst(Integer nid, Integer rid, Integer fid, Integer cid) {
         Notification notification = new Notification();
         notification.setNotifier(nid);
         notification.setReceiver(rid);
@@ -33,7 +33,7 @@ public class NotificationService {
         notificationDAO.save(notification);
     }
 
-    public void addCommentSecond(Integer nid,Integer rid,Integer fid,Integer cid){
+    public void addCommentSecond(Integer nid, Integer rid, Integer fid, Integer cid){
         Notification notification = new Notification();
         notification.setNotifier(nid);
         notification.setReceiver(rid);
@@ -45,49 +45,45 @@ public class NotificationService {
         notificationDAO.save(notification);
     }
 
-    public List<Notification> getAllByReceiver(Integer id){
-        return notificationDAO.getAllByReceiver(id);
-    }
-
     @Transactional
     public void deleteAllNotifi(Integer id){
         notificationDAO.deleteAllByReceiver(id);
     }
 
     public void readAllNotifi(Integer id){
-        List<Notification> notifications = notificationDAO.getAllByReceiverAndStatusEquals(id,"未读");
+        List<Notification> notifications = notificationDAO.getAllByReceiverAndStatusEquals(id, "未读");
         for (Notification notification : notifications){
             notification.setStatus("已读");
             notificationDAO.save(notification);
         }
     }
 
-    public Page4Navigator<Notification> list(Integer id,String status, int start, int size, int navigatePages) {
+    public Page4Navigator<Notification> list(Integer id, String status, int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
         Page<Notification> pageFromJPA;
         if (status.equals("all")) {
-            pageFromJPA =notificationDAO.findAllByReceiver(id,pageable);
+            pageFromJPA = notificationDAO.findAllByReceiver(id, pageable);
         }
         else{
-            pageFromJPA = notificationDAO.findAllByReceiverAndStatusEquals(id,status,pageable);
+            pageFromJPA = notificationDAO.findAllByReceiverAndStatusEquals(id, status, pageable);
         }
-        return new Page4Navigator<>(pageFromJPA,navigatePages);
+        return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
-    public int countByReceiverAndStatusEquals(Integer id,String status){
-        return notificationDAO.countByReceiverAndStatusEquals(id,status);
+    public int countByReceiverAndStatusEquals(Integer id, String status) {
+        return notificationDAO.countByReceiverAndStatusEquals(id, status);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         notificationDAO.delete(id);
     }
 
-    public Notification get(Integer id){
+    public Notification get(Integer id) {
         return notificationDAO.getOne(id);
     }
 
-    public void update(Notification notification){
+    public void update(Notification notification) {
         notificationDAO.save(notification);
     }
 }

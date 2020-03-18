@@ -16,19 +16,20 @@ public class CommentFirstService {
     public void add(CommentFirst commentFirst){
         commentFirstDAO.save(commentFirst);
     }
-    public List<CommentFirst> findAllByMessage(Message message){
 
+    public List<CommentFirst> findAllByMessage(Message message) {
         return commentFirstDAO.findAllByMessageOrderByCreatetimeDesc(message);
     }
-    public CommentFirst get(Integer id){
+
+    public CommentFirst get(Integer id) {
         return commentFirstDAO.getOne(id);
     }
 
-    public void update(CommentFirst commentFirst){
+    public void update(CommentFirst commentFirst) {
         commentFirstDAO.save(commentFirst);
     }
 
-    public int countAll(){
+    public int countAll() {
         return commentFirstDAO.countByIdNot(0);
     }
 }

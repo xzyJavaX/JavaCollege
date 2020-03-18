@@ -6,8 +6,8 @@ import com.usc.renting.pojo.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface UserDAO extends JpaRepository<User,Integer>{
-    //    根据tel查询对应的User，用于注册
+public interface UserDAO extends JpaRepository<User, Integer>{
+    // 根据tel查询对应的User，用于注册
     User findByTel(String tel);
 
     User findByTelAndPassword(String tel,String password);

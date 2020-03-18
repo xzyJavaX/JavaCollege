@@ -16,19 +16,20 @@ public class Message {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="uid")
+    @JoinColumn(name = "uid")
     private User user;
 
     private String content;
-    private int comment_count=0;
-    private int view_count=0;
-    private int like_count=0;
+    private int comment_count = 0;
+    private int view_count = 0;
+    private int like_count = 0;
     private Date createtime;
 
-    //总热度
+    // 总热度
     @Transient
     private int sum;
-//    排名
+
+    // 排名
     @Transient
     private int rank;
 

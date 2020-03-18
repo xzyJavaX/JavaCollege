@@ -22,7 +22,6 @@ import java.util.List;
 
 @Service
 public class UserService {
-
     @Autowired
     UserDAO userDAO;
     @Autowired
@@ -32,53 +31,53 @@ public class UserService {
     @Autowired
     CommentSecondDAO commentSecondDAO;
 
-//    查询用户所有分页信息
+    // 查询用户所有分页信息
     public Page4Navigator<User> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(start, size,sort);
+        Pageable pageable = new PageRequest(start, size, sort);
         Page pageFromJPA =userDAO.findAll(pageable);
-        return new Page4Navigator<>(pageFromJPA,navigatePages);
+        return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
-//    根据用户等级查询所有分页信息
+    // 根据用户等级查询所有分页信息
     public Page4Navigator<User> list1(int start, int size, int navigatePages,String position) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(start, size,sort);
-        Page pageFromJPA =userDAO.findAllByPositionEquals(pageable,position);
-        return new Page4Navigator<>(pageFromJPA,navigatePages);
+        Pageable pageable = new PageRequest(start, size, sort);
+        Page pageFromJPA = userDAO.findAllByPositionEquals(pageable, position);
+        return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
-//    用于注册，根据tel判断是否存在该user
+    // 用于注册，根据tel判断是否存在该user
     public boolean isExist(String tel) {
         User user = userDAO.findByTel(tel);
-        return null!=user;
+        return null != user;
     }
 
     public void add(User user) {
         userDAO.save(user);
     }
 
-//    登录
+    // 登录
     public User get(String tel, String password) {
-        return userDAO.findByTelAndPassword(tel,password);
+        return userDAO.findByTelAndPassword(tel, password);
     }
 
-    public void update(User user){
+    public void update(User user) {
         userDAO.save(user);
     }
 
-    public User get(int id){
+    public User get(int id) {
         return userDAO.getOne(id);
     }
 
-    public int countAll(){
+    public int countAll() {
         return userDAO.countByIdNot(0);
     }
 
-    public int countChatroom(){
+    public int countChatroom() {
         List<User> users = userDAO.findAll();
         int sum = 0;
-        for (User user: users){
+        for (User user : users) {
             if (messageDAO.countByUser(user)!=0||commentFirstDAO.countByUser(user)!=0||commentSecondDAO.countByUser(user)!=0)
                 sum++;
         }

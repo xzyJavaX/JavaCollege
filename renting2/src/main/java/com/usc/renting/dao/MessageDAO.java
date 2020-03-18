@@ -6,8 +6,7 @@ import com.usc.renting.pojo.User;
 
 import java.util.List;
 
-public interface MessageDAO extends JpaRepository<Message,Integer> {
-
+public interface MessageDAO extends JpaRepository<Message, Integer> {
     List<Message> findAll();
 
     List<Message> findAllByUserOrderByIdDesc(User user);

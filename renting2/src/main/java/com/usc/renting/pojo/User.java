@@ -21,6 +21,15 @@ public class User {
     private int id;
 
     private String password;
+    private String position;
+    private String tel;
+
+    @Transient
+    private String name;
+    @Transient
+    private String vx;
+    @Transient
+    private String qq;
 
     public String getPosition() {
         return position;
@@ -37,19 +46,6 @@ public class User {
     public void setTel(String tel) {
         this.tel = tel;
     }
-
-    private String position;
-    private String tel;
-
-    @Transient
-    private String anonymousName;
-
-    @Transient
-    private String name;
-    @Transient
-    private String vx;
-    @Transient
-    private String qq;
 
     public String getQq() {
         return qq;

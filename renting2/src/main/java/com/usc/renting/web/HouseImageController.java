@@ -30,23 +30,23 @@ public class HouseImageController {
     @Autowired HouseService houseService;
     @Autowired HouseImageService houseImageService;
     @Autowired HouseholderService householderService;
-//1.获取图片
+    // 1.获取图片
     @GetMapping("/houses/{hid}/houseImages")
     public List<HouseImage> list(@RequestParam("type") String type, @PathVariable("hid") int hid) throws Exception {
         House house = houseService.get(hid);
         if(HouseImageService.type_single.equals(type)) {
-            List<HouseImage> singles =  houseImageService.listSingleHouseImages(house);
+            List<HouseImage> singles = houseImageService.listSingleHouseImages(house);
             return singles;
         }
         else if(HouseImageService.type_detail.equals(type)) {
-            List<HouseImage> details =  houseImageService.listDetailHouseImages(house);
+            List<HouseImage> details = houseImageService.listDetailHouseImages(house);
             return details;
         }
         else {
             return new ArrayList<>();
         }
     }
-//2.上传图片
+    // 2.上传图片
     @PostMapping("/houseImages")
     public Object add(@RequestParam("hid") int hid, @RequestParam("type") String type, MultipartFile image, HttpServletRequest request) throws Exception {
         HouseImage bean = new HouseImage();
@@ -54,22 +54,24 @@ public class HouseImageController {
         bean.setHouse(house);
         bean.setType(type);
         houseImageService.add(bean);
-//        本地
-//        String folder = "img/";
+        // 本地
+        // String folder = "img/";
 
-//        服务器
+        // 服务器
         String folder="/";
+
         if (HouseImageService.type_single.equals(bean.getType())) {
             folder += "houseSingle";
         } else {
             folder += "houseDetail";
         }
-//        本地
-//        获取本机上的绝对路径
-//        File img1 = new File(request.getServletContext().getResource(folder).getPath());
-//        File imageFolder = new File(img1.getAbsolutePath());
 
-//        服务器
+        // 本地
+        // 获取本机上的绝对路径
+        // File img1 = new File(request.getServletContext().getResource(folder).getPath());
+        // File imageFolder = new File(img1.getAbsolutePath());
+
+        // 服务器
         File imageFolder = new File("/home/wwwroot/ftptest/nginx/img/renting"+folder);
 
         File file = new File(imageFolder, bean.getId() + ".jpg");
@@ -84,12 +86,12 @@ public class HouseImageController {
             e.printStackTrace();
         }
         if (HouseImageService.type_single.equals(bean.getType())) {
-//            本地
-//            获取本机上的绝对路径
-//            String imageFolder_small = request.getServletContext().getResource("/img/houseSingle_small").getPath();
-//            String imageFolder_middle = request.getServletContext().getResource("/img/houseSingle_middle").getPath();
+            // 本地
+            // 获取本机上的绝对路径
+            // String imageFolder_small = request.getServletContext().getResource("/img/houseSingle_small").getPath();
+            // String imageFolder_middle = request.getServletContext().getResource("/img/houseSingle_middle").getPath();
 
-//            服务器
+            // 服务器
             String imageFolder_small = "/home/wwwroot/ftptest/nginx/img/renting/houseSingle_small";
             String imageFolder_middle ="/home/wwwroot/ftptest/nginx/img/renting/houseSingle_middle";
 
@@ -101,36 +103,37 @@ public class HouseImageController {
             ImageUtil.resizeImage(file, 217, 190, f_middle);
         }
         return bean;
-        }
-//3.删除图片
+    }
+
+        // 3.删除图片
         @DeleteMapping("/houseImages/{id}")
-        public String delete ( @PathVariable("id") int id, HttpServletRequest request)  throws Exception {
+        public String delete (@PathVariable("id") int id, HttpServletRequest request) throws Exception {
             HouseImage bean = houseImageService.get(id);
             houseImageService.delete(id);
-//            本地
-//            String folder = "/img/";
+            // 本地
+            // String folder = "/img/";
 
-//            服务器
+            // 服务器
             String folder="/";
             if (HouseImageService.type_single.equals(bean.getType()))
                 folder += "houseSingle";
             else
                 folder += "houseDetail";
-//本地
-//            File imageFolder = new File(request.getServletContext().getResource(folder).getPath());
+            // 本地
+            // File imageFolder = new File(request.getServletContext().getResource(folder).getPath());
 
-            //        服务器
+            // 服务器
             File imageFolder = new File("/home/wwwroot/ftptest/nginx/img/renting"+folder);
 
             File file = new File(imageFolder, bean.getId() + ".jpg");
             String fileName = file.getName();
             file.delete();
             if (HouseImageService.type_single.equals(bean.getType())) {
-//                本地
-//                String imageFolder_small = request.getServletContext().getRealPath("/img/houseSingle_small");
-//                String imageFolder_middle = request.getServletContext().getRealPath("/img/houseSingle_middle");
+                // 本地
+                // String imageFolder_small = request.getServletContext().getRealPath("/img/houseSingle_small");
+                // String imageFolder_middle = request.getServletContext().getRealPath("/img/houseSingle_middle");
 
-                //            服务器
+                // 服务器
                 String imageFolder_small = "/home/wwwroot/ftptest/nginx/img/renting/houseSingle_small";
                 String imageFolder_middle ="/home/wwwroot/ftptest/nginx/img/renting/houseSingle_middle";
 

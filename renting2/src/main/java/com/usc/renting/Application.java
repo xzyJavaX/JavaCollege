@@ -12,6 +12,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    // 设置Session失效时间
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer(){
         return new EmbeddedServletContainerCustomizer() {

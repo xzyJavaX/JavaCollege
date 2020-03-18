@@ -13,7 +13,7 @@ public class GloabalExceptionHandler {
     public String defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
         e.printStackTrace();
         Class constraintViolationException = Class.forName("org.hibernate.exception.ConstraintViolationException");
-        if(null!=e.getCause()  && constraintViolationException==e.getCause().getClass()) {
+        if(null != e.getCause() && constraintViolationException == e.getCause().getClass()) {
             return "请先删除掉其子项";
         }
         return e.getMessage();

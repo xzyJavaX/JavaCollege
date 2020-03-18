@@ -10,12 +10,11 @@ public class StatisticsService {
     @Autowired
     StatisticsDAO statisticsDAO;
 
-    public Statistics get(Integer id){
+    public Statistics get(Integer id) {
         return statisticsDAO.getOne(id);
     }
 
-    public void update(Statistics statistics){
+    public void update(Statistics statistics) {
         statisticsDAO.save(statistics);
     }
-
 }

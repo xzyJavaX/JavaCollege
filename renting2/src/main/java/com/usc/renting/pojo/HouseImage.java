@@ -23,11 +23,12 @@ public class HouseImage {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="hid")
+    @JoinColumn(name = "hid")
     @JsonBackReference
     private House house;
 
     private String type;
+
     public int getId() {
         return id;
     }

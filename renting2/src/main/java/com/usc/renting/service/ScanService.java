@@ -15,26 +15,22 @@ public class ScanService {
     @Autowired
     ScanDAO scanDAO;
 
-    public void add(User user, House house){
+    public void add(User user, House house) {
         Scan scan = new Scan();
         scan.setUser(user);
         scan.setHouse(house);
         scanDAO.save(scan);
     }
 
-    public List<Scan> getScan(User user){
+    public List<Scan> getScan(User user) {
         return scanDAO.getAllByUserOrderById(user);
     }
 
-    public Scan getByUserAndHouse(User user,House house){
-        return scanDAO.getByUserAndHouse(user,house);
-    }
-
-    public void delete(Scan scan){
+    public void delete(Scan scan) {
         scanDAO.delete(scan);
     }
 
-    public int countScan(){
+    public int countScan() {
         return scanDAO.countByIdIsNot(0);
     }
 }

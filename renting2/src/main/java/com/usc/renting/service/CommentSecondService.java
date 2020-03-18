@@ -14,23 +14,23 @@ public class CommentSecondService {
     @Autowired
     CommentSecondDAO commentSecondDAO;
 
-    public void add(CommentSecond commentSecond){
+    public void add(CommentSecond commentSecond) {
         commentSecondDAO.save(commentSecond);
     }
 
-    public List<CommentSecond> findAllByCommentFirst(CommentFirst commentFirst){
+    public List<CommentSecond> findAllByCommentFirst(CommentFirst commentFirst) {
         return commentSecondDAO.findAllByCommentFirstOrderByCreatetimeDesc(commentFirst );
     }
 
-    public CommentSecond get(Integer id){
+    public CommentSecond get(Integer id) {
         return commentSecondDAO.getOne(id);
     }
 
-    public void update(CommentSecond commentSecond){
+    public void update(CommentSecond commentSecond) {
         commentSecondDAO.save(commentSecond);
     }
 
-    public int countAll(){
+    public int countAll() {
         return commentSecondDAO.countByIdNot(0);
     }
 }

@@ -23,11 +23,11 @@ public class Review {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="uid")
+    @JoinColumn(name = "uid")
     public User user;
 
     @ManyToOne
-    @JoinColumn(name="hid")
+    @JoinColumn(name = "hid")
     private House house;
 
     private String content;

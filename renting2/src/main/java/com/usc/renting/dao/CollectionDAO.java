@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CollectionDAO extends JpaRepository<Collection,Integer> {
+public interface CollectionDAO extends JpaRepository<Collection, Integer> {
     Collection getByUserAndHouse(User user, House house);
+
     List<Collection> getAllByUser(User user);
+
     void deleteAllByHouse(House house);
 }

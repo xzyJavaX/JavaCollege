@@ -15,15 +15,15 @@ public class CommentSecond {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="uid")
+    @JoinColumn(name = "uid")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="cid")
+    @JoinColumn(name = "cid")
     private CommentFirst commentFirst;
 
     private String content;
-    private int like_count=0;
+    private int like_count = 0;
     private Date createtime;
 
     public int getId() {

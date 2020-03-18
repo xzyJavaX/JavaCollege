@@ -19,10 +19,10 @@ public class HouseholderService {
 
     public Page4Navigator<Householder> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-//        定义一个Pageable对象，参数分别为页面数，页面大小，sort
+        // 定义一个Pageable对象，参数分别为页面数，页面大小，sort
         Pageable pageable = new PageRequest(start, size,sort);
-//        直接调用findAll方法
-        Page pageFromJPA =householderDAO.findAll(pageable);
+        // 直接调用findAll方法
+        Page pageFromJPA = householderDAO.findAll(pageable);
         return new Page4Navigator<>(pageFromJPA,navigatePages);
     }
 
@@ -35,7 +35,7 @@ public class HouseholderService {
     }
 
     public Householder get(int id) {
-        Householder c= householderDAO.findOne(id);
+        Householder c = householderDAO.findOne(id);
         return c;
     }
 
@@ -43,17 +43,17 @@ public class HouseholderService {
         householderDAO.save(bean);
     }
 
-    public List<Householder> search(String name){
-        //模糊查询
-        return householderDAO.findByNameLike("%"+name+"%");
+    public List<Householder> search(String name) {
+        // 模糊查询
+        return householderDAO.findByNameLike("%" + name + "%");
     }
 
-//    根据电话找到户主，用于户主-后台管理
-    public Householder findByTel(String tel){
+    // 根据电话找到户主，用于户主-后台管理
+    public Householder findByTel(String tel) {
          return householderDAO.findByTel(tel);
     }
 
-    public int countAll(){
+    public int countAll() {
         return householderDAO.countByIdNot(0);
     }
 }

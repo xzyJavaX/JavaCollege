@@ -14,11 +14,11 @@ public class Collection {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="uid")
+    @JoinColumn(name = "uid")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="hid")
+    @JoinColumn(name = "hid")
     private House house;
 
     public int getId() {

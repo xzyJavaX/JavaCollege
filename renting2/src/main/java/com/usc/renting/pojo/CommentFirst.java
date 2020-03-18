@@ -15,11 +15,11 @@ public class CommentFirst {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="uid")
+    @JoinColumn(name = "uid")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="mid")
+    @JoinColumn(name = "mid")
     private Message message;
 
     private String content;

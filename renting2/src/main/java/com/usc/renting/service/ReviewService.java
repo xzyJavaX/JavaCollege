@@ -15,36 +15,36 @@ public class ReviewService {
     @Autowired ReviewDAO reviewDAO;
     @Autowired HouseService houseService;
 
-    //接收一个House对象，获取评论集合
+    // 接收一个House对象，获取评论集合
     public List<Review> list(House house){
         List<Review> result = reviewDAO.findByHouseOrderByIdDesc(house);
         return result;
     }
 
-    //接收一个House对象，获取评论数
-    public int getCount(House house){
+    // 接收一个House对象，获取评论数
+    public int getCount(House house) {
         return reviewDAO.countByHouse(house);
     }
 
-    public void add(Review review){
+    public void add(Review review) {
         reviewDAO.save(review);
     }
 
-    public void deleleAll(House house){
+    public void deleleAll(House house) {
         reviewDAO.deleteAllByHouse(house);
     }
 
-//    接收一个reviews，把前端用不上的数据置为null
-    public List<Review> getReviews(List<Review> reviews){
+    // 接收一个reviews，把前端用不上的数据置为null
+    public List<Review> getReviews(List<Review> reviews) {
         for (Review review : reviews) {
             review.setHouse(null);
-//            设置reivew对象中的user对象name为null
+            // 设置reivew对象中的user对象name为null
             review.user.setName(null);
         }
         return reviews;
     }
 
-    public int countByUserAndHouse(User user,House house){
-        return reviewDAO.countByUserAndHouse(user,house);
+    public int countByUserAndHouse(User user, House house){
+        return reviewDAO.countByUserAndHouse(user, house);
     }
 }

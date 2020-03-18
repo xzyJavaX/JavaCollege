@@ -19,5 +19,4 @@ public interface NotificationDAO extends JpaRepository<Notification,Integer> {
     List<Notification> getAllByReceiverAndStatusEquals(Integer id,String status);
 
     void deleteAllByReceiver(Integer id);
-
 }
