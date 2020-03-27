@@ -1,10 +1,11 @@
 欢迎来到我的Github，本人是一名21届即将毕业的程序猿，希望我们能相互学习，共同进步
 # 仓库各个部分的介绍：  
 ## 1.renting1  
-    租房项目1.0版本，部分前端借鉴了how2j的天猫商城，以及bootstrapious的后台管理模板。(上传的是没有使用中间件的版本,方便你们跑起来)
+    租房项目1.0版本，只有普通用户与管理员，实现了部分核心功能  
+部分前端借鉴了how2j的天猫商城，以及bootstrapious的后台管理模板。上传的是没有使用中间件的版本,方便你们跑起来  
 技术栈：    
 后端：Spring Boot + Spring + Spring MVC + Spring Data JPA  
-前端：Vue.js + jQuery + axios + Thymeleaf + Bootstrap  
+前端：Vue.js + jQuery + axios  
 中间件：Redis + Elasticsearch + Nginx + Shiro  
 数据库：Mysql
 
