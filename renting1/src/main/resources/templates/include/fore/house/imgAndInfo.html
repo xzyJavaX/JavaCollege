@@ -1,0 +1,239 @@
+<div th:fragment="html">
+    <script>
+        $(function(){
+            var hid = getUrlParms("hid");
+            var data4Vue = {
+                uri:'forehouse',
+                p:'',
+
+                firstHouseImage:null,
+                reviews:[],
+
+                content:''
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    this.list();
+                },
+                methods: {
+                    list:function(){
+                        var url =  this.uri+"/"+hid;
+                        axios.get(url).then(function(response) {
+                            var result = response.data;
+                            vue.p=result.data.house;
+//                            var z=result.data.x;
+//                            vue.pvs=result.data.pvs;
+                            vue.reviews=result.data.reviews;
+
+//                            vue.householder = vue.p.householder;
+                            vue.firstHouseImage = vue.p.firstHouseImage;
+
+                            vue.$nextTick(function(){
+                                imgAndInfoPageRegisterListeners(vue);
+                            })
+                        });
+                    },
+                    view:function () {
+
+
+//                         var url = view
+                        var url =  "view?hid="+hid+"&content="+this.content;
+                        axios.post(url).then(function (response) {
+
+                            var result = response.data;
+                            alert("评论成功");
+                            location.href="house?hid="+hid;
+
+
+                        })
+
+//                        alert(x);
+                    }
+
+                }
+            });
+
+        });
+
+
+        function imgAndInfoPageRegisterListeners(vue){
+
+            $("img.smallImage").mouseenter(function(){
+                var bigImageURL = $(this).attr("bigImageURL");
+                $("img.bigImg").attr("src",bigImageURL);
+            });
+
+            $("img.bigImg").load(
+                function(){
+                    $("img.smallImage").each(function(){
+                        var bigImageURL = $(this).attr("bigImageURL");
+                        img = new Image();
+                        img.src = bigImageURL;
+                        img.onload = function(){
+                            $("div.img4load").append($(img));
+                        };
+                    });
+                }
+            );
+
+            Vue.filter('formatDateFilter', function (value, formatString) {
+                if(null==value)
+                    return "";
+                formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+                return moment(value).format(formatString);
+            });
+
+        }
+    </script>
+
+
+
+
+    <!--单个图片和详细介绍部分-->
+    <div class="productPageDiv">
+    <div class="imgAndInfo">
+        <div class="imgInimgAndInfo">
+            <!--本地-->
+            <img v-if="firstHouseImage!=null" :src="'img/houseSingle/'+firstHouseImage.id+'.jpg'" class="bigImg">
+            <!--服务器-->
+            <!--<img v-if="firstHouseImage!=null" :src="'http://116.62.79.166:8080/img/renting/houseSingle/'+firstHouseImage.id+'.jpg'" class="bigImg">-->
+
+            <div class="smallImageDiv">
+                <!--本地-->
+                <img v-for="pi in p.houseSingleImages" :src="'img/houseSingle_small/'+pi.id+'.jpg'" :bigImageURL="'img/houseSingle/'+pi.id+'.jpg'" class="smallImage">
+                <!--服务器-->
+                <!--<img v-for="pi in p.houseSingleImages" :src="'http://116.62.79.166:8080/img/renting/houseSingle_small/'+pi.id+'.jpg'" :bigImageURL="'http://116.62.79.166:8080/img/renting/houseSingle/'+pi.id+'.jpg'" class="smallImage">-->
+            </div>
+            <div class="img4load hidden" ></div>
+        </div>
+
+        <div class="infoInimgAndInfo">
+            <div class="productTitle">
+                房屋详情
+            </div>
+            <div class="productSubTitle">
+                房源可靠
+            </div>
+            <div class="productPrice">
+                <div class="juhuasuan">
+                    <span class="juhuasuanBig">平价套房</span>
+                    <span>让您不花一分冤枉钱</span>
+                </div>
+                <div class="productPriceDiv">
+                    <div class="promotionDiv">
+                        <span class="promotionPriceDesc">价格 </span>
+                        <span class="promotionPriceYuan">¥</span>
+                        <span class="promotionPrice">
+                        {{p.price}}
+                    </span>
+                    </div>
+                    <div class="promotionDiv">
+                        <span class="promotionPriceDesc">位置 </span>
+
+                        <span class="promotionPrice">
+                        {{p.location}}
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="productSaleAndReviewNumber">
+                <div>房间总数 <span class="redColor boldWord"> {{p.num}}</span></div>
+                <div>累计评价 <span class="redColor boldWord"> {{p.reviewCount}}</span></div>
+            </div>
+            <div class="serviceCommitment">
+                <span class="serviceCommitmentLink">
+                    <div><a href="#nowhere">户主：{{p.householder.name}}  </a></div>
+                    <div> <a href="#nowhere">  电话：{{p.householder.tel}}</a></div>
+                    <div> <a href="#nowhere">qq：{{p.householder.qq}}</a></div>
+                    <div>  <a href="#nowhere">微信：{{p.householder.vx}}</a></div>
+                    <div>  <a href="#nowhere">备注：{{p.remark}}</a></div>
+            </span>
+            </div>
+            <div class="buyDiv">
+                <a href="#nowhere" class="buyLink">创建时间：{{p.createDate | formatDateFilter}}</a>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    </div>
+
+
+    <div class="reviewDiv">
+        <div class="reviewStasticsDiv">
+            <div class="reviewStasticsRight">
+                <div class="reviewStasticsRightEmpty"></div>
+                <div class="reviewStasticsFoot"></div>
+            </div>
+        </div>
+        <div class="makeReviewDiv">
+            <form  method="post">
+                <div class="makeReviewText">如果您了解此房源，可以来评价一下哦！</div>
+                <table class="makeReviewTable">
+                    <tbody><tr>
+                        <td class="makeReviewTableFirstTD">评价本房</td>
+                        <td><textarea name="content" v-model="content"></textarea></td>
+                    </tr>
+                    </tbody></table>
+                <div class="makeReviewButtonDiv">
+                    <input type="hidden" value="952" name="oid">
+                    <input type="hidden" value="256" name="pid">
+                    <button type="button" @click="view()">提交</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--详细图片部分-->
+    <div class="productDetailDiv"  >
+        <div class="productDetailTopPart">
+            <a href="#nowhere" class="productDetailTopPartSelectedLink selected">详细图片</a>
+        </div>
+
+        <div class="productDetailImagesPart">
+            <!--本地-->
+            <img v-for="pi in p.houseDetailImages" :src="'img/houseDetail/'+pi.id+'.jpg'">
+
+            <!--服务器-->
+            <!--<img v-for="pi in p.houseDetailImages" :src="'http://116.62.79.166:8080/img/renting/houseDetail/'+pi.id+'.jpg'">-->
+        </div>
+    </div>
+
+
+
+    <!--评论部分-->
+    <div class="productPageDiv">
+        <div class="productReviewDiv" style="display: block;">
+            <div class="productReviewTopPart">
+                <!--<a class="productReviewTopPartSelectedLink" href="#nowhere">商品详情</a>-->
+                <a class="selected" href="#nowhere">累计评价 <span class="productReviewTopReviewLinkNumber">{{p.reviewCount}}</span> </a>
+            </div>
+            <div class="productReviewContentPart">
+                <div class="productReviewItem" v-for="r in reviews">
+                    <div class="productReviewItemDesc">
+                        <div class="productReviewItemContent">
+                            {{r.content }}
+                        </div>
+                        <div class="productReviewItemDate">
+                            {{r.createDate|formatDateFilter('YYYY-MM-DD')}}
+                        </div>
+                    </div>
+                    <div class="productReviewItemUserInfo">
+                        {{r.user.anonymousName}}<span class="userInfoGrayPart">（匿名）</span>
+                    </div>
+
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

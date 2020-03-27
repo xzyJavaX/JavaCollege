@@ -1,0 +1,17 @@
+<div th:fragment="html">
+
+
+    <!--<title>模仿天猫官网 &#45;&#45; {{p.name}}</title>-->
+    <!--<div class="categoryPictureInProductPageDiv">-->
+    <!--<img v-if="category!=null" class="categoryPictureInProductPage" :src="'img/category/'+category.id+'.jpg'">-->
+    <!--</div>-->
+
+
+    <div id="workingArea">
+    <div th:replace="include/fore/house/imgAndInfo::html" ></div>
+    <!--<div th:replace="include/fore/product/productReview::html" ></div>-->
+    <!--<div th:replace="include/fore/product/productDetail::html" ></div>-->
+
+    <!--<div style="clear:both"></div>-->
+    </div>
+</div>

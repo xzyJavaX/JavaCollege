@@ -1,0 +1,123 @@
+<div th:fragment="html">
+    <script>
+        $(function(){
+            var data4Vue = {
+                uri:'forelogin',
+                result: [],
+                user:{name:'', password:''}
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){
+
+                },
+                methods: {
+                    login:function(){
+                        var url =  this.uri;
+                        if(0==this.user.name.length){
+                            $("span.errorMessage").html("请输入您的邮箱");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+                        if(0==this.user.password.length){
+                            $("span.errorMessage").html("请输入密码");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+                        var reg=new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
+                        if(!reg.test(this.user.name)){
+                            $("span.errorMessage").html("电子邮箱格式错误");
+                            $("div.registerErrorMessageDiv").css("visibility","visible");
+                            return;
+                        }
+
+                        axios.post(url,this.user).then(function(response) {
+                            var result = response.data;
+                            if(result.code==0){
+                                alert("登录成功，即将跳转到首页");
+                                location.href="home";
+                            }
+                            else{
+                                $("span.errorMessage").html(result.message);
+                                $("div.registerErrorMessageDiv").css("visibility","visible");
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+    <div class="page login-page" id="workingArea">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>USC</h1>
+                                </div>
+                                <p>欢迎来到南华大学校园租房网</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Panel    -->
+                    <div class="col-lg-6 bg-white">
+
+                        <div class="form d-flex align-items-center">
+
+                            <div class="content">
+
+                                <div class="registerErrorMessageDiv">
+                                    <div class="alert alert-info" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                                        <span class="errorMessage"></span>
+                                    </div>
+                                </div>
+
+                                <table class="loginTable">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                邮箱
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.name" placeholder="请输入您的邮箱" class="input-material">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                密码
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input v-model="user.password"  type="password"  placeholder="请输入密码" class="input-material">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="form-group" align="center">
+                                    <button  @click="login" type="submit" class="btn btn-primary">登录</button>
+                                </div>
+                                <small>还没有账号? </small><a href="register.html" class="signup">注册</a>
+                                <div><small>忘记密码? </small><a href="updatepd.html" class="signup">重置密码</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </body>
+</div>
