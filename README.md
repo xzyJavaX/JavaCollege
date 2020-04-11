@@ -7,7 +7,7 @@
 技术栈：    
 后端：Spring Boot + Spring + Spring MVC + Spring Data JPA  
 前端：Vue.js + jQuery + axios  
-中间件：Redis + Elasticsearch + Nginx
+中间件：Redis + Elasticsearch + Nginx  
 数据库：Mysql
 
 项目URL：http://www.javax.org.cn:8888/renting/chatroom
