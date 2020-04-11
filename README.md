@@ -4,7 +4,6 @@
 # 仓库各个部分的介绍：  
 ## 1.renting1  
     租房项目1.0版本，只有普通用户与管理员，实现了部分核心功能  
-上传的是没有使用中间件的版本,方便你们跑起来  
 技术栈：    
 后端：Spring Boot + Spring + Spring MVC + Spring Data JPA  
 前端：Vue.js + jQuery + axios  
