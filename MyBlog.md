@@ -9,7 +9,7 @@
 * [框架与中间件](https://note.youdao.com/ynoteshare1/index.html?id=6588c7c98832f4f37f06154e791176b9&type=notebook)  
 * [操作系统](https://note.youdao.com/ynoteshare1/index.html?id=a04b0a88cee893ddeb6e89f4563bbe80&type=notebook)  
 * [网络](https://note.youdao.com/ynoteshare1/index.html?id=10412967b9fe4f98d284d0226428a9df&type=notebook)  
-* [笔试面试题](https://note.youdao.com/ynoteshare1/index.html?id=5ccbd4606f3d73d1655f0e8a64844dbe&type=notebook)  
+* [笔试题](https://note.youdao.com/ynoteshare1/index.html?id=5ccbd4606f3d73d1655f0e8a64844dbe&type=notebook)  
 
 全部笔记：  
 https://note.youdao.com/ynoteshare1/index.html?id=b235ddd62b125f5b324b9d1046d74141&type=notebook
