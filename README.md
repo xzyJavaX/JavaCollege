@@ -31,13 +31,8 @@
 **还有我自己的私人武器库，有机会会给大家分享的，嘻嘻**
 ![](http://116.62.79.166:8080/github/youdao2.jpg)
 
-## 4.traffic-springboot
-一些图片：  
-http://116.62.79.166:8080/traffic/1.jpg  
-http://116.62.79.166:8080/traffic/2.jpg  
-http://116.62.79.166:8080/traffic/3.jpg  
-http://116.62.79.166:8080/traffic/4.jpg  
-http://116.62.79.166:8080/traffic/5.jpg
+## 4.traffic-springboot  
+项目URL：http://116.62.79.166:8080/traffic/dist/index.html#/
 
 
 ## 5.usc_se
