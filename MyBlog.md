@@ -18,3 +18,14 @@ https://note.youdao.com/ynoteshare1/index.html?id=b235ddd62b125f5b324b9d1046d741
 ![](http://116.62.79.166:8080/github/youdao2.jpg)
 
 
+Java基础
+
+- 1-集合
+- 2-多线程
+- N-其他
+- [A-常识](https://www.baidu.com/)
+- B-常见接口与类
+- C-常见方法
+- D-常见关键字
+- N-面试题
+
