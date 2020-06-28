@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/AobingJava/JavaFamily" target="_blank">
-        <img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g98588lrx2j305k05kgm0.jpg" width=""/>
+        <img src="http://116.62.79.166:8080/github/JavaCollege/head.png" width=""/>
     </a>
 </p>  
 
