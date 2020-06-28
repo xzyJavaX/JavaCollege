@@ -18,6 +18,3 @@ https://note.youdao.com/ynoteshare1/index.html?id=b235ddd62b125f5b324b9d1046d741
 ![](http://116.62.79.166:8080/github/youdao2.jpg)
 
 
-![](C:\Users\Administrator\Desktop\1.jpg.png)
-
-12312312312
