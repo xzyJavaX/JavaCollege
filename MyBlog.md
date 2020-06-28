@@ -18,14 +18,46 @@ https://note.youdao.com/ynoteshare1/index.html?id=b235ddd62b125f5b324b9d1046d741
 ![](http://116.62.79.166:8080/github/youdao2.jpg)
 
 
-Java基础
+### Java基础
 
-- 1-集合
-- 2-多线程
-- N-其他
-- [A-常识](https://www.baidu.com/)
-- B-常见接口与类
-- C-常见方法
-- D-常见关键字
-- N-面试题
+- 集合
+  - [集合概述]()
+  - List子类
+  - Map子类
+  - Set子类
+  - Iterator与工具类
+- 多线程
+  - 概述
+  - ThreadAPI
+  - 锁机制,两种锁的使用
+  - AQS与Lock
+  - 线程池与死锁
+  - ThreadLocal与Atomic
+- 其他知识点
+  - 泛型
+  - 内部类与Lambda
+  - 异常
+  - 反射
+  - IO与序列化
+  - 数组，String，其他API
+  - Stream流
+  - 其它
+- [常识](https://www.baidu.com/)
+- 常见接口与类
+- 常见方法
+- 常见关键字
+- 面试题
+
+### 算法
+
+- 算法基础
+- 剑指Offer
+- LeetCode_Hot199
+- LeetCode无限闯关模式
+- [常识]()
+- [小技巧]()
+- [常用API]()
+- [手写代码注意事项]()
+
+
 
