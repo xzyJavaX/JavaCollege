@@ -6,7 +6,7 @@
 ### Java基础(字数:96766，统计时间:2020.6.28)
 
 - 集合
-  - [集合概述]()
+  - [集合概述](https://note.youdao.com/ynoteshare1/index.html?id=db92a313c1c907e7d40531dca9300570&type=note)
   - List子类
   - Map子类
   - Set子类
