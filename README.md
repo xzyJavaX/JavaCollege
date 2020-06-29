@@ -9,9 +9,9 @@
 ## 1.renting1  
     租房项目1.0版本，只有普通用户与管理员，实现了部分核心功能  
 技术栈：    
-后端：Spring Boot + Spring + Spring MVC + Spring Data JPA  
-前端：Vue.js + jQuery + axios  
-中间件：Redis + Elasticsearch + Nginx  
+后端：Spring Boot  
+前端：Vue.js  
+中间件：Redis + Elasticsearch + Shiro + Nginx  
 数据库：Mysql
 
 项目URL：http://www.javax.org.cn:8888/renting/chatroom
@@ -27,13 +27,28 @@
 7.新增-后台审核房源  
 8.新增-后台核心数据统计
 
-## 3.Java校招复习资料+笔试面试题.md(MyBlog.md内容和这个一致)
-**这是我在准备校招的过程中，自己写的一些笔记，当然这里面也借鉴了许多大佬的书籍和博客。我每天都会更新的，点星星关注一下哦！  
-另外，我希望这些笔记是真的能让你学到知识，而不是用来应付笔试面试。
-内容大体如下：**
-![](http://116.62.79.166:8080/github/youdao1.jpg)
-**还有我自己的私人武器库，有机会会给大家分享的，嘻嘻**
-![](http://116.62.79.166:8080/github/youdao2.jpg)
+## 3.MyBlog.md
+个人博客，包含：
+
+Java基础
+
+算法
+
+数据结构
+
+数据库MySQL
+
+JVM
+
+设计模式
+
+网络
+
+操作系统
+
+框架与中间件
+
+笔试题
 
 ## 4.traffic-springboot  
 项目URL：http://116.62.79.166:8080/traffic/dist/index.html#/
