@@ -1,4 +1,4 @@
-## 21届Java校招交流群，感兴趣的小伙伴可以进来看看。群号1023539451；二维码： 
+## 21届Java校招交流群，群号1023539451，二维码： 
 
 <p align="center">
     <img src="http://116.62.79.166:8080/github/JavaCollege/qq.png" width=""/>
