@@ -11,7 +11,7 @@
 技术栈：    
 后端：Spring Boot  
 前端：Vue.js  
-中间件：Redis + Elasticsearch + Shiro + Nginx  
+中间件：Redis + Elasticsearch + Nginx  
 数据库：Mysql
 
 项目URL：http://www.javax.org.cn:8888/renting/chatroom
