@@ -58,6 +58,7 @@ JVM
 项目源码：  
 ![](http://116.62.79.166:8080/github/JavaCollege/fwwb2.png)  
 项目架构：  
+![](http://116.62.79.166:8080/github/JavaCollege/fwwb4.png)  
 ![](http://116.62.79.166:8080/github/JavaCollege/fwwb3.png)
 
 ## 5.usc_se
