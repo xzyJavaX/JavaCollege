@@ -91,7 +91,7 @@
 
 ### 设计模式(字数:9465，统计时间:2020.6.28)
 
-- [Demo1(案例代码直接贴在里面)](http://note.youdao.com/noteshare?id=ffd9760489414f5589439bb17dd1d6ec&sub=61C970F2521D40F3B0E226058EAB7FED)
+- [Demo1(案例代码直接贴在里面)](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
 - [Demo2(案例代码在14种设计模式源码里)](http://note.youdao.com/noteshare?id=7ff91751b6863b756f919dc6d41c6acc&sub=ECEFA1041FB9445CA9CCB8AAE791A83D)
 - [基础知识](http://note.youdao.com/noteshare?id=75a4bf44019a966fda46330fd5cd89a8&sub=7A3CD1EAB98F44E8BA55D3768D7B896C)
 - [源码：基于四种设计模式的计算器](http://note.youdao.com/noteshare?id=656e0c9170929c420efce2d18adb4ecb)
