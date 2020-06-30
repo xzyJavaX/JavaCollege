@@ -85,7 +85,7 @@
 ### JVM(字数:22416，统计时间:2020.6.28)
 
 - [《深入理解JVM第二版》](http://note.youdao.com/noteshare?id=5ab284e5890377e7a7c5d6411adff912&sub=DB26237694FB45079BF28B82392CDBFC)
-- [其它](http://note.youdao.com/noteshare?id=5ab284e5890377e7a7c5d6411adff912&sub=DB26237694FB45079BF28B82392CDBFC)
+- [其它](http://note.youdao.com/noteshare?id=fb6f96861946399ff62025a43a75d817&sub=2567BCC8C03C41C19570C2E53AE920DF)
 - [JVM调参和工具](http://note.youdao.com/noteshare?id=821be08194d441d395058d867776f48b&sub=EA0C5A7A54A94F8B89F952110D40E3E6)
 - [面试题](http://note.youdao.com/noteshare?id=ffd9760489414f5589439bb17dd1d6ec&sub=61C970F2521D40F3B0E226058EAB7FED)
 
