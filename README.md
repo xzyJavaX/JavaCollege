@@ -51,7 +51,14 @@ JVM
 笔试题
 
 ## 4.traffic-springboot  
-项目URL：http://116.62.79.166:8080/traffic/dist/index.html#/
+该项目是服务外包的赛题项目  
+项目URL：http://116.62.79.166:8080/traffic/dist/index.html#/  
+赛题所需文件：
+![](http://116.62.79.166:8080/github/JavaCollege/fwwb1.png)
+项目源码：
+![](http://116.62.79.166:8080/github/JavaCollege/fwwb2.png)
+项目架构：
+![](http://116.62.79.166:8080/github/JavaCollege/fwwb3.png)
 
 
 ## 5.usc_se
