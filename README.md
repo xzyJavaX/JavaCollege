@@ -53,13 +53,12 @@ JVM
 ## 4.traffic-springboot  
 该项目是服务外包的赛题项目  
 项目URL：http://116.62.79.166:8080/traffic/dist/index.html#/  
-赛题所需文件：
-![](http://116.62.79.166:8080/github/JavaCollege/fwwb1.png)
-项目源码：
-![](http://116.62.79.166:8080/github/JavaCollege/fwwb2.png)
-项目架构：
+赛题所需文件：  
+![](http://116.62.79.166:8080/github/JavaCollege/fwwb1.png)  
+项目源码：  
+![](http://116.62.79.166:8080/github/JavaCollege/fwwb2.png)  
+项目架构：  
 ![](http://116.62.79.166:8080/github/JavaCollege/fwwb3.png)
-
 
 ## 5.usc_se
 这是一个帮老师们做的用来建设双一流学科的网站（学院作品展览系统），当时是四个同学一起做的，大家一起分析老师的需求，设计表结构，在编码阶段分为后台的前端（我），后台的后端，前台的前端，前台的后端。后端用的是Dubbo，我负责后台界面以及各种接口的调用。  
