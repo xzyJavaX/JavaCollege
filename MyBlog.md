@@ -85,7 +85,7 @@
 ### 数据库MySQL(字数:23152，统计时间:2020.6.28)
 
 - [MySQL](http://note.youdao.com/noteshare?id=a7bc9f0bef952450ba550a25bb6a42be&sub=59F0C67570E144A9A84B320EC952A723)
-- [《高性能MySQL第三版》](http://note.youdao.com/noteshare?id=d63be3d6975dfd9bde43f75f39703e33&sub=836418F9214844C0A8AFE919A10D995E)
+- [索引](http://note.youdao.com/noteshare?id=d63be3d6975dfd9bde43f75f39703e33&sub=836418F9214844C0A8AFE919A10D995E)
 - [数据库基础](http://note.youdao.com/noteshare?id=0971aed7c48411d8ae8dca343b2cf634&sub=66D1AB406F374485A7E824B939055397)
 - [SQL技巧](http://note.youdao.com/noteshare?id=8a688ed941ed690879d81939ace9a761&sub=6066C1AE92DA40C693F9F900C99DF7DC)
 - [力扣SQL](http://note.youdao.com/noteshare?id=720fe3fa0cb400776e131070730ea761&sub=89C95FC5EAE34F31A65041F649A969D8)
