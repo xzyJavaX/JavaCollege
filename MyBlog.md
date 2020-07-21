@@ -94,7 +94,7 @@
 - [力扣SQL](http://note.youdao.com/noteshare?id=720fe3fa0cb400776e131070730ea761&sub=89C95FC5EAE34F31A65041F649A969D8)
 - [面试题](http://note.youdao.com/noteshare?id=54ba816bbc915ff931d390ed0acfa5be&sub=83F9419792FC4FB6A3CF5A93AB5D84A9)
 
-### JVM(字数:25416，统计时间:2020.6.28)
+### JVM(字数:35426，统计时间:2020.7.21)
 
 - [《深入理解JVM第二版》](http://note.youdao.com/noteshare?id=5ab284e5890377e7a7c5d6411adff912&sub=DB26237694FB45079BF28B82392CDBFC)
 - [其它](http://note.youdao.com/noteshare?id=fb6f96861946399ff62025a43a75d817&sub=2567BCC8C03C41C19570C2E53AE920DF)
@@ -127,13 +127,13 @@
 - [其它](http://note.youdao.com/noteshare?id=aff83f274f0843b278913923e1380709&sub=C4FC152B99F24E828A0B2CDB30F97148)
 - [面试题](http://note.youdao.com/noteshare?id=e82bd335b1128a8394a1209532917e69&sub=BECD6E7CC82C4E3E9754D37FC34BC81E)
 
-### Redis
+### Redis(字数:23362，统计时间:2020.7.21)
 
 - [《Redis设计与实现》](http://note.youdao.com/noteshare?id=032fa85793ea5e163bc9be1bde6ee638&sub=5BE98A7230B5413EB883E775BBF60EB0)
 - [常见知识点](http://note.youdao.com/noteshare?id=17387c46518d7a5f77f2399bcb6f1c7c&sub=B438F7E39EC24D0B9BD5773FDB6EBBDA)
 - [面试题](http://note.youdao.com/noteshare?id=3fca81b2153dff190d1a55ef46585933&sub=1C9400C53D4B4D4B8BDA8EF25D1F1CEC)
 
-### 框架与中间件(字数:38548，统计时间:2020.6.28)
+### 框架与中间件(字数:26971，统计时间:2020.7.21)
 
 - Spring & Spring MVC
 
@@ -156,7 +156,7 @@
 - 笔试经历
   - [1~20](http://note.youdao.com/noteshare?id=a9d9d9d256a378bf507c6ad3285fb655&sub=35DC1F32D11D4679A79F5D44FA0061A7)  
 
-## 截止至2020.6.28，累计总字数：341527
+## 截止至2020.7.21，累计总字数：363322
 
 下面这个是我的私人武器库，有机会的话会给大家分享的
 ![](http://116.62.79.166:8080/github/JavaCollege/youdao.jpg)  
