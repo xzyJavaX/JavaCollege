@@ -2,7 +2,9 @@
     <img src="http://116.62.79.166:8080/github/JavaCollege/head.png" width=""/>
 </p>  
 
+
 # 目录(善用Ctrl+F)
+
 - Java基础
 - 算法
 - 数据结构
@@ -13,6 +15,7 @@
 - 操作系统
 - 框架与中间件
 - 笔试题
+
 ### Java基础(字数:96766，统计时间:2020.6.28)
 
 - 集合
@@ -124,12 +127,14 @@
 - [其它](http://note.youdao.com/noteshare?id=aff83f274f0843b278913923e1380709&sub=C4FC152B99F24E828A0B2CDB30F97148)
 - [面试题](http://note.youdao.com/noteshare?id=e82bd335b1128a8394a1209532917e69&sub=BECD6E7CC82C4E3E9754D37FC34BC81E)
 
+### Redis
+
+- [《Redis设计与实现》](http://note.youdao.com/noteshare?id=032fa85793ea5e163bc9be1bde6ee638&sub=5BE98A7230B5413EB883E775BBF60EB0)
+- [常见知识点](http://note.youdao.com/noteshare?id=17387c46518d7a5f77f2399bcb6f1c7c&sub=B438F7E39EC24D0B9BD5773FDB6EBBDA)
+- [面试题](http://note.youdao.com/noteshare?id=3fca81b2153dff190d1a55ef46585933&sub=1C9400C53D4B4D4B8BDA8EF25D1F1CEC)
+
 ### 框架与中间件(字数:38548，统计时间:2020.6.28)
 
-- Redis
-
-  - [《Redis设计与实现》](http://note.youdao.com/noteshare?id=032fa85793ea5e163bc9be1bde6ee638&sub=5BE98A7230B5413EB883E775BBF60EB0)
-  - [常见知识点](http://note.youdao.com/noteshare?id=17387c46518d7a5f77f2399bcb6f1c7c&sub=B438F7E39EC24D0B9BD5773FDB6EBBDA)
 - Spring & Spring MVC
 
   - [IOC基础](http://note.youdao.com/noteshare?id=c9401bffa80e9981541a9e802599805b&sub=842908AB87A648F8B54C085BE4D60CBA)
@@ -137,6 +142,9 @@
   - [Spring如何解决循环依赖](http://note.youdao.com/noteshare?id=4c0dcae97e36d1ca24f36d739bdcccdf&sub=80A9125353004590837A04A5F00678B9)
 - [Spring Boot](http://note.youdao.com/noteshare?id=a0d8ce1ce67be6b92b58e25a802bfe57&sub=671B8DD3666A44EC9F5A3A473BE1EC40)
 - [Spring Cloud](http://note.youdao.com/noteshare?id=95a1399f9466ef59f87f327061c0f881&sub=C8FC4CBF421A422180C736D86973AA17)
+- [RPC&Dubbo](http://note.youdao.com/noteshare?id=3359ddb58c4c2d8ce4b53d924b09e72a&sub=0B8EAA643DE44937A141EDD12D6231FB)
+- [Kafka](http://note.youdao.com/noteshare?id=9967fd5c411b9789449e7be0fc2812bd&sub=5607026E392E46049CCF2CD7BAA26701)
+- [ES](http://note.youdao.com/noteshare?id=aeb370cef07fe75f402202b513bc83b5&sub=7D721D71E0B24AA993D9FBFE33152487)
 - [面试题](http://note.youdao.com/noteshare?id=f613692ed41eda73514f5b8135293a4d&sub=A3978D07B11C4704BCF6D6C5AA7129B2)
 
 ### 笔试题-非算法部分(字数:2361，统计时间:2020.6.28)
@@ -149,8 +157,10 @@
   - [1~20](http://note.youdao.com/noteshare?id=a9d9d9d256a378bf507c6ad3285fb655&sub=35DC1F32D11D4679A79F5D44FA0061A7)  
 
 ## 截止至2020.6.28，累计总字数：341527
+
 下面这个是我的私人武器库，有机会的话会给大家分享的
 ![](http://116.62.79.166:8080/github/JavaCollege/youdao.jpg)  
+
 ## 参考资料(包括但不限于以下部分)：
 
 《Redis设计与实现》
