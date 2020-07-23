@@ -143,7 +143,7 @@
   - [Spring如何解决循环依赖](http://note.youdao.com/noteshare?id=4c0dcae97e36d1ca24f36d739bdcccdf&sub=80A9125353004590837A04A5F00678B9)
 - [Spring Boot](http://note.youdao.com/noteshare?id=a0d8ce1ce67be6b92b58e25a802bfe57&sub=671B8DD3666A44EC9F5A3A473BE1EC40)
 - [Spring Cloud](http://note.youdao.com/noteshare?id=95a1399f9466ef59f87f327061c0f881&sub=C8FC4CBF421A422180C736D86973AA17)
-- [RPC&Dubbo](http://note.youdao.com/noteshare?id=3359ddb58c4c2d8ce4b53d924b09e72a&sub=0B8EAA643DE44937A141EDD12D6231FB)
+- [Dubbo](http://note.youdao.com/noteshare?id=3359ddb58c4c2d8ce4b53d924b09e72a&sub=0B8EAA643DE44937A141EDD12D6231FB)
 - [Kafka](http://note.youdao.com/noteshare?id=9967fd5c411b9789449e7be0fc2812bd&sub=5607026E392E46049CCF2CD7BAA26701)
 - [ES](http://note.youdao.com/noteshare?id=aeb370cef07fe75f402202b513bc83b5&sub=7D721D71E0B24AA993D9FBFE33152487)
 - [面试题](http://note.youdao.com/noteshare?id=f613692ed41eda73514f5b8135293a4d&sub=A3978D07B11C4704BCF6D6C5AA7129B2)
