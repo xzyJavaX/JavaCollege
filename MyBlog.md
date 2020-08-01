@@ -59,7 +59,6 @@
 - 剑指Offer
   - [剑指Offer1](http://note.youdao.com/noteshare?id=2c74fc3e50e8cfe31f6bfe0c59e729e6&sub=5FFE261E55B3468480E313AF84D475BD)
   - [剑指Offer2](http://note.youdao.com/noteshare?id=468fd79ba4a1a53f6d3bb18015874021&sub=AD94B9A9DE4046CC86516500D72069F1)
-  - [总结](http://note.youdao.com/noteshare?id=9b420f2715707532e0fe6d0f373daac3&sub=165B7802FF454096AA64E5C97BCC3578)
 - LeetCode_Hot100
   - [1~20](http://note.youdao.com/noteshare?id=306986852f764050f5ac0dd9d43f3372&sub=4D6204FDCBF449CE8A9B89F13DE71DC5)
   - [21~40](http://note.youdao.com/noteshare?id=1cde6ca839ba02ee4d78fba30d332083&sub=E1B277248A1D4B63BEE60A1667B8BE9D)
