@@ -72,9 +72,6 @@
   - [150-200](http://note.youdao.com/noteshare?id=8df1603e1a735f856c337e99657fc6e7&sub=B91F6A5F53ED4F72A31A45F8744A7301)
   - [200-250](http://note.youdao.com/noteshare?id=35342c12fd9cb5f5ed45fe192dd319b5&sub=132F5F728DD742318F845B7C48738502)
   - [250-∞](http://note.youdao.com/noteshare?id=5bb90e86999c125300b07679fb45d31c&sub=84996D7DDD214F9B9BC6A3375C6C5B5C)
-- [常识与注意事项](http://note.youdao.com/noteshare?id=dfd854adf0367fbe224b25a5f9a28752&sub=22A58193F126438185D921369996BA83)
-- [小技巧](http://note.youdao.com/noteshare?id=b1cac6fd405fe7e04296c900677bb485&sub=062286542EF347F29F0D7AB2234EF9E9)
-- [常用API](http://note.youdao.com/noteshare?id=8275af150e613fb86eed94cedcda7fbe&sub=689F0E6AF8E04FD2A6FC8B9AE65E7E52)
 
 ### 数据结构(字数:20698，统计时间:2020.6.28)
 
