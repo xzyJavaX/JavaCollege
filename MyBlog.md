@@ -30,7 +30,7 @@
   - [ThreadAPI](http://note.youdao.com/noteshare?id=3d8e82f6cdcc1a40d4ddcd170043adc6&sub=42E236073D1A4FC1BFA4C80FD7652B43)
   - [锁机制,两种锁,死锁](http://note.youdao.com/noteshare?id=76f9664f849329f20388038f4acb6988&sub=B7CC385F76E64B0194DED09D4BD37301)
   - [AQS与Lock](http://note.youdao.com/noteshare?id=122a319a7fae0e5ccd4ae2c56978ebb1&sub=44C37BEC99BB46F8891F7581D0ED2ECB)
-  - [线程池](http://note.youdao.com/noteshare?id=b04555accebe8ee6b25be5223cf048da&sub=2211F89C86274672A358B5BAB9224B05)
+  - [线程池]
     - 12312
   - [ThreadLocal与Atomic](http://note.youdao.com/noteshare?id=bf03a0ff3759ed740cb3096442c5bf84&sub=F35423132CEA4933AFD7BD2F73363F40)
 - 其他知识点
