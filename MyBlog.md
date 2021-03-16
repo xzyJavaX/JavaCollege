@@ -17,7 +17,7 @@
 - 框架与中间件
 - 笔试题
 
-### Java基础(字数:96766，统计时间:2020.6.28)
+### Java基础
 
 - 集合
   - [集合概述](https://note.youdao.com/ynoteshare1/index.html?id=db92a313c1c907e7d40531dca9300570&type=note)
@@ -48,7 +48,7 @@
 - [常见关键字](http://note.youdao.com/noteshare?id=d1f054923dc40c57848806a30c69de5e&sub=8EB86AD0EFA44CE4BE26B044DDD62EBA)
 - [面试题](http://note.youdao.com/noteshare?id=1a7c81e6b32f449937bea1a767e3c1b8&sub=3DA3812317324D7B8585FE320ECB5309)
 
-### 算法(字数:73337，统计时间:2020.6.28)
+### 算法
 
 - 算法基础
   - [常识](http://note.youdao.com/noteshare?id=41dfe8ade286904b9abbdd0459fdd7aa&sub=BCD69FF1D94F408F8D19B6D5ED09A16F)
@@ -74,14 +74,14 @@
   - [200-250](http://note.youdao.com/noteshare?id=35342c12fd9cb5f5ed45fe192dd319b5&sub=132F5F728DD742318F845B7C48738502)
   - [250-∞](http://note.youdao.com/noteshare?id=5bb90e86999c125300b07679fb45d31c&sub=84996D7DDD214F9B9BC6A3375C6C5B5C)
 
-### 数据结构(字数:20698，统计时间:2020.6.28)
+### 数据结构
 
 - [基本数据结构](http://note.youdao.com/noteshare?id=337132d6c2749cb3038297a40ac9ccb1&sub=2B83035B6DAE4DFDA7121A51C9483885)
 - [查找](http://note.youdao.com/noteshare?id=75555673bfcd5bffe874fcc5efe713ab&sub=D93EEE870BF5448D940E955F9C8771E8)
 - [排序](http://note.youdao.com/noteshare?id=3994fde839739f25f0273c9e4cadc5f1&sub=C62E91F4E68C4B44B33A15AD2453D237)
 - [其他数据结构](http://note.youdao.com/noteshare?id=2f4cdd435780341f84ab2e4b49e9f62f&sub=CD242B747AB344BA9D023AD51DE46E07)
 
-### 数据库MySQL(字数:23152，统计时间:2020.6.28)
+### 数据库MySQL
 
 - [MySQL](http://note.youdao.com/noteshare?id=a7bc9f0bef952450ba550a25bb6a42be&sub=59F0C67570E144A9A84B320EC952A723)
 - [索引](http://note.youdao.com/noteshare?id=d63be3d6975dfd9bde43f75f39703e33&sub=836418F9214844C0A8AFE919A10D995E)
@@ -90,14 +90,14 @@
 - [力扣SQL](http://note.youdao.com/noteshare?id=720fe3fa0cb400776e131070730ea761&sub=89C95FC5EAE34F31A65041F649A969D8)
 - [面试题](http://note.youdao.com/noteshare?id=54ba816bbc915ff931d390ed0acfa5be&sub=83F9419792FC4FB6A3CF5A93AB5D84A9)
 
-### JVM(字数:35426，统计时间:2020.7.21)
+### JVM
 
 - [《深入理解JVM第二版》](http://note.youdao.com/noteshare?id=5ab284e5890377e7a7c5d6411adff912&sub=DB26237694FB45079BF28B82392CDBFC)
 - [其它](http://note.youdao.com/noteshare?id=fb6f96861946399ff62025a43a75d817&sub=2567BCC8C03C41C19570C2E53AE920DF)
 - [JVM调参和工具](http://note.youdao.com/noteshare?id=821be08194d441d395058d867776f48b&sub=EA0C5A7A54A94F8B89F952110D40E3E6)
 - [面试题](http://note.youdao.com/noteshare?id=ffd9760489414f5589439bb17dd1d6ec&sub=61C970F2521D40F3B0E226058EAB7FED)
 
-### 设计模式(字数:9465，统计时间:2020.6.28)
+### 设计模式
 
 - [Demo1(案例代码直接贴在里面)](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
 - [Demo2(案例代码在14种设计模式源码里)](http://note.youdao.com/noteshare?id=7ff91751b6863b756f919dc6d41c6acc&sub=ECEFA1041FB9445CA9CCB8AAE791A83D)
@@ -106,7 +106,7 @@
 - [源码：cglib源码](http://note.youdao.com/noteshare?id=d2f2b39081446c7de269552ad565b42e)
 - [源码：14种设计模式源码](http://note.youdao.com/noteshare?id=5d10d9a6fe459514d8030d9059a965c1)
 
-### 网络(字数:34733，统计时间:2020.6.28)
+### 网络
 
 - HTTP
   - [《图解HTTP》](http://note.youdao.com/noteshare?id=3fd2ab9d837e41f73ee307dbb6777ade&sub=F3132CAE01F04530BB2A2CBDD2B30A6F)
@@ -117,19 +117,19 @@
 - [常识](http://note.youdao.com/noteshare?id=28a2ed96a5d133bdbf771fb45ecf5a03&sub=3A039C6F3106442A8924DB3EF0BE27E6)
 - [面试题](http://note.youdao.com/noteshare?id=c3886b6e93fd8d68847c9b7711dccc51&sub=2B3BB81CFA374D5194CEC6C3006C1566)
 
-### 操作系统(字数:17051，统计时间:2020.6.28)
+### 操作系统
 
 - [基础](http://note.youdao.com/noteshare?id=f58fd262967536137ab85e874563895c&sub=427ED874B804496BA0AE648A66F8987D)
 - [其它](http://note.youdao.com/noteshare?id=aff83f274f0843b278913923e1380709&sub=C4FC152B99F24E828A0B2CDB30F97148)
 - [面试题](http://note.youdao.com/noteshare?id=e82bd335b1128a8394a1209532917e69&sub=BECD6E7CC82C4E3E9754D37FC34BC81E)
 
-### Redis(字数:23362，统计时间:2020.7.21)
+### Redis
 
 - [《Redis设计与实现》](http://note.youdao.com/noteshare?id=032fa85793ea5e163bc9be1bde6ee638&sub=5BE98A7230B5413EB883E775BBF60EB0)
 - [常见知识点](http://note.youdao.com/noteshare?id=17387c46518d7a5f77f2399bcb6f1c7c&sub=B438F7E39EC24D0B9BD5773FDB6EBBDA)
 - [面试题](http://note.youdao.com/noteshare?id=3fca81b2153dff190d1a55ef46585933&sub=1C9400C53D4B4D4B8BDA8EF25D1F1CEC)
 
-### 框架与中间件(字数:26971，统计时间:2020.7.21)
+### 框架与中间件
 
 - Spring & Spring MVC
   - [IOC基础](http://note.youdao.com/noteshare?id=c9401bffa80e9981541a9e802599805b&sub=842908AB87A648F8B54C085BE4D60CBA)
