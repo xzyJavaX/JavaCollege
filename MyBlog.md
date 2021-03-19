@@ -38,7 +38,10 @@
     - [Gvaua相关](http://note.youdao.com/s/MBd0ek9s)
     - [Future相关](http://note.youdao.com/s/EWweC4BI)
   - [ThreadLocal与Atomic](http://note.youdao.com/noteshare?id=bf03a0ff3759ed740cb3096442c5bf84&sub=F35423132CEA4933AFD7BD2F73363F40)
-
+- Lambda&Stream
+  - [Lambda](http://note.youdao.com/s/BmIRvyC0)
+  - [function包](http://note.youdao.com/s/4QFtjmDZ)
+  - [Stream](http://note.youdao.com/s/QKDwzKXr)
 - [泛型](http://note.youdao.com/noteshare?id=79b663761ffad0cff416c4389df4bdb6&sub=30C39432D3E6492AA283ADFA86A0BDB5)
 - [内部类与Lambda](http://note.youdao.com/noteshare?id=ef6504d89728e41ed3d4f9bdba66a199&sub=18ABFBC7C2394DAFBB5E70EB71E6A2CA)
 - [异常](http://note.youdao.com/noteshare?id=a3c42b743fc5b885f04e5fcc335192cb&sub=6198B50E933E4B9DABF8482A9FD36882)
@@ -103,8 +106,8 @@
 - [面试题](http://note.youdao.com/noteshare?id=ffd9760489414f5589439bb17dd1d6ec&sub=61C970F2521D40F3B0E226058EAB7FED)
 
 ### 设计模式
-
-- [Demo](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
+- [Demo1](http://note.youdao.com/s/GgtrAmtZ)
+- [Demo2](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
 - [基础知识](http://note.youdao.com/noteshare?id=75a4bf44019a966fda46330fd5cd89a8&sub=7A3CD1EAB98F44E8BA55D3768D7B896C)
 
 ### 网络
