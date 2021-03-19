@@ -104,8 +104,7 @@
 
 ### 设计模式
 
-- [Demo1(案例代码直接贴在里面)](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
-- [Demo2(案例代码在14种设计模式源码里)](http://note.youdao.com/noteshare?id=7ff91751b6863b756f919dc6d41c6acc&sub=ECEFA1041FB9445CA9CCB8AAE791A83D)
+- [Demo](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
 - [基础知识](http://note.youdao.com/noteshare?id=75a4bf44019a966fda46330fd5cd89a8&sub=7A3CD1EAB98F44E8BA55D3768D7B896C)
 
 ### 网络
