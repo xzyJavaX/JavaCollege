@@ -107,9 +107,6 @@
 - [Demo1(案例代码直接贴在里面)](http://note.youdao.com/noteshare?id=fd3c9605eec9fe44bbc0cf5feeb6aaf8&sub=881FE4070A984E32AB98D9F90D99BF0E)
 - [Demo2(案例代码在14种设计模式源码里)](http://note.youdao.com/noteshare?id=7ff91751b6863b756f919dc6d41c6acc&sub=ECEFA1041FB9445CA9CCB8AAE791A83D)
 - [基础知识](http://note.youdao.com/noteshare?id=75a4bf44019a966fda46330fd5cd89a8&sub=7A3CD1EAB98F44E8BA55D3768D7B896C)
-- [源码：基于四种设计模式的计算器](http://note.youdao.com/noteshare?id=656e0c9170929c420efce2d18adb4ecb)
-- [源码：cglib源码](http://note.youdao.com/noteshare?id=d2f2b39081446c7de269552ad565b42e)
-- [源码：14种设计模式源码](http://note.youdao.com/noteshare?id=5d10d9a6fe459514d8030d9059a965c1)
 
 ### 网络
 
