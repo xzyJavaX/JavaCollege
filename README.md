@@ -1,8 +1,3 @@
-<p align="center">
-    <img src="http://116.62.79.166:8080/github/JavaCollege/head.png" width=""/>
-</p>  
-
-
 # 目录(善用Ctrl+F)
 
 - Java基础
